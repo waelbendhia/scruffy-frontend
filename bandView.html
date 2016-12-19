@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+</head>
+<body>
+	<div ng-show="dataLoading" class="loading-placeholder">
+		<div>
+			<img src="images/ScruffFace.png" class="spinner opaque">
+			<span class="loading-text">Loading...</span>
+		</div>
+	</div>
+	<div ng-show="dataLoading == false" class="opaque">
+		<title>Band {{band.name}}</title>
+		<h1>{{band.name}}</h1>
+		<h1>{{band.url}}</h1>
+		<ul>
+			<li ng-repeat="album in band.albums">
+				{{album.name}} <span ng-show="album.year != 0">{{album.year}}</span> {{album.rating}}/10
+			</li>
+		</ul>
+		<p style="white-space: pre-wrap;">{{band.bio}}</p>
+	</div>
+</body>
+</html>

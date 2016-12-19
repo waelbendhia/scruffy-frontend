@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+</head>
+<body>
+	<title>Bands</title>
+	<div ng-show="dataLoading" class="loading-placeholder">
+		<div>
+			<img src="images/ScruffFace.png" class="spinner opaque">
+			<span class="loading-text">Loading...</span>
+		</div>
+	</div>
+	<div ng-show="dataLoading == false" class="opaque">
+		<ul>
+			<li ng-repeat="band in bandsDisplay"><a ng-click="pickMe(band)" href="#band">{{band.name}}</a><br></span></li>
+		</ul>
+		<div class="paginator">
+		<a ng-click="changePage(-10)">-10</a>
+		<a ng-click="changePage(-1)">-1</a>
+		<h1>{{pageNumber}}</h1>
+		<a ng-click="changePage(1)">+1</a>
+		<a ng-click="changePage(10)">+10</a>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Scruffin' it up</title>
+	<link rel="stylesheet" type="text/css" href="css/scruff.css">
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script type="text/javascript" src="js/angular-route.min.js"></script>
+	<script type="text/javascript" src="js/angular-animate.min.js"></script>
+	<script type="text/javascript" src="js/scaruffi.js"></script>
+</head>
+<body ng-app="scaruffiApp" ng-controller="scaruffiController">
+	<div class="background">The fact that so many books still name the Beatles as "the greatest or most significant or most influential" rock band ever only tells you how far rock music still is from becoming a serious art. Jazz critics have long recognized that the greatest jazz musicians of all times are Duke Ellington and John Coltrane, who were not the most famous or richest or best sellers of their times, let alone of all times. Classical critics rank the highly controversial Beethoven over classical musicians who were highly popular in courts around Europe. Rock critics are still blinded by commercial success. The Beatles sold more than anyone else (not true, by the way), therefore they must have been the greatest. Jazz critics grow up listening to a lot of jazz music of the past, classical critics grow up listening to a lot of classical music of the past. Rock critics are often totally ignorant of the rock music of the past, they barely know the best sellers. No wonder they will think that the Beatles did anything worthy of being saved.</div>
+
+	<header ng-show="shown" ng-click="hideMe()" class="opaque">Scaruffi's amazing music emporium</header>
+	<div class="view-holder" ng-view=""></div>
+</body>
+</html>
