@@ -21,43 +21,79 @@ app.controller('scaruffiController', function($scope, $http){
 		$scope.shown = false;
 	}
 })
-.controller('bandsController', function($scope, $http){
+.controller('bandsController', function($scope, $http, $timeout, BandService){
+	var itemsPerPage = 64;
+	var bandsFiltered = [];
+
 	$scope.dataLoading = true;
+	$scope.loadingError = false;
 	$scope.pageNumber = 1;
-	var itemsPerPage = 60;
-	var maxPage;
-	if(bands.length == 0){
-		//../ScruffyScrape/Scruffy/BandService/bands
-		$http.get('data/bands.json').success(function(response){
-			bands = response;
-		}).finally( function(){
-			$scope.dataLoading = false;
-			$scope.bandsDisplay = bands.slice( ($scope.pageNumber-1)*itemsPerPage, $scope.pageNumber*itemsPerPage);
-			maxPage = Math.ceil(bands.length / itemsPerPage);
-		});
-	}else{
-		$scope.dataLoading = false;
-		$scope.bandsDisplay = bands.slice( ($scope.pageNumber-1)*itemsPerPage, $scope.pageNumber*itemsPerPage);
-		maxPage = Math.ceil(bands.length / itemsPerPage);
+	$scope.maxPage;
+	$scope.filterText = "";
+	$scope.changingBands = false;
+
+	function filterArtist(artist){
+		return artist.name.toLowerCase().includes($scope.filterText.toLowerCase());
 	}
+
+	function updateBandsDisplay(){
+		bandsFiltered = bands.filter(filterArtist);
+		$scope.maxPage = Math.ceil(bandsFiltered.length / itemsPerPage);
+		$scope.pageNumber = Math.min($scope.maxPage, Math.max($scope.pageNumber, 1));
+		$scope.bandsDisplay = bandsFiltered.slice( ($scope.pageNumber-1)*itemsPerPage, $scope.pageNumber*itemsPerPage);
+	}
+
+	BandService.getAllBands().then(
+		function(response){
+			bands = response.data;
+			updateBandsDisplay();
+			$scope.dataLoading = false;
+			$scope.loadingError = bands.length == 0;
+		},
+		function(data){
+			$scope.loadingError = true;
+		});
+
 	$scope.changePage = function(ind){
-		console.log($scope.pageNumber + " " + maxPage);
 		$scope.pageNumber += ind;
-		$scope.pageNumber = Math.max(Math.min($scope.pageNumber, maxPage), 1);
-		$scope.bandsDisplay = bands.slice( ($scope.pageNumber-1)*itemsPerPage, $scope.pageNumber*itemsPerPage);
+		updateBandsDisplay()
+	}
+
+	$scope.updateFilter = function(){
+		updateBandsDisplay();
 	}
 
 	$scope.pickMe = function(pickedBand){
 		band = pickedBand;
 	}
 })
-.controller('bandController', function($scope, $http){
+.controller('bandController', function($scope, $http, BandService){
 	$scope.dataLoading = true;
-	$http.post('../ScruffyScrape/Scruffy/BandService/band', band).success(function(response){
-		band = response;
-		console.log(band);
-	}).finally(function(){
-		$scope.band = band;
-		$scope.dataLoading = false;
-	});
+	$scope.loadingError = false;
+	BandService.getFullBand(band).then(
+		function success(response){
+			band = response.data;
+			$scope.band = band;
+			$scope.dataLoading = false;
+			$scope.loadingError = (typeof band.name) == "undefined";
+		},
+		function error(response){
+			$scope.dataLoading = false;
+			$scope.loadingError = true;
+		});
+})
+.service('BandService', function($http){
+	this.getAllBands = function(){
+		if(bands.length == 0){
+			//../ScruffyScrape/Scruffy/BandService/bands
+			return $http.get('data/bands.json');
+		}else{
+			return new Promise(function(resolve, reject){
+				resolve({data: bands});
+			});
+		}
+	}
+	this.getFullBand = function(band){
+		return $http.post('../ScruffyScrape/Scruffy/BandService/band', band);
+	}
 });

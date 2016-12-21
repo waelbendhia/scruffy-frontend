@@ -10,9 +10,15 @@
 			<span class="loading-text">Loading...</span>
 		</div>
 	</div>
-	<div ng-show="dataLoading == false" class="opaque">
+	<div ng-show="loadingError && dataLoading == false" class="error-placeholder opaque">
+		<div>
+			<img src="images/ScruffFace.png">
+			<span><h1>Oops!</h1>Something messed up, maybe try again later.</span>
+		</div>
+	</div>
+	<div ng-show="dataLoading == false && loadingError == false" class="opaque">
 		<title>Band {{band.name}}</title>
-		<h1>{{band.name}}</h1>
+		<h1>{{band.name}} {{averageScore}}</h1>
 		<h1>{{band.url}}</h1>
 		<ul>
 			<li ng-repeat="album in band.albums">
