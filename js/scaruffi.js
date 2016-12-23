@@ -1,7 +1,6 @@
 var app = angular.module('scaruffiApp', ['ngAnimate', 'ngRoute']);
 
 var bands = [];
-var selectedBand = {name: "Empty", url: "Empty"};
 
 app.config(function($routeProvider) {
 	$routeProvider
@@ -9,13 +8,12 @@ app.config(function($routeProvider) {
 		templateUrl:'bandsView.html',
 		controller: 'bandsController'
 	})
-	.when('/band/', {
+	.when('/band/:name/:volume/:url', {
 		templateUrl:'bandView.html',
 		controller: 'bandController'
 	})
-	.when('/band/:volume/:url', {
-		templateUrl:'bandView.html',
-		controller: 'bandController'
+	.otherwise({
+		templateUrl:'error.html'
 	});
 });
 
@@ -52,6 +50,7 @@ app.controller('scaruffiController', function($scope, $http){
 			$scope.loadingError = bands.length == 0;
 		},
 		function(data){
+			$scope.dataLoading = false;
 			$scope.loadingError = true;
 		});
 
@@ -63,25 +62,24 @@ app.controller('scaruffiController', function($scope, $http){
 	$scope.updateFilter = function(){
 		updateBandsDisplay();
 	}
-
-	$scope.pickMe = function(band){
-		BandService.selectBand(band);
-	}
 })
-.controller('bandController', function($scope, $http, BandService){
+.controller('bandController', function($scope, $http, $routeParams, BandService){
+
+	var postBand = {
+		name: $routeParams.name,
+		url:  $routeParams.volume + "/" + $routeParams.url + ".html"
+	};
+
 	$scope.pageClass = 'page-band';
 	$scope.dataLoading = true;
 	$scope.loadingError = false;
-	var postBand = selectedBand;
-	delete postBand.fullUrl;
-	console.log(postBand);
+	$scope.selectedSection = 0;
+
 	BandService.getFullBand(postBand).then(
 		function success(response){
-			console.log(response);
-			selectedBand = response.data;
-			$scope.band = selectedBand;
+			$scope.band = response.data;
 			$scope.dataLoading = false;
-			$scope.loadingError = (typeof selectedBand.name) == "undefined";
+			$scope.loadingError = (typeof $scope.band.name) == "undefined";
 		},
 		function error(response){
 			console.log(response);
@@ -89,22 +87,9 @@ app.controller('scaruffiController', function($scope, $http){
 			$scope.loadingError = true;
 		});
 
-	$scope.pickMe = function(band){
-		BandService.selectBand(band);
+	$scope.selectSection = function(ind){
+		$scope.selectedSection = ind;
 	}
-	/*BandService.getZappa().then(
-		function success(response){
-			console.log(response);
-			selectedBand = response.data;
-			$scope.band = selectedBand;
-			$scope.dataLoading = false;
-			$scope.loadingError = (typeof selectedBand.name) == "undefined";
-		},
-		function error(response){
-			console.log(response);
-			$scope.dataLoading = false;
-			$scope.loadingError = true;
-		});*/
 })
 .service('BandService', function($http){
 	this.getAllBands = function(){
@@ -122,8 +107,5 @@ app.controller('scaruffiController', function($scope, $http){
 	}
 	this.getZappa = function(){
 		return $http.post('data/defaultBand.json');
-	}
-	this.selectBand = function(band){
-		selectedBand = band;
 	}
 });

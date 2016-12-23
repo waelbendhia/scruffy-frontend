@@ -229,5 +229,47 @@
       "rating": 6
     }
   ],
+  "relatedBands": [
+    {
+      "name": "Bob Dylan",
+      "url": "dylan.html",
+      "bio": null,
+      "albums": null,
+      "relatedBands": null,
+      "fullUrl": "http://scaruffi.com/dylan.html"
+    },
+    {
+      "name": "Donald Van Vliet",
+      "url": "beefhear.html",
+      "bio": null,
+      "albums": null,
+      "relatedBands": null,
+      "fullUrl": "http://scaruffi.com/beefhear.html"
+    },
+    {
+      "name": "Frank Zappa",
+      "url": "ol1/zappa.html",
+      "bio": null,
+      "albums": null,
+      "relatedBands": null,
+      "fullUrl": "http://scaruffi.com/ol1/zappa.html"
+    },
+    {
+      "name": "Magic Band",
+      "url": "beefhear.html",
+      "bio": null,
+      "albums": null,
+      "relatedBands": null,
+      "fullUrl": "http://scaruffi.com/beefhear.html"
+    },
+    {
+      "name": "Turtles",
+      "url": "ol1/turtles.html",
+      "bio": null,
+      "albums": null,
+      "relatedBands": null,
+      "fullUrl": "http://scaruffi.com/ol1/turtles.html"
+    }
+  ],
   "fullUrl": "http://scaruffi.com/vol1/zappa.html"
 }

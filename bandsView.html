@@ -20,11 +20,12 @@
 	<div ng-show="dataLoading == false && loadingError == false" class="bands-parent opaque">
 		<div class="band-input-field">
 			<input type="text" ng-model="filterText" ng-keyup="updateFilter()" placeholder="Search" />
+			<span class="input-highlight">{{filterText}}</span>
 		</div>
 		<div class="band-field">
 			<ul>
 				<li ng-repeat="band in bandsDisplay" class="opaque">
-					<a ng-click="pickMe(band)" href="#band">{{band.name}}</a>
+					<a href="#band/{{band.name.replace('/',' ')}}/{{band.url.replace('.html', '')}}">{{band.name}}</a>
 					<span class="highlight"></span>
 				</li>
 				
@@ -32,11 +33,11 @@
 			</ul>
 		</div>
 		<div class="paginator">
-			<a ng-click="changePage(-10)">10<</a>
-			<a ng-click="changePage(-1)">1<</a>
+			<a ng-class="{'inactive': pageNumber==1}" ng-click="changePage(-10)">10<</a>
+			<a ng-class="{'inactive': pageNumber==1}" ng-click="changePage(-1)">1<</a>
 			<h1>{{pageNumber}}/{{maxPage}}</h1>
-			<a ng-click="changePage(1)">>1</a>
-			<a ng-click="changePage(10)">>10</a>
+			<a ng-class="{'inactive': pageNumber==maxPage}" ng-click="changePage(1)">>1</a>
+			<a ng-class="{'inactive': pageNumber==maxPage}" ng-click="changePage(10)">>10</a>
 		</div>
 	</div>
 </body>
