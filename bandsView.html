@@ -23,7 +23,12 @@
 		</div>
 		<div class="band-field">
 			<ul>
-				<li ng-repeat="band in bandsDisplay"><a ng-click="pickMe(band)" href="#band">{{band.name}}</a><br></span></li>
+				<li ng-repeat="band in bandsDisplay" class="opaque">
+					<a ng-click="pickMe(band)" href="#band">{{band.name}}</a>
+					<span class="highlight"></span>
+				</li>
+				
+				<li class="opaque" ng-if="bandsDisplay.length === 0"><strong>No results found...</strong></li>
 			</ul>
 		</div>
 		<div class="paginator">

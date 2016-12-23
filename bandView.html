@@ -16,16 +16,37 @@
 			<span><h1>Oops!</h1>Something messed up, maybe try again later.</span>
 		</div>
 	</div>
-	<div ng-show="dataLoading == false && loadingError == false" class="opaque">
+	<div ng-show="dataLoading == false && loadingError == false" class="opaque band-info">
 		<title>Band {{band.name}}</title>
-		<h1>{{band.name}} {{averageScore}}</h1>
-		<h1>{{band.url}}</h1>
-		<ul>
-			<li ng-repeat="album in band.albums">
-				{{album.name}} <span ng-show="album.year != 0">{{album.year}}</span> {{album.rating}}/10
-			</li>
-		</ul>
-		<p style="white-space: pre-wrap;">{{band.bio}}</p>
+		<a class="band-name" href="{{band.fullUrl}}"><h1>{{band.name}}</h1></a>
+		<div class="bio-album-container">
+			<ul>
+				<li ng-if="band.albums.length !=0 || band.relatedBands.length != 0"><a>Overview</a></li>
+				<li><a>Biography</a></li>
+
+			</ul>
+			<div class="albums-view" ng-if="band.albums.length != 0">
+				<h1>Albums</h1>
+				<ul>
+					<li class="album-info" ng-repeat="album in band.albums">
+						<span ng-show="album.year != 0">{{album.year}}</span>
+						<span>{{album.name}}</span>
+						<span>{{album.rating}}/10</span>
+					</li>
+				</ul>
+			</div>
+			<div class="related-bands-view" ng-if="band.relatedBands.length != 0">
+				<h1>Related bands</h1>
+				<ul>
+					<li class="album-info" ng-repeat="band in band.relatedBands">
+						<a ng-click="pickMe(band)" href="#band">{{band.name}}</a>
+					</li>
+				</ul>
+			</div>
+			<div class="biography">
+				<p style="white-space: pre-wrap;">{{band.bio}}</p>
+			</div>
+		</div>
 	</div>
 </body>
 </html>
