@@ -23,7 +23,8 @@
 }
 
 a{
-	color: inherit;
+	cursor: pointer;
+	color: var(--grey);
 	text-decoration: none;
 	transition: color linear var(--transition-time-fast);
 }
@@ -54,6 +55,7 @@ a.inactive{
 	--black : #1A1A1A;
 	--white-transparent: rgba(255, 255, 255, 0.75);
 	--first-color: #FF3530;
+	--second-color: #55DDE0;
 
 	--transition-time-slow : 0.3s;
 	--transition-time-fast : 0.15s;
@@ -81,10 +83,12 @@ header{
 	line-height: var(--header-height);
 	font-family: var(--font-heading);
 	font-weight: bold;
+	color: var(--white);
 	font-size: 3em;
 }
 
 header li{
+	position: relative;
 	height: var(--header-height);
 	width: 100px;
 	font-size: 2em;
@@ -95,6 +99,7 @@ header li{
 	float: right;
 }
 
+header li.selected>a,
 header li>a:hover{
 	color: var(--white);
 }
@@ -103,25 +108,48 @@ footer{
 	position: absolute;
 	top: 100%;
 	width: 100%;
-	display: block;
+	display: flex;
+	font-weight: 200;
+	justify-content: center;
 	float: left;
-	height: 100px;
-	background-color: black;
-	color: white;
+	background-color: var(--dark-grey);
+	color: var(--dark-white);
 }
 
 footer>div{
-	float: left;
+	margin: 40px;
 }
 
-footer>div:first-child{
-	width: 50%;
+footer>div:nth-child(1){
+	width: calc(60% - 80px);
+	max-width: 534px;
+}
+
+footer>div>h1{
+	margin-bottom: 20px;
+}
+
+footer>div a{
+	font-weight: 400;
+	color: var(--white);
 }
 
 footer>div:nth-child(2){
-	width: 50%;
+	width: calc(40% - 80px);
+	max-width: 356px;
 }
 
+footer>div:nth-child(2) p{
+	font-size: 1.5em;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+footer>div:nth-child(2) ul{
+	list-style: none;
+	margin-left: 15px;
+	font-size: 1.3em;
+}
 
 .view-holder.ng-enter {
 	animation: scaleUp var(--transition-time-slow) both ease-in;
@@ -184,7 +212,8 @@ footer>div:nth-child(2){
 
 .background{
 	position: fixed;
-	top: var(--header-height);
+	top: 0;
+	padding-top: var(--header-height);
 	left: 0;
 	min-width: 100%;
 	min-height: 100%;
@@ -315,13 +344,15 @@ img.spinner{
 .band-field>ul>li{
 	position: relative;
 	display: block;
-	width: 100%;
+	padding-left: 10px;
+	padding-right: 10px;
+	width: calc(100% - 20px);
 	height: 5.1%;
 	font-size: 20px;
-	margin-top: 5px;
-	margin-bottom: 5px;
+	margin-bottom: 10px;
 	overflow: hidden;
 	cursor: pointer;
+	background-color: var(--white);
 	color: var(--black);
 	transition: color var(--transition-time-fast) linear;
 }
@@ -333,7 +364,6 @@ img.spinner{
 	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;
-	color: inherit;
 }
 
 .band-field>ul>li:hover{
@@ -341,19 +371,26 @@ img.spinner{
 	cursor: pointer;
 }
 
+header li>a + .highlight,
+.related-bands-view li>.highlight,
+.bio-album-navbar>li>.highlight,
 .band-field>ul>li>.highlight{
 	position: absolute;
+	left: 50%;
 	bottom: 0;
-	left: 0;
 	display: block;
-	width: 100%;
-	height: 0px;
+	width: 0;
+	height: 2px;
 	background-color: var(--first-color);
-	transition: height linear var(--transition-time-fast);
+	transition: width linear var(--transition-time-fast), left linear var(--transition-time-fast);
 }
 
+header li.selected>a + .highlight,
+.related-bands-view li:hover>.highlight,
+.bio-album-navbar>li.selected>.highlight,
 .band-field>ul>li:hover>.highlight{
-	height: 2px;
+	left: 0;
+	width: 100%;
 }
 
 
@@ -473,8 +510,9 @@ img.spinner{
 
 .bio-album-navbar{
 	width: calc(100% - 40px);
-	margin-left: 20px;
-	margin-right: 20px;
+	max-width: 970px;
+	margin-left: auto;
+	margin-right: auto;
 	height: 38px;
 	list-style: none;
 	color: var(--grey);
@@ -482,7 +520,8 @@ img.spinner{
 }
 
 .bio-album-navbar>li{
-	height: 38px;
+	position: relative;
+	height: 40px;
 	width: 160px;
 	font-size: 30px;
 	float: left;
@@ -494,24 +533,26 @@ img.spinner{
 	height: 100%;
 	width: 100%;
 	cursor: pointer;
-	transition: border linear var(--transition-time-fast);
+	transition: color linear var(--transition-time-fast);
 }
 
-.bio-album-navbar>li>a:hover{
+.bio-album-navbar>li:hover>a{
 	color: var(--black);
-	border-bottom: 2px solid var(--first-color);
 }
 
 .bio-album-navbar>li.selected>a{
 	color: var(--black);
-	border-bottom: 2px solid var(--first-color);
 }
 
 .bio-album-section{
 	width: calc(100% - 40px);
+	max-width: 970px;
 	height: calc(100% - 40px);
-	margin-left: 20px;
-	margin-right: 20px;
+	display: flex;
+	flex-flow: row;
+	justify-content: center;
+	margin-left: auto;
+	margin-right: auto;
 	overflow-y: scroll;
 	border-bottom: 2px solid var(--grey);
 }
@@ -519,16 +560,7 @@ img.spinner{
 .albums-view,
 .related-bands-view{
 	width: calc(50% - 16px);
-	padding-left: 8px;
-	padding-right: 8px;
-	float: left;
-}
-
-.albums-view.alone,
-.related-bands-view.alone{
-	width: calc(50% - 16px);
-	margin-left: 25%;
-	margin-right: 25%;
+	max-width: 500px;
 	padding-left: 8px;
 	padding-right: 8px;
 	float: left;
@@ -541,14 +573,22 @@ img.spinner{
 
 .related-bands-view li,
 .albums-view li{
+	position: relative;
 	width: calc(100% - 20px);
 	height: 20px;
 	margin-left: 10px;
 	margin-right: 10px;
 	margin-bottom: 5px;
-	background-color: var(--white-transparent);
+	background-color: var(--white);
 }
 
+.related-bands-view li>a{
+	display: block;
+	padding-left: 10px;
+	padding-right: 10px;
+	width: calc(100% - 20px);
+	height: 100%;
+}
 .albums-view li>*:nth-child(1){
 	display: block;
 	float: left;
@@ -576,6 +616,7 @@ img.spinner{
 }
 
 .albums-view li>*:nth-child(2)>.highlight{
+	user-select: none;
 	display: none;
 }
 
@@ -584,11 +625,11 @@ img.spinner{
 	bottom: 3px;
 	left: 0;
 	display: block;
-	height: 1px;
+	height: 14px;
 	color: transparent;
-	z-index: 0;
+	z-index: -1;
 	overflow: hidden;
-	background-color: var(--first-color);
+	background-color: var(--second-color);
 }
 
 .albums-view h1,

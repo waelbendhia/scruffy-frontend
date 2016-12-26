@@ -14,14 +14,39 @@
 	<header>
 		<a href="#/" class="site-title">Scaruffi2.0</a>
 		<ul>
-			<li><a href="#/">Film</a></li>
-			<li><a href="#/">Music</a></li>
+			<li ng-class="{'selected' : !musicSelected}">
+				<a href="#/">Film</a>
+				<span class="highlight"></span>
+			</li>
+			<li ng-class="{'selected' : musicSelected}">
+				<a href="#/">Music</a>
+				<span class="highlight"></span>
+			</li>
 		</ul>
 	</header>
 	<div class="view-holder {{pageClass}}" ng-view=""></div>
 	<footer>
-		<div>Website built designed by <a href="http://waelbendhia.github.io/">Wael Ben Dhia</a>.<br>Content is scraped from <a href="http://scaruffi.com/">Piero Scaruffi's website</a>.</div>
-		<div>This website is a loving homage to a man who has dedicated a lot of time to obsessively cataloguing his opinions on just about every band known to the western world.</div>
+		<div>
+			<h1>About:</h1>
+			<p>
+				Website built and designed by <a href="http://waelbendhia.github.io/">Wael Ben Dhia</a>.
+				<br>Content is scraped from <a href="http://scaruffi.com/">Piero Scaruffi's website</a> and formatted as best as possible. Errors are aplenty as the original website is not the most organized and consistent in format. For more information on the band and Scaruffi's opinions on them I urge to visit his website.
+				<br>This website is a loving homage to a man who has dedicated a lot of time to obsessively cataloguing his opinions on just about every band known to the western world, please don't sue me.
+			</p>
+		</div>
+		<div>
+			<h1>Contact:</h1>
+			<p>Wael Ben Dhia</p>
+			<ul>
+				<li><a href="http://waelbendhia.github.io/">Website</a></li>
+				<li><a href="mailto:wael.bendhia@esprit.tn">Email</a></li>
+			</ul>
+			<p>Piero Scaruffi</p>
+			<ul>
+				<li><a href="http://scaruffi.com/">Website</a></li>
+				<li><a href="mailto:p@scaruffi.com">Email</a></li>
+			</ul>
+		</div>
 	</footer>
 </body>
 </html>

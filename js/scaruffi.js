@@ -8,18 +8,19 @@ app.config(function($routeProvider) {
 		templateUrl:'bandsView.html',
 		controller: 'bandsController'
 	})
-	.when('/band/:name/:volume/:url', {
+	.when('/band/:volume/:url', {
 		templateUrl:'bandView.html',
 		controller: 'bandController'
 	})
 	.otherwise({
 		templateUrl:'error.html'
 	});
-});
-
-app.controller('scaruffiController', function($scope, $http){
 })
-.controller('bandsController', function($scope, $http, $timeout, BandService){
+.controller('scaruffiController', function($scope, $http, musicSelected){
+	$scope.musicSelected = musicSelected.selected;
+})
+.controller('bandsController', function($scope, $http, $timeout, BandService, musicSelected){
+	musicSelected.selected = false;
 	$scope.pageClass = 'page-bands';
 	var itemsPerPage = 64;
 	var bandsFiltered = [];
@@ -63,11 +64,11 @@ app.controller('scaruffiController', function($scope, $http){
 		updateBandsDisplay();
 	}
 })
-.controller('bandController', function($scope, $http, $routeParams, BandService){
+.controller('bandController', function($scope, $http, $routeParams, $cacheFactory, BandService, musicSelected){
+	musicSelected.selected = true;
 
 	var postBand = {
-		name: $routeParams.name,
-		url:  $routeParams.volume + "/" + $routeParams.url + ".html"
+		url:  $routeParams.volume + "/" + $routeParams.url
 	};
 
 	$scope.pageClass = 'page-band';
@@ -91,11 +92,14 @@ app.controller('scaruffiController', function($scope, $http){
 		$scope.selectedSection = ind;
 	}
 })
-.service('BandService', function($http){
+.service('BandService', function($http, $cacheFactory){
 	this.getAllBands = function(){
+		var cache = $cacheFactory.get('$http');
+		console.log(cache.get('../ScruffyScrape/Scruffy/BandService/bands'));
 		if(bands.length == 0){
-			//../ScruffyScrape/Scruffy/BandService/bands
-			return $http.get('data/bands.json');
+			//
+			//data/bands.json
+			return $http.get('../ScruffyScrape/Scruffy/BandService/bands', {cache: true});
 		}else{
 			return new Promise(function(resolve, reject){
 				resolve({data: bands});
@@ -103,9 +107,11 @@ app.controller('scaruffiController', function($scope, $http){
 		}
 	}
 	this.getFullBand = function(band){
-		return $http.post('../ScruffyScrape/Scruffy/BandService/band', band);
+		var cache = $cacheFactory.get('$http');
+		console.log(cache.get('../ScruffyScrape/Scruffy/BandService/band/'+band.url));
+		return $http.get('../ScruffyScrape/Scruffy/BandService/band/'+band.url, {cache: true});
 	}
-	this.getZappa = function(){
-		return $http.post('data/defaultBand.json');
-	}
-});
+})
+.factory("musicSelected",function(){
+	return {selected: true};
+});;
