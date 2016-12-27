@@ -14,13 +14,21 @@
 	<header>
 		<a href="#/" class="site-title">Scaruffi2.0</a>
 		<ul>
-			<li ng-class="{'selected' : !musicSelected}">
-				<a href="#/">Film</a>
+			<li ng-class="{'selected' : filmSelected}">
+				<a href="#films">Film</a>
 				<span class="highlight"></span>
+				<div class="expander">
+					<a href="#directors">Directors</a>
+					<a href="#films">Films</a>
+				</div>
 			</li>
 			<li ng-class="{'selected' : musicSelected}">
-				<a href="#/">Music</a>
+				<a href="#bands">Music</a>
 				<span class="highlight"></span>
+				<div class="expander">
+					<a href="#bands">Bands</a>
+					<a href="#albums">Albums</a>
+				</div>
 			</li>
 		</ul>
 	</header>

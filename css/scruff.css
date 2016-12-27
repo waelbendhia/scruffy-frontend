@@ -40,15 +40,18 @@ a:hover{
 a.inactive{
 	pointer-events: none;
 }
+
 :root{
 	--font-heading:"Libre Baskerville", serif;
 	--font-body:"Work Sans", sans-serif;
 
 	--header-height : 60px;
 
+	--black : #1A1A1A;
+	--super-dark-grey : #242424;
 	--grey : #5E5E5E;
-	--dark-grey: rgb(64, 64, 64);
-	--less-dark-grey: rgb(66, 66, 66);
+	--dark-grey: #404040;
+	--less-dark-grey: #424242;
 	--dark-white : #eee;
 	--less-dark-white: #F2F2F2;
 	--white : #fff;
@@ -90,13 +93,42 @@ header{
 header li{
 	position: relative;
 	height: var(--header-height);
-	width: 100px;
-	font-size: 2em;
-	text-align: center;
-	line-height: calc(var(--header-height) * 1.2);
+	width: 120px;
 	color: var(--grey);
 	display: block;
 	float: right;
+}
+
+header li>a{
+	display: block;
+	width: 100%;
+	height: var(--header-height);
+	font-size: 2em;
+	text-align: center;
+	line-height: calc(var(--header-height) * 1.2);
+}
+
+header .expander>a{
+	display: block;
+	width: 100%;
+	height: var(--header-height);
+	font-size: 1.6em;
+	text-align: center;
+	line-height: var(--header-height);
+}
+
+header li>.expander{
+	position: absolute;
+	height: 0;
+	width: 100%;
+	background-color: var(--super-dark-grey);
+	z-index: 3;
+	overflow: hidden;
+	transition: height linear var(--transition-time-fast);
+}
+
+header li:hover>.expander{
+	height: calc(var(--header-height) * 2);
 }
 
 header li.selected>a,
@@ -105,13 +137,11 @@ header li>a:hover{
 }
 
 footer{
-	position: absolute;
-	top: 100%;
-	width: 100%;
 	display: flex;
 	font-weight: 200;
 	justify-content: center;
 	float: left;
+	width: 100%;
 	background-color: var(--dark-grey);
 	color: var(--dark-white);
 }
@@ -225,12 +255,170 @@ footer>div:nth-child(2) ul{
 }
 
 .view-holder{
-	position: absolute;
 	top: var(--header-height);
 	float: left;
 	width: 100%;
-	height: calc(100% - var(--header-height));
+	min-height: calc(100% - var(--header-height));
 	overflow-y: hidden; 
+}
+
+.lighter{
+	font-weight: lighter;
+}
+
+.landing-intro{
+	width: calc(100% - 20px);
+	max-width: 970px;
+	margin-left: auto;
+	margin-right: auto;
+	height: calc(100vh - var(--header-height));
+}
+
+.landing-intro>*{
+	float: left;
+}
+
+.landing-intro>h1{
+	width: 100%;
+	height: 300px;
+	line-height: 300px;
+	text-align: center;
+	font-size: 10vw;
+}
+
+.landing-intro>div{
+	width: 100%;
+	font-size: 26px;
+	font-weight: lighter;
+	text-align: center;
+}
+
+.landing-intro>div>p{
+	margin-top: 5vh;
+	margin-bottom: 5vh;
+}
+
+.landing-intro>a{
+	background-color: var(--white);
+	position: relative;
+	width: 150px;
+	height: 50px;
+	line-height: 50px;
+	font-size: 34px;
+	text-align: center;
+}
+
+.landing-intro>a:nth-of-type(1){
+	margin-left: calc(50% - 160px);
+	margin-right: 10px;
+}
+
+.landing-intro>a:nth-of-type(2){
+	margin-right: calc(50% - 160px);
+	margin-left: 10px;
+}
+
+.landing-albums{
+	width: calc(100% - 20px);
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 970px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.landing-albums>.band-field{
+	height: 200px;
+}
+
+.landing-albums>.band-field>ul{
+	margin: 0;
+	width: 100%;
+	height: initial;
+}
+
+.landing-albums h1{
+	font-family: var(--font-body);
+	font-weight: normal;
+	font-size: 30px;
+	margin-top: 20px;
+}
+
+ul.histogram{
+	display: flex;
+	flex-flow: row;
+	justify-content: center;
+	height: 400px;
+	background-color: var(--white);
+	border-bottom: 2px solid var(--grey);
+	border-top: 2px solid var(--grey);
+}
+
+.histogram li{
+	width: 4.6%;
+	height: 100%;
+	margin-left: 1px;
+	margin-right: 1px;
+	list-style: none;
+}
+
+.histogram li>a{
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-flow: column-reverse;
+	border-color: var(--grey);
+	align-self: flex-end;
+	transition: border var(--transition-time-fast) linear;
+}
+
+.histogram li>a:hover{
+	border-color: var(--first-color);
+}
+
+.histogram li>a>div{
+	cursor: pointer;
+	text-align: center;
+	align-self: flex-end;
+	width: 100%;
+	border: 0;
+	border-style: solid;
+	border-color: inherit;
+}
+
+.histogram li>a:hover>div:nth-child(2){
+	color: var(--first-color);
+}
+
+li.histogram-bar-0{
+	pointer-events: none;
+}
+
+.landing-how{
+	width: calc(100% - 20px);
+	max-width: 970px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.landing-how>*{
+	float: left;
+}
+
+.landing-how>h1{
+	width: 100%;
+	height: 200px;
+	line-height: 200px;
+	text-align: center;
+	font-size: 6vw;
+}
+
+.landing-how>div{
+	width: 100%;
+	font-size: 26px;
+	font-weight: lighter;
+	text-align: center;
+	margin-bottom: 50px;
 }
 
 .error-placeholder{
@@ -314,9 +502,10 @@ img.spinner{
 }
 
 .bands-parent{
+	position: relative;
 	float: left;
 	display: block;
-	height: 100%;
+	min-height: calc(100vh - var(--header-height));
 	width: 100%;
 }
 
@@ -324,7 +513,7 @@ img.spinner{
 	display: flex;
 	align-items: center;
 	width: 100%;
-	height: 82%;
+	height: calc(100vh - var(--header-height) - 110px);
 	overflow: hidden;
 }
 
@@ -333,12 +522,12 @@ img.spinner{
 	column-count: 4;
 	column-fill: auto;
 	overflow: hidden;
-	height: calc(100% - 100px);
+	height: calc(100% - 80px);
 	width: 90%;
 	margin-left: 5%;
 	margin-right: 5%;
-	margin-top: 50px;
-	margin-bottom: 50px;
+	margin-top: 40px;
+	margin-bottom: 40px;
 }
 
 .band-field>ul>li{
@@ -371,6 +560,7 @@ img.spinner{
 	cursor: pointer;
 }
 
+.landing-intro>a>.highlight,
 header li>a + .highlight,
 .related-bands-view li>.highlight,
 .bio-album-navbar>li>.highlight,
@@ -385,6 +575,7 @@ header li>a + .highlight,
 	transition: width linear var(--transition-time-fast), left linear var(--transition-time-fast);
 }
 
+.landing-intro>a:hover>.highlight,
 header li.selected>a + .highlight,
 .related-bands-view li:hover>.highlight,
 .bio-album-navbar>li.selected>.highlight,
@@ -395,14 +586,14 @@ header li.selected>a + .highlight,
 
 
 .paginator{
-	position: relative;
+	position: absolute;
 	bottom: 0;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	background-color: var(--white-transparent);
 	width: 100%;
-	height: 10%;
+	height: 60px;
 }
 
 .paginator>h1{
@@ -432,7 +623,9 @@ header li.selected>a + .highlight,
 	align-items: center;
 	justify-content: center;
 	width: 100%;
-	height: 8%;
+	height: 40px;
+	margin-top: 5px;
+	margin-bottom: 5px;
 }
 
 
@@ -505,7 +698,8 @@ header li.selected>a + .highlight,
 	width: 100%;
 	display: block;
 	float: left;
-	height: calc(100% - 127px);
+	min-height: calc(100% - 127px);
+	margin-bottom: 10px;
 }
 
 .bio-album-navbar{
@@ -547,13 +741,12 @@ header li.selected>a + .highlight,
 .bio-album-section{
 	width: calc(100% - 40px);
 	max-width: 970px;
-	height: calc(100% - 40px);
+	min-height: calc(100vh - var(--header-height) - 167px);
 	display: flex;
 	flex-flow: row;
 	justify-content: center;
 	margin-left: auto;
 	margin-right: auto;
-	overflow-y: scroll;
 	border-bottom: 2px solid var(--grey);
 }
 
