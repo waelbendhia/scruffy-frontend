@@ -167,27 +167,51 @@ app.config(function($routeProvider) {
 	selectionService.selectMusic();
 
 	var _timeout;
-	var itemsPerPage = 64;
+	var itemsPerPage = 50;
 	
 	$scope.albums = [];
+	$scope.dataLoading = true;
 
-	$scope.searchRequest = {
-		name: "",
-		yearLower: 0,
-		yearHigher: 0,
-		ratingLower: $routeParams.rating,
-		ratingHigher: $routeParams.rating,
-		includeUnknown: true
-	};
+	if(typeof $routeParams.rating == "undefined"){
+		$scope.searchRequest = {
+			name: "",
+			yearLower: 1950,
+			yearHigher: 2017,
+			ratingLower: 0,
+			ratingHigher: 10,
+			includeUnknown: true,
+			page: 0,
+			numberOfResults: itemsPerPage
+		};
+	}else{
+		$scope.searchRequest = {
+			name: "",
+			yearLower: 1950,
+			yearHigher: 2017,
+			ratingLower: $routeParams.rating,
+			ratingHigher: $routeParams.rating,
+			includeUnknown: true,
+			page: 0,
+			numberOfResults: itemsPerPage
+		};
+	}
+	
+	$scope.changePage = function(pages){
+		$scope.searchRequest.page = Math.max($scope.searchRequest.page + pages, 0);
+		$scope.updateFilter(true);
+	}
 
-	$scope.updateFilter = function(){
+	$scope.updateFilter = function(keepPage){
+		if(!keepPage){
+			$scope.searchRequest.page = 0;
+		}
+		$scope.dataLoading = true;
 		if(_timeout){
 			$timeout.cancel(_timeout);
 		}
 		_timeout = $timeout(function(){
 			MusicService.searchAlbums($scope.searchRequest).then(
 			function success(response){
-				console.log(response.data);
 				$scope.albums = response.data;
 				$scope.maxPage = Math.ceil($scope.albums.length / itemsPerPage);
 				$scope.dataLoading = false;

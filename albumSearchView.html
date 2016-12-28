@@ -5,23 +5,11 @@
 </head>
 <body>
 	<title>Bands</title>
-	<div ng-show="dataLoading" class="loading-placeholder opaque">
-		<div>
-			<img src="images/ScruffFace.png" class="spinner">
-			<span class="loading-text">Loading...</span>
-		</div>
-	</div>
-	<div ng-show="loadingError && dataLoading == false" class="error-placeholder opaque">
-		<div>
-			<img src="images/ScruffFace.png">
-			<span><h1>Oops!</h1>Something messed up, maybe try again later.</span>
-		</div>
-	</div>
-	<div ng-show="dataLoading == false && loadingError == false" class="albums-parent opaque">
+	<div class="albums-parent opaque">
 		<div class="album-filters-field">
 			<h1>Filters</h1>
 			<div class="album-name-search">
-				<input type="text" ng-model="searchRequest.name" ng-keyup="updateFilter()" placeholder="Album Name" ng-change="updateFilter()"/>
+				<input type="text" ng-model="searchRequest.name" placeholder="Album Name" ng-change="updateFilter()"/>
 				<span class="input-highlight">{{searchRequest.name}}</span>
 			</div>
 			<div class="album-ratings-sliders">
@@ -39,25 +27,41 @@
 				<p>Year</p>
 				<p><input type="number" min="{{searchRequest.yearLower}}" ng-model="searchRequest.yearHigher" ng-change="updateFilter()"></p>
 			</div>
-			<div class="">
-				<input type="checkbox" ng-model="searchRequest.includeUnknown" ng-change="updateFilter()">
-				<p>Include albums with unknown release date</p>
+			<div class="unk-selector">
+				<input id="unk" type="checkbox" ng-model="searchRequest.includeUnknown" ng-change="updateFilter()">
+				<label for="unk">Unknown release date</label>
 			</div>
 		</div>
-		<div class="albums-field">
-			<ul>
-				<li ng-repeat="album in albums" class="opaque">
-					<a href="#band/{{album.band.url.replace('.html', '')}}">{{album.name}}-{{album.band.name}} ({{album.year}}) {{album.rating}}</a>
-					<span class="highlight"></span>
+		<div class="album-search-results">
+			<div ng-show="dataLoading" class="loading-placeholder opaque">
+				<div>
+					<img src="images/ScruffFace.png" class="spinner">
+					<span class="loading-text">Loading...</span>
+				</div>
+			</div>
+			<div ng-show="loadingError && dataLoading == false" class="error-placeholder opaque">
+				<div>
+					<img src="images/ScruffFace.png">
+					<span><h1>Oops!</h1>Something messed up, maybe try again later.</span>
+				</div>
+			</div>
+			<ul ng-show="dataLoading == false && loadingError == false">
+				<li ng-repeat="album in albums" >
+					<a href="#band/{{album.band.url.replace('.html', '')}}">
+						<span>{{album.year != 0 ? album.year : 'UNK'}}</span>
+						<span>{{album.band.name}}</span>
+						<span>{{album.name.replace('&amp;amp;', '&amp;')}}</span>
+						<span>{{album.rating}}/10</span>
+					</a>
 				</li>
 				<li class="opaque" ng-if="albums.length === 0"><strong>No results found...</strong></li>
 			</ul>
 			<div class="paginator">
-				<a ng-class="{'inactive': pageNumber==1}" ng-click="changePage(-10)">10<</a>
-				<a ng-class="{'inactive': pageNumber==1}" ng-click="changePage(-1)">1<</a>
-				<h1>{{pageNumber}}/{{maxPage}}</h1>
-				<a ng-class="{'inactive': pageNumber==maxPage}" ng-click="changePage(1)">>1</a>
-				<a ng-class="{'inactive': pageNumber==maxPage}" ng-click="changePage(10)">>10</a>
+				<a ng-class="{'inactive': searchRequest.page==0}" ng-click="changePage(-10)">10<</a>
+				<a ng-class="{'inactive': searchRequest.page==0}" ng-click="changePage(-1)">1<</a>
+				<h1>{{searchRequest.page+1}}</h1>
+				<a ng-class="{'inactive': albums.length < 50}" ng-click="changePage(+1)">>1</a>
+				<a ng-class="{'inactive': albums.length < 50}" ng-click="changePage(+10)">>10</a>
 			</div>
 		</div>
 	</div>
