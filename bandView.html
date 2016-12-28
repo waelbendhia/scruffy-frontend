@@ -38,7 +38,7 @@
 				<div class="albums-view" ng-if="band.albums.length != 0">
 					<h1>Albums</h1>
 					<ul>
-						<li class="album-info" ng-repeat="album in band.albums" ng-class="{'essential': album.rating >= 7}" >
+						<li class="album-info" ng-repeat="album in band.albums | orderBy:'year'" ng-class="{'essential': album.rating >= 7}" >
 							<span>{{album.year != 0 ? album.year : 'UNK'}}</span>
 							<span>{{album.name.replace('&amp;amp;', '&amp;')}}<span class="highlight">{{album.name}}</span></span>
 							<span>{{album.rating}}/10</span>

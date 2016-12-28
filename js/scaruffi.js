@@ -16,27 +16,37 @@ app.config(function($routeProvider) {
 		templateUrl:'bandView.html',
 		controller: 'bandController'
 	})
+	.when('/albums', {
+		templateUrl:'albumSearchView.html',
+		controller: 'albumSearchController'
+	})
+	.when('/albums/:rating', {
+		templateUrl:'albumSearchView.html',
+		controller: 'albumSearchController'
+	})
 	.otherwise({
 		templateUrl:'error.html'
 	});
 })
-.controller('scaruffiController', function($scope, $http, selectionService){
+.controller('scaruffiController', function($scope, selectionService){
+	$scope.hideHeader = false;
 	$scope.musicSelected = false;
 	$scope.filmSelected = false;
 	$scope.$on('handleBroadcast', function() {
+		$scope.hideHeader = selectionService.hideHeader;
 		$scope.musicSelected = selectionService.music;
 		$scope.filmSelected = selectionService.film;
 	});
 	
 })
-.controller('landingController', function($scope, BandService, selectionService){
+.controller('landingController', function($scope, MusicService, selectionService){
 	selectionService.selectNone();
 	$scope.hello = "Hello";
 	$scope.scores = [];
 	$scope.bandsInfluential = []
 	$scope.max = 0;
 	$scope.total = 0;
-	BandService.getScoreDistribution().then(
+	MusicService.getScoreDistribution().then(
 		function(response){
 			for (var i = 0; i <= 20; i ++) {
 				var number = response.data[(i/2).toFixed(1)];
@@ -55,7 +65,7 @@ app.config(function($routeProvider) {
 			$scope.loadingError = true;
 		}
 	);
-	BandService.getBandTotal().then(
+	MusicService.getBandTotal().then(
 		function(response){
 			$scope.bandsTotal = response.data;
 			$scope.dataLoading = false;
@@ -66,7 +76,7 @@ app.config(function($routeProvider) {
 			$scope.loadingError = true;
 		}
 	);
-	BandService.getBandsInfluential().then(
+	MusicService.getBandsInfluential().then(
 		function(response){
 			$scope.bandsInfluential = response.data;
 			$scope.dataLoading = false;
@@ -80,7 +90,7 @@ app.config(function($routeProvider) {
 
 
 })
-.controller('bandsController', function($scope, $http, $timeout, BandService, selectionService){
+.controller('bandsController', function($scope, MusicService, selectionService){
 	selectionService.selectMusic();
 	$scope.pageClass = 'page-bands';
 	var itemsPerPage = 64;
@@ -104,7 +114,7 @@ app.config(function($routeProvider) {
 		$scope.bandsDisplay = bandsFiltered.slice( ($scope.pageNumber-1)*itemsPerPage, $scope.pageNumber*itemsPerPage);
 	}
 
-	BandService.getAllBands().then(
+	MusicService.getAllBands().then(
 		function(response){
 			bands = response.data;
 			updateBandsDisplay();
@@ -125,7 +135,7 @@ app.config(function($routeProvider) {
 		updateBandsDisplay();
 	}
 })
-.controller('bandController', function($scope, $http, $routeParams, $cacheFactory, BandService, selectionService){
+.controller('bandController', function($scope, $routeParams, MusicService, selectionService){
 	selectionService.selectMusic();
 
 	var postBand = {
@@ -137,15 +147,14 @@ app.config(function($routeProvider) {
 	$scope.loadingError = false;
 	$scope.selectedSection = 0;
 
-	BandService.getFullBand(postBand).then(
+	MusicService.getFullBand(postBand).then(
 		function success(response){
 			$scope.band = response.data;
 			$scope.dataLoading = false;
 			$scope.loadingError = (typeof $scope.band.name) == "undefined";
-			$scope.selectedSection = $scope.band.albums.length ==0 && $scope.band.relatedBands.length ==0 ? 1 : 0;
+			$scope.selectedSection = $scope.band.albums.length == 0 && $scope.band.relatedBands.length == 0 ? 1 : 0;
 		},
 		function error(response){
-			console.log(response);
 			$scope.dataLoading = false;
 			$scope.loadingError = true;
 		});
@@ -154,49 +163,102 @@ app.config(function($routeProvider) {
 		$scope.selectedSection = ind;
 	}
 })
-.service('BandService', function($http, $cacheFactory){
-	this.getAllBands = function(){
-		var cache = $cacheFactory.get('$http');
-		console.log(cache.get('../ScruffyScrape/Scruffy/BandService/bands'));
-		if(bands.length == 0){
-			//
-			//data/bands.json
-			return $http.get('../ScruffyScrape/Scruffy/BandService/bands', {cache: true});
-		}else{
-			return new Promise(function(resolve, reject){
-				resolve({data: bands});
-			});
+.controller('albumSearchController', function($scope, $routeParams, $timeout, MusicService, selectionService){
+	selectionService.selectMusic();
+
+	var _timeout;
+	var itemsPerPage = 64;
+	
+	$scope.albums = [];
+
+	$scope.searchRequest = {
+		name: "",
+		yearLower: 0,
+		yearHigher: 0,
+		ratingLower: $routeParams.rating,
+		ratingHigher: $routeParams.rating,
+		includeUnknown: true
+	};
+
+	$scope.updateFilter = function(){
+		if(_timeout){
+			$timeout.cancel(_timeout);
 		}
+		_timeout = $timeout(function(){
+			MusicService.searchAlbums($scope.searchRequest).then(
+			function success(response){
+				console.log(response.data);
+				$scope.albums = response.data;
+				$scope.maxPage = Math.ceil($scope.albums.length / itemsPerPage);
+				$scope.dataLoading = false;
+				$scope.loadingError = false;
+			},
+			function error(response){
+				$scope.dataLoading = false;
+				$scope.loadingError = true;
+			});
+	      _timeout = null;
+	    },500);
+	};
+
+	MusicService.searchAlbums($scope.searchRequest).then(
+		function success(response){
+			$scope.albums = response.data;
+			$scope.maxPage = Math.ceil($scope.albums.length / itemsPerPage);
+			$scope.dataLoading = false;
+			$scope.loadingError = false;
+		},
+		function error(response){
+			$scope.dataLoading = false;
+			$scope.loadingError = true;
+		});
+})
+.service('MusicService', function($http, $cacheFactory){
+
+	this.getAllBands = function(){
+		return $http.get('../ScruffyScrape/Scruffy/MusicService/bands', {cache: true});
 	}
+
 	this.getFullBand = function(band){
-		return $http.get('../ScruffyScrape/Scruffy/BandService/band/'+band.url, {cache: true});
+		return $http.get('../ScruffyScrape/Scruffy/MusicService/band/'+band.url, {cache: true});
 	}
+
 	this.getScoreDistribution = function(){
-		return $http.get('../ScruffyScrape/Scruffy/BandService/ratings/distribution', {cache: true});
+		return $http.get('../ScruffyScrape/Scruffy/MusicService/ratings/distribution', {cache: true});
 	}
+
 	this.getBandTotal = function(){
-		return $http.get('../ScruffyScrape/Scruffy/BandService/bands/total', {cache: true});	
+		return $http.get('../ScruffyScrape/Scruffy/MusicService/bands/total', {cache: true});	
 	}
+
 	this.getBandsInfluential = function(){
-		return $http.get('../ScruffyScrape/Scruffy/BandService/bands/influential', {cache: true});
+		return $http.get('../ScruffyScrape/Scruffy/MusicService/bands/influential', {cache: true});
 	}
+
+	this.searchAlbums = function(searchRequest){
+		return $http.post('../ScruffyScrape/Scruffy/MusicService/albums/search', searchRequest);	
+	}
+
 })
 .factory("selectionService",function($rootScope){
-	var selection = {music: false, film: false};
+	var selection = {music: false, film: false, hideHeader: false};
 
 	selection.selectMusic = function(){
+		this.hideHeader = false;
 		this.music = true;
 		this.film = false;
 		this.broadcastSelection();
 	};
 
 	selection.selectFilm = function(){
+		this.hideHeader = false;
 		this.music = false;
 		this.film = true;
 		this.broadcastSelection();
 	};
 
 	selection.selectNone = function(){
+		this.hideHeader = true;
 		this.music = false;
 		this.film = false;
 		this.broadcastSelection();

@@ -39,7 +39,7 @@
 			<h1>Score distribution for music:</h1>
 			<ul class="histogram">
 				<li class="histogram-bar-{{value}}" ng-repeat="value in scores track by $index">
-					<a href="{{$index/2}}">
+					<a href="#albums/{{$index/2}}">
 						<div style="border-top-width: calc(10 * {{value}}px);">
 							{{$index/2}}
 						</div>

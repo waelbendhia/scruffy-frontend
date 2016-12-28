@@ -16,6 +16,32 @@
     to    { opacity: 0.3; -webkit-transform: scale(0.8); }
 }
 
+input[type=range] {
+  -webkit-appearance: none;
+  margin: 14px 0;
+  width: 100%;
+}
+
+input[type=range]:focus {
+  outline: none;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 2px;
+  cursor: pointer;
+  background: var(--grey);
+}
+
+input[type=range]::-webkit-slider-thumb {
+  height: 20px;
+  width: 4px;
+  background: var(--black);
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -9px;
+}
+
 *{
 	margin: 0;
 	padding: 0;
@@ -243,7 +269,6 @@ footer>div:nth-child(2) ul{
 .background{
 	position: fixed;
 	top: 0;
-	padding-top: var(--header-height);
 	left: 0;
 	min-width: 100%;
 	min-height: 100%;
@@ -501,10 +526,12 @@ img.spinner{
 	margin-bottom: 0;
 }
 
+.albums-parent,
 .bands-parent{
 	position: relative;
 	float: left;
 	display: block;
+	height: calc(100vh - var(--header-height));
 	min-height: calc(100vh - var(--header-height));
 	width: 100%;
 }
@@ -558,6 +585,101 @@ img.spinner{
 .band-field>ul>li:hover{
 	color: var(--first-color);
 	cursor: pointer;
+}
+
+.album-filters-field{
+	float: left;
+	width: 30%;
+	max-width: 350px;
+	height: 100%;
+	background-color: var(--white-transparent);
+}
+
+.album-filters-field>h1{
+	text-align: center;
+	width: 100%;
+	font-size: 40px;
+	margin-bottom: 40px;
+}
+
+.album-ratings-sliders{
+	position: relative;
+	margin-top: 40px;
+	width: calc(100% - 40px);
+	margin-left: 20px;
+	margin-right: 20px;
+	height: 60px;
+}
+
+.album-ratings-sliders>span{
+	position: absolute; 
+	min-width: 1px;
+	height: 32px;
+	top: 14px;
+	z-index: -1;
+	background-color: var(--first-color);
+}
+
+.ratings-sliders-text{
+	pointer-events: none;
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	top: 0;
+	left: 0;
+}
+
+.ratings-sliders-text>p{
+	height: 60px;
+	line-height: 60px;
+	font-size: 22px;
+	z-index: 2;
+	color: var(--grey);
+	font-weight: lighter;
+}
+
+.ratings-sliders-text>p:nth-child(1){
+	text-align: right;
+	width: 10%;
+	min-width: 45px;
+	float: left;
+}
+
+.ratings-sliders-text>p:nth-child(2){
+	text-align: center;
+	width: 80%;
+	max-width: calc(100% - 90px);
+	float: left;
+}
+
+.ratings-sliders-text>p:nth-child(3){
+	text-align: left;
+	width: 10%;
+	min-width: 45px;
+	float: right;
+}
+
+.year-selector{
+	margin-top: 40px;
+	width: calc(100% - 40px);
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+.year-selector>p>input{
+	font-size: inherit;
+}
+.year-selector>p{
+	float: left;
+	font-weight: lighter;
+	font-size: 23px;
+	width: 70px;
+}
+
+.year-selector>p:nth-child(2){
+	width: calc(100% - 140px);
+	text-align: center;
+	font-weight: normal;
 }
 
 .landing-intro>a>.highlight,
@@ -617,6 +739,7 @@ header li.selected>a + .highlight,
 	color: var(--grey);
 }
 
+.album-name-search,
 .band-input-field{
 	position: relative;
 	display: flex;
@@ -628,7 +751,7 @@ header li.selected>a + .highlight,
 	margin-bottom: 5px;
 }
 
-
+.album-name-search .input-highlight,
 .band-input-field .input-highlight{
 	position: absolute;
 	font-size: 30px;
@@ -637,20 +760,36 @@ header li.selected>a + .highlight,
 	display: block;
 	overflow: hidden;
 	height: 2px;
+	max-width: 100%;
 	background-color: var(--first-color);
 	transition: height linear var(--transition-time-fast);
 }
 
+.album-name-search .input-highlight{
+	max-width: calc(100% - 40px);
+	left: 20px;
+}
+
+.year-selector input,
+.album-name-search>input,
 .band-input-field>input{
-	width: 80%;
 	outline: none;
 	height: calc(100% - 2px);
+	width: 100%;
 	line-height: calc(100% - 2px);
 	font-size: 30px;
 	border: 0;
 	color: var(--black);
 	border-bottom: 2px solid var(--grey);
 	background-color: transparent;
+}
+
+.year-selector input{
+	width: 70px;
+}
+
+.album-name-search>input{
+	width: calc(100% - 40px);
 }
 
 .band-info{
