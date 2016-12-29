@@ -784,6 +784,7 @@ img.spinner{
 }
 
 
+.album-search-results a>.highlight,
 .landing-intro>a>.highlight,
 header li>a + .highlight,
 .related-bands-view li>.highlight,
@@ -796,9 +797,14 @@ header li>a + .highlight,
 	width: 0;
 	height: 2px;
 	background-color: var(--first-color);
-	transition: width linear var(--transition-time-fast), left linear var(--transition-time-fast);
+	transition: width ease-out var(--transition-time-fast), left ease-out var(--transition-time-fast);
 }
 
+.album-search-results a>.highlight{
+	transition: width ease-out var(--transition-time-slow), left ease-out var(--transition-time-slow);
+}
+
+.album-search-results a:hover>.highlight,
 .landing-intro>a:hover>.highlight,
 header li.selected>a + .highlight,
 .related-bands-view li:hover>.highlight,
@@ -806,6 +812,7 @@ header li.selected>a + .highlight,
 .band-field>ul>li:hover>.highlight{
 	left: 0;
 	width: 100%;
+	height: 2px;
 }
 
 
@@ -858,7 +865,7 @@ header li.selected>a + .highlight,
 	position: absolute;
 	font-size: 30px;
 	bottom: 0;
-	left: 10%;
+	left: 15%;
 	display: block;
 	overflow: hidden;
 	height: 2px;
@@ -877,7 +884,7 @@ header li.selected>a + .highlight,
 .band-input-field>input{
 	outline: none;
 	height: calc(100% - 2px);
-	width: 80%;
+	width: 70%;
 	font-size: 30px;
 	border: 0;
 	color: var(--black);

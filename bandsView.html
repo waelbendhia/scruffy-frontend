@@ -5,25 +5,25 @@
 </head>
 <body>
 	<title>Bands</title>
-	<div ng-show="dataLoading" class="loading-placeholder opaque">
-		<div>
-			<img src="images/ScruffFace.png" class="spinner">
-			<span class="loading-text">Loading...</span>
-		</div>
-	</div>
-	<div ng-show="loadingError && dataLoading == false" class="error-placeholder opaque">
-		<div>
-			<img src="images/ScruffFace.png">
-			<span><h1>Oops!</h1>Something messed up, maybe try again later.</span>
-		</div>
-	</div>
-	<div ng-show="dataLoading == false && loadingError == false" class="bands-parent opaque">
+	<div class="bands-parent opaque">
 		<div class="band-input-field">
 			<input type="text" ng-model="filterText" ng-keyup="updateFilter()" placeholder="Search" />
 			<span class="input-highlight">{{filterText}}</span>
 		</div>
 		<div class="band-field">
-			<ul>
+			<div ng-show="dataLoading" class="loading-placeholder opaque">
+				<div>
+					<img src="images/ScruffFace.png" class="spinner">
+					<span class="loading-text">Loading...</span>
+				</div>
+			</div>
+			<div ng-show="loadingError && dataLoading == false" class="error-placeholder opaque">
+				<div>
+					<img src="images/ScruffFace.png">
+					<span><h1>Oops!</h1>Something messed up, maybe try again later.</span>
+				</div>
+			</div>
+			<ul ng-show="dataLoading == false && loadingError == false">
 				<li ng-repeat="band in bandsDisplay" class="opaque">
 					<a href="#band/{{band.url.replace('.html', '')}}">{{band.name}}</a>
 					<span class="highlight"></span>

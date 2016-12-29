@@ -25,7 +25,7 @@
 			<div class="year-selector">
 				<p><input type="number" min="1950" max="{{searchRequest.yearHigher}}" ng-model="searchRequest.yearLower" ng-change="updateFilter()"></p>
 				<p>Year</p>
-				<p><input type="number" min="{{searchRequest.yearLower}}" ng-model="searchRequest.yearHigher" ng-change="updateFilter()"></p>
+				<p><input type="number" min="{{searchRequest.yearLower}}" max="{{getFullYear()}}"ng-model="searchRequest.yearHigher" ng-change="updateFilter()"></p>
 			</div>
 			<div class="unk-selector">
 				<input id="unk" type="checkbox" ng-model="searchRequest.includeUnknown" ng-change="updateFilter()">
@@ -52,6 +52,7 @@
 						<span>{{album.band.name}}</span>
 						<span>{{album.name.replace('&amp;amp;', '&amp;')}}</span>
 						<span>{{album.rating}}/10</span>
+						<span class="highlight"></span>
 					</a>
 				</li>
 				<li class="opaque" ng-if="albums.length === 0"><strong>No results found...</strong></li>
@@ -59,9 +60,9 @@
 			<div class="paginator">
 				<a ng-class="{'inactive': searchRequest.page==0}" ng-click="changePage(-10)">10<</a>
 				<a ng-class="{'inactive': searchRequest.page==0}" ng-click="changePage(-1)">1<</a>
-				<h1>{{searchRequest.page+1}}</h1>
-				<a ng-class="{'inactive': albums.length < 50}" ng-click="changePage(+1)">>1</a>
-				<a ng-class="{'inactive': albums.length < 50}" ng-click="changePage(+10)">>10</a>
+				<h1>{{searchRequest.page+1}}/{{maxPage}}</h1>
+				<a ng-class="{'inactive': searchRequest.page==maxPage-1}" ng-click="changePage(+1)">>1</a>
+				<a ng-class="{'inactive': searchRequest.page==maxPage-1}" ng-click="changePage(+10)">>10</a>
 			</div>
 		</div>
 	</div>

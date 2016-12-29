@@ -168,15 +168,17 @@ app.config(function($routeProvider) {
 
 	var _timeout;
 	var itemsPerPage = 50;
+	var date = new Date();
 	
 	$scope.albums = [];
 	$scope.dataLoading = true;
+	$scope.maxPage = 0;
 
 	if(typeof $routeParams.rating == "undefined"){
 		$scope.searchRequest = {
 			name: "",
 			yearLower: 1950,
-			yearHigher: 2017,
+			yearHigher: date.getFullYear(),
 			ratingLower: 0,
 			ratingHigher: 10,
 			includeUnknown: true,
@@ -187,7 +189,7 @@ app.config(function($routeProvider) {
 		$scope.searchRequest = {
 			name: "",
 			yearLower: 1950,
-			yearHigher: 2017,
+			yearHigher: date.getFullYear(),
 			ratingLower: $routeParams.rating,
 			ratingHigher: $routeParams.rating,
 			includeUnknown: true,
@@ -195,25 +197,22 @@ app.config(function($routeProvider) {
 			numberOfResults: itemsPerPage
 		};
 	}
+
+	$scope.getFullYear = function(){
+		return date.getFullYear();
+	}
 	
 	$scope.changePage = function(pages){
-		$scope.searchRequest.page = Math.max($scope.searchRequest.page + pages, 0);
+		$scope.searchRequest.page = Math.min(Math.max($scope.searchRequest.page + pages, 0), $scope.maxPage-1);
 		$scope.updateFilter(true);
 	}
 
 	$scope.updateFilter = function(keepPage){
 		if(!keepPage){
 			$scope.searchRequest.page = 0;
-		}
-		$scope.dataLoading = true;
-		if(_timeout){
-			$timeout.cancel(_timeout);
-		}
-		_timeout = $timeout(function(){
-			MusicService.searchAlbums($scope.searchRequest).then(
+			MusicService.searchAlbumsCount($scope.searchRequest).then(
 			function success(response){
-				$scope.albums = response.data;
-				$scope.maxPage = Math.ceil($scope.albums.length / itemsPerPage);
+				$scope.maxPage = Math.ceil(response.data / itemsPerPage);
 				$scope.dataLoading = false;
 				$scope.loadingError = false;
 			},
@@ -221,6 +220,23 @@ app.config(function($routeProvider) {
 				$scope.dataLoading = false;
 				$scope.loadingError = true;
 			});
+		}
+		$scope.dataLoading = true;
+		if(_timeout){
+			$timeout.cancel(_timeout);
+		}
+		_timeout = $timeout(function(){
+			MusicService.searchAlbums($scope.searchRequest).then(
+				function success(response){
+					$scope.albums = response.data;
+					$scope.dataLoading = false;
+					$scope.loadingError = false;
+				},
+				function error(response){
+					$scope.dataLoading = false;
+					$scope.loadingError = true;
+				});
+			
 	      _timeout = null;
 	    },500);
 	};
@@ -228,7 +244,13 @@ app.config(function($routeProvider) {
 	MusicService.searchAlbums($scope.searchRequest).then(
 		function success(response){
 			$scope.albums = response.data;
-			$scope.maxPage = Math.ceil($scope.albums.length / itemsPerPage);
+		},
+		function error(response){
+			$scope.loadingError = true;
+		});
+	MusicService.searchAlbumsCount($scope.searchRequest).then(
+		function success(response){
+			$scope.maxPage = Math.ceil(response.data / itemsPerPage);
 			$scope.dataLoading = false;
 			$scope.loadingError = false;
 		},
@@ -261,6 +283,10 @@ app.config(function($routeProvider) {
 
 	this.searchAlbums = function(searchRequest){
 		return $http.post('../ScruffyScrape/Scruffy/MusicService/albums/search', searchRequest);	
+	}
+
+	this.searchAlbumsCount = function(searchRequest){
+		return $http.post('../ScruffyScrape/Scruffy/MusicService/albums/searchCount', searchRequest);	
 	}
 
 })
