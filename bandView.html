@@ -48,8 +48,8 @@
 				<div class="related-bands-view" ng-if="band.relatedBands.length != 0">
 					<h1>Related bands or artists</h1>
 					<ul>
-						<li class="album-info elevate" ng-repeat="band in band.relatedBands">
-							<a href="#band/{{band.url.replace('.html', '')}}">{{band.name}}</a>
+						<li class="album-info elevate" ng-repeat="bandR in band.relatedBands" style="z-index: {{band.relatedBands.length - $index}}">
+							<a href="#band/{{bandR.url.replace('.html', '')}}">{{bandR.name}}</a>
 							<span class="highlight"></span>
 						</li>
 					</ul>

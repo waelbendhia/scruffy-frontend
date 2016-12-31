@@ -27,7 +27,7 @@
 					</div>
 				</div>
 				<ul ng-show="dataLoading == false && loadingError == false" class="fade-slow">
-					<li ng-repeat="band in bands" class="elevate">
+					<li ng-repeat="band in bands" class="elevate stagger">
 						<a href="#band/{{band.url.replace('.html', '')}}">{{band.name}}</a>
 						<span class="highlight"></span>
 					</li>

@@ -28,7 +28,7 @@
 			</div>
 			<div class="check-selector">
 				<input id="unk" type="checkbox" ng-model="searchRequest.includeUnknown" ng-change="updateFilter()">
-				<label for="unk">Unknown release date</label>
+				<label for="unk">{{searchRequest.includeUnknown ? 'Unknown release date' : 'Known release date'}}</label>
 			</div>
 			<div class="selector">
 				<select ng-model="searchRequest.sortBy" ng-change="updateFilter()" convert-sort-by-to-string>
@@ -40,7 +40,7 @@
 			</div>
 			<div class="check-selector">
 				<input id="asc" type="checkbox" ng-model="searchRequest.sortOrderAsc" ng-change="updateFilter()">
-				<label for="asc">Sort ascending</label>
+				<label for="asc">{{searchRequest.sortOrderAsc ? 'Sort ascending' : 'Sort descending' }}</label>
 			</div>
 		</div>
 		<div class="search-results">
@@ -57,7 +57,7 @@
 				</div>
 			</div>
 			<ul ng-show="dataLoading == false && loadingError == false" class="fade-slow">
-				<li ng-repeat="album in albums" class="elevate">
+				<li ng-repeat="album in albums" class="elevate stagger">
 					<a href="#band/{{album.band.url.replace('.html', '')}}">
 						<span>{{album.year != 0 ? album.year : 'UNK'}}</span>
 						<span>{{album.band.name}}</span>
