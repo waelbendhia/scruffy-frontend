@@ -11,13 +11,13 @@
 <body ng-app="scaruffiApp" ng-controller="scaruffiController">
 	<div class="background">The fact that so many books still name the Beatles as "the greatest or most significant or most influential" rock band ever only tells you how far rock music still is from becoming a serious art. Jazz critics have long recognized that the greatest jazz musicians of all times are Duke Ellington and John Coltrane, who were not the most famous or richest or best sellers of their times, let alone of all times. Classical critics rank the highly controversial Beethoven over classical musicians who were highly popular in courts around Europe. Rock critics are still blinded by commercial success. The Beatles sold more than anyone else (not true, by the way), therefore they must have been the greatest. Jazz critics grow up listening to a lot of jazz music of the past, classical critics grow up listening to a lot of classical music of the past. Rock critics are often totally ignorant of the rock music of the past, they barely know the best sellers. No wonder they will think that the Beatles did anything worthy of being saved.</div>
 
-	<header>
+	<header class="elevation-3">
 		<a ng-show="hideHeader == false" href="#/" class="opaque site-title">Scaruffi2.0</a>
 		<ul>
 			<li ng-class="{'selected' : filmSelected}">
 				<a href="#films">Film</a>
 				<span class="highlight"></span>
-				<div class="expander">
+				<div class="expander elevation-3">
 					<a href="#directors">Directors</a>
 					<a href="#films">Films</a>
 				</div>
@@ -25,15 +25,16 @@
 			<li ng-class="{'selected' : musicSelected}">
 				<a href="#bands">Music</a>
 				<span class="highlight"></span>
-				<div class="expander">
+				<div class="expander elevation-3">
 					<a href="#bands">Bands</a>
 					<a href="#albums">Albums</a>
 				</div>
 			</li>
 		</ul>
 	</header>
+	<div class="view-animate placeholder"></div>
 	<div class="view-holder {{pageClass}}" ng-view=""></div>
-	<footer>
+	<footer class="elevation-3">
 		<div>
 			<h1>About:</h1>
 			<p>

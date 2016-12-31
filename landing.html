@@ -24,11 +24,11 @@
 				<p>For a general overview of the data scroll down, for how it works keeps scrolling.</p>
 				<p>If you don't care:</p>
 			</div>
-			<a href="#bands">
+			<a href="#bands" class="elevate">
 				Music
 				<span class="highlight"></span>
 			</a>
-			<a>
+			<a class="elevate">
 				Film
 				<span class="highlight"></span>
 			</a>
@@ -37,7 +37,7 @@
 			<h1>Bands reviewed: <span class="lighter">{{bandsTotal}}</span></h1>
 			<h1>Albums reviewed: <span class="lighter">{{total}}</span></h1>
 			<h1>Score distribution for music:</h1>
-			<ul class="histogram">
+			<ul class="histogram elevation-1">
 				<li class="histogram-bar-{{value}}" ng-repeat="value in scores track by $index">
 					<a href="#albums/{{$index/2}}">
 						<div style="border-top-width: calc(10 * {{value}}px);">
@@ -50,7 +50,7 @@
 			<h1>Scaruffi's most influential bands:</h1>
 			<div class="band-field">
 				<ul>
-					<li ng-repeat="band in bandsInfluential">
+					<li ng-repeat="band in bandsInfluential" class="elevate">
 						<a href="#band/{{band.url.replace('.html', '')}}" title="Is mentioned in {{numInfluence[$index]}} artist or band biographies">{{band.name}}</a>
 						<span class="highlight"></span>
 					</li>

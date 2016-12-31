@@ -6,11 +6,10 @@
 <body>
 	<title>Bands</title>
 	<div class="albums-parent opaque">
-		<div class="album-filters-field">
-			<h1>Filters</h1>
+		<div class="filters-field elevation-2">
 			<div class="album-name-search">
-				<input type="text" ng-model="searchRequest.name" placeholder="Album Name" ng-change="updateFilter()"/>
-				<span class="input-highlight">{{searchRequest.name}}</span>
+				<input type="text" ng-model="searchRequest.name" placeholder="Album Name" ng-change="updateFilter()" ng-trim="false"/>
+				<span class="input-highlight elevation-1">{{searchRequest.name}}</span>
 			</div>
 			<div class="album-ratings-sliders">
 				<input ng-model="searchRequest.ratingLower" type="range" min="0" max="{{searchRequest.ratingHigher}}" step="0.5" style="width: calc(10% * {{searchRequest.ratingHigher}}); margin-right: calc(10% * {{10 - searchRequest.ratingHigher}});" ng-change="updateFilter()">
@@ -27,26 +26,38 @@
 				<p>Year</p>
 				<p><input type="number" min="{{searchRequest.yearLower}}" max="{{getFullYear()}}"ng-model="searchRequest.yearHigher" ng-change="updateFilter()"></p>
 			</div>
-			<div class="unk-selector">
+			<div class="check-selector">
 				<input id="unk" type="checkbox" ng-model="searchRequest.includeUnknown" ng-change="updateFilter()">
 				<label for="unk">Unknown release date</label>
 			</div>
+			<div class="selector">
+				<select ng-model="searchRequest.sortBy" ng-change="updateFilter()" convert-sort-by-to-string>
+					<option value="0">Rating</option>
+					<option value="1">Date</option>
+					<option value="2">Album Name</option>
+					<option value="3">Band Name</option>
+				</select>
+			</div>
+			<div class="check-selector">
+				<input id="asc" type="checkbox" ng-model="searchRequest.sortOrderAsc" ng-change="updateFilter()">
+				<label for="asc">Sort ascending</label>
+			</div>
 		</div>
-		<div class="album-search-results">
-			<div ng-show="dataLoading" class="loading-placeholder opaque">
+		<div class="search-results">
+			<div ng-show="dataLoading" class="loading-placeholder fade-slow">
 				<div>
 					<img src="images/ScruffFace.png" class="spinner">
 					<span class="loading-text">Loading...</span>
 				</div>
 			</div>
-			<div ng-show="loadingError && dataLoading == false" class="error-placeholder opaque">
+			<div ng-show="loadingError && dataLoading == false" class="error-placeholder fade-slow">
 				<div>
 					<img src="images/ScruffFace.png">
 					<span><h1>Oops!</h1>Something messed up, maybe try again later.</span>
 				</div>
 			</div>
-			<ul ng-show="dataLoading == false && loadingError == false">
-				<li ng-repeat="album in albums" >
+			<ul ng-show="dataLoading == false && loadingError == false" class="fade-slow">
+				<li ng-repeat="album in albums" class="elevate">
 					<a href="#band/{{album.band.url.replace('.html', '')}}">
 						<span>{{album.year != 0 ? album.year : 'UNK'}}</span>
 						<span>{{album.band.name}}</span>
@@ -55,9 +66,9 @@
 						<span class="highlight"></span>
 					</a>
 				</li>
-				<li class="opaque" ng-if="albums.length === 0"><strong>No results found...</strong></li>
+				<li class="no-results elevate" ng-if="albums.length === 0">No results found...</li>
 			</ul>
-			<div class="paginator">
+			<div class="paginator elevation-1">
 				<a ng-class="{'inactive': searchRequest.page==0}" ng-click="changePage(-10)">10<</a>
 				<a ng-class="{'inactive': searchRequest.page==0}" ng-click="changePage(-1)">1<</a>
 				<h1>{{searchRequest.page+1}}/{{maxPage}}</h1>

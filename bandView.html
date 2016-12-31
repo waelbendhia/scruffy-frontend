@@ -34,11 +34,11 @@
 				</li>
 
 			</ul>
-			<div ng-show="selectedSection == 0" class="bio-album-section opaque">
+			<div ng-show="selectedSection == 0" class="bio-album-section">
 				<div class="albums-view" ng-if="band.albums.length != 0">
 					<h1>Albums</h1>
 					<ul>
-						<li ng-repeat="album in band.albums | orderBy:'year'" ng-class="{'essential': album.rating >= 7}" >
+						<li ng-repeat="album in band.albums | orderBy:'year'" class="elevation-1" ng-class="{'essential': album.rating >= 7}" >
 							<span>{{album.year != 0 ? album.year : 'UNK'}}</span>
 							<span>{{album.name.replace('&amp;amp;', '&amp;')}}<span class="highlight">{{album.name}}</span></span>
 							<span>{{album.rating}}/10</span>
@@ -48,14 +48,14 @@
 				<div class="related-bands-view" ng-if="band.relatedBands.length != 0">
 					<h1>Related bands or artists</h1>
 					<ul>
-						<li class="album-info" ng-repeat="band in band.relatedBands">
+						<li class="album-info elevate" ng-repeat="band in band.relatedBands">
 							<a href="#band/{{band.url.replace('.html', '')}}">{{band.name}}</a>
 							<span class="highlight"></span>
 						</li>
 					</ul>
 				</div>
 			</div>
-			<div ng-show="selectedSection == 1" class="bio-album-section opaque">
+			<div ng-show="selectedSection == 1" class="bio-album-section">
 				<div class="biography">
 					<p style="white-space: pre-wrap;">{{band.bio}}</p>
 				</div>
