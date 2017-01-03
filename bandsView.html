@@ -9,7 +9,7 @@
 		<div class="filters-field elevation-2">
 			<div class="band-input-field">
 				<input type="text" ng-model="searchRequest.name" ng-change="updateFilter()" placeholder="Search" ng-trim="false"/>
-				<span class="input-highlight elevation-1">{{searchRequest.name}}</span>
+				<span class="input-highlight">{{searchRequest.name}}</span>
 			</div>
 		</div>
 		<div class="search-results">
@@ -27,7 +27,7 @@
 					</div>
 				</div>
 				<ul ng-show="dataLoading == false && loadingError == false" class="fade-slow">
-					<li ng-repeat="band in bands" class="elevate stagger">
+					<li ng-repeat="band in bands" class="elevate stagger" ng-class="{'column-1' : $index%3 == 1, 'column-2' : $index%3 == 2, }">
 						<a href="#band/{{band.url.replace('.html', '')}}">{{band.name}}</a>
 						<span class="highlight"></span>
 					</li>

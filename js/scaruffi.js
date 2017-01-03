@@ -331,4 +331,17 @@ app.config(function($routeProvider) {
       });
     }
   };
+})
+.filter('ampersand', function(){
+	return function(input){
+		return input ? input.replace(/&amp;/g, '&') : '';
+	}
+})
+.filter('trim', function(){
+	return function(input){
+		if(!angular.isString(input)) {
+			return input;
+		}
+		return input.trim();
+	}
 });

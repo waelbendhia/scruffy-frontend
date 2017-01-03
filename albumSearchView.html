@@ -9,7 +9,7 @@
 		<div class="filters-field elevation-2">
 			<div class="album-name-search">
 				<input type="text" ng-model="searchRequest.name" placeholder="Album Name" ng-change="updateFilter()" ng-trim="false"/>
-				<span class="input-highlight elevation-1">{{searchRequest.name}}</span>
+				<span class="input-highlight">{{searchRequest.name}}</span>
 			</div>
 			<div class="album-ratings-sliders">
 				<input ng-model="searchRequest.ratingLower" type="range" min="0" max="{{searchRequest.ratingHigher}}" step="0.5" style="width: calc(10% * {{searchRequest.ratingHigher}}); margin-right: calc(10% * {{10 - searchRequest.ratingHigher}});" ng-change="updateFilter()">
@@ -57,11 +57,11 @@
 				</div>
 			</div>
 			<ul ng-show="dataLoading == false && loadingError == false" class="fade-slow">
-				<li ng-repeat="album in albums" class="elevate stagger">
-					<a href="#band/{{album.band.url.replace('.html', '')}}">
+				<li ng-repeat="album in albums" class="elevate stagger" ng-class="{'column-1' : $index%2 == 0, 'column-2' : $index%2 == 1}">
+					<a href="#band/{{album.band.url.replace('.html', '')}}" ng-class="{'essential': album.rating >= 7}">
 						<span>{{album.year != 0 ? album.year : 'UNK'}}</span>
 						<span>{{album.band.name}}</span>
-						<span>{{album.name.replace('&amp;amp;', '&amp;')}}</span>
+						<span>{{album.name | ampersand}}<span class="highlight">{{album.name | ampersand}}</span></span>
 						<span>{{album.rating}}/10</span>
 						<span class="highlight"></span>
 					</a>
