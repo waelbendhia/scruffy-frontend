@@ -257,35 +257,35 @@ app.config(function($routeProvider) {
 .service('MusicService', function($http, $cacheFactory){
 
 	this.searchBands = function(searchRequest){
-		return $http.post('../ScruffyScrape/Scruffy/MusicService/bands/search', searchRequest);	
+		return $http.post('../MusicService/bands/search', searchRequest);	
 	}
 
 	this.searchBandsCount = function(searchRequest){
-		return $http.post('../ScruffyScrape/Scruffy/MusicService/bands/searchCount', searchRequest);	
+		return $http.post('../MusicService/bands/searchCount', searchRequest);	
 	}
 	
 	this.getFullBand = function(band){
-		return $http.get('../ScruffyScrape/Scruffy/MusicService/band/'+band.url, {cache: true});
+		return $http.get('../MusicService/band/'+band.url, {cache: true});
 	}
 
 	this.getScoreDistribution = function(){
-		return $http.get('../ScruffyScrape/Scruffy/MusicService/ratings/distribution', {cache: true});
+		return $http.get('../MusicService/ratings/distribution', {cache: true});
 	}
 
 	this.getBandTotal = function(){
-		return $http.get('../ScruffyScrape/Scruffy/MusicService/bands/total', {cache: true});	
+		return $http.get('../MusicService/bands/total', {cache: true});	
 	}
 
 	this.getBandsInfluential = function(){
-		return $http.get('../ScruffyScrape/Scruffy/MusicService/bands/influential', {cache: true});
+		return $http.get('../MusicService/bands/influential', {cache: true});
 	}
 
 	this.searchAlbums = function(searchRequest){
-		return $http.post('../ScruffyScrape/Scruffy/MusicService/albums/search', searchRequest);	
+		return $http.post('../MusicService/albums/search', searchRequest);	
 	}
 
 	this.searchAlbumsCount = function(searchRequest){
-		return $http.post('../ScruffyScrape/Scruffy/MusicService/albums/searchCount', searchRequest);	
+		return $http.post('../MusicService/albums/searchCount', searchRequest);	
 	}
 
 })
