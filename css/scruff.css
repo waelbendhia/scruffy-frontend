@@ -1249,8 +1249,15 @@ header li.selected>a + .highlight,
 	width: calc(100% - 20px);
 	margin-left: 10px;
 	margin-right: 10px;
-	text-indent: 30px;
-	font-size: 1.3em;
+}
+
+.biography p{
+	width: 100%;
+	max-width: calc(600px + 2.8em);
+	padding: 1.4em;
+	font-size: 1.4em;
+	margin: 1.4em auto;
+	background-color: var(--white);
 }
 
 @media only screen and (max-device-width: 480px) {
