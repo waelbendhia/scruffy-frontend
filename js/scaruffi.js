@@ -154,10 +154,12 @@ app.config(function($routeProvider) {
 	$scope.dataLoading = true;
 	$scope.loadingError = false;
 	$scope.selectedSection = 0;
+	$scope.paragraphs = [];
 
 	MusicService.getFullBand(postBand).then(
 		function success(response){
 			$scope.band = response.data;
+			$scope.paragraphs = $scope.band.bio.split(/(\r|\n){3}/)
 			$scope.dataLoading = false;
 			$scope.loadingError = (typeof $scope.band.name) == "undefined";
 			$scope.selectedSection = $scope.band.albums.length == 0 && $scope.band.relatedBands.length == 0 ? 1 : 0;

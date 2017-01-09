@@ -1246,18 +1246,24 @@ header li.selected>a + .highlight,
 }
 
 .biography{
-	width: calc(100% - 20px);
-	margin-left: 10px;
-	margin-right: 10px;
+	width: calc(100% - 2em);
+	margin: 1em;
+	background-color: var(--white);
 }
 
 .biography p{
 	width: 100%;
-	max-width: calc(600px + 2.8em);
-	padding: 1.4em;
+	max-width: 600px;
 	font-size: 1.4em;
-	margin: 1.4em auto;
-	background-color: var(--white);
+	line-height: 1.4em;
+	margin: 2.8em auto;
+}
+
+.biography p::first-letter{
+	font-size: 3.36em;
+	line-height: 0.8em;
+	display: block;
+	float: left;
 }
 
 @media only screen and (max-device-width: 480px) {

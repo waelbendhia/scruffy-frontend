@@ -56,8 +56,8 @@
 				</div>
 			</div>
 			<div ng-show="selectedSection == 1" class="bio-album-section">
-				<div class="biography">
-					<p class="elevation-2" style="white-space: pre-wrap;">{{band.bio | trim}}</p>
+				<div class="biography elevation-2">
+					<p style="white-space: pre-wrap;" ng-repeat="paragraph in paragraphs track by $index">{{paragraph | trim}}</p>
 				</div>
 			</div>
 		</div>
