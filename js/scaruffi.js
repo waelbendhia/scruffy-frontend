@@ -88,7 +88,7 @@ app.config(function($routeProvider) {
 .controller('bandsController', function($scope, $timeout, MusicService, selectionService){
 	selectionService.selectMusic();
 
-	var itemsPerPage = 30;
+	var itemsPerPage = 12;
 	var bandsFiltered = [];
 	var _timeout;
 	var loadBands = function(keepPage){
@@ -177,8 +177,9 @@ app.config(function($routeProvider) {
 	selectionService.selectMusic();
 
 	var _timeout;
-	var itemsPerPage = 20;
+	var itemsPerPage = 9;
 	var date = new Date();
+
 	var loadAlbums = function(keepPage){
 		if(!keepPage){
 			$scope.searchRequest.page = 0;
@@ -192,6 +193,7 @@ app.config(function($routeProvider) {
 		}
 		MusicService.searchAlbums($scope.searchRequest).then(
 			function success(response){
+				console.log(response.data[0])
 				$scope.albums = response.data;
 				$scope.dataLoading = false;
 				$scope.loadingError = false;
@@ -270,6 +272,10 @@ app.config(function($routeProvider) {
 		return $http.get('../MusicService/band/'+band.url, {cache: true});
 	}
 
+	this.getBandPhoto = function(band){
+		return $http.get(`http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${band.name}&api_key=39720b3f01a98c70c1f32e82b71499e1&format=json`, {cache: true});
+	}
+
 	this.getScoreDistribution = function(){
 		return $http.get('../MusicService/ratings/distribution', {cache: true});
 	}
@@ -345,5 +351,17 @@ app.config(function($routeProvider) {
 			return input;
 		}
 		return input.trim();
+	}
+})
+.filter('initials', function(){
+	return function(input){
+		if(!angular.isString(input)){
+			return input;
+		}
+		var words = input.match(/\b\w/g) || [];
+		var initials = ''
+		while(words.length > 0)
+			initials += words.shift() || ''
+		return initials.toUpperCase();
 	}
 });

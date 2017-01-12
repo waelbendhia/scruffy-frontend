@@ -18,10 +18,16 @@
 	</div>
 	<div ng-show="dataLoading == false && loadingError == false" class="opaque band-info">
 		<title>Band {{band.name}}</title>
-		<a class="band-name" href="{{band.fullUrl}}" title="Read on scaruffi.com">
-			{{band.name}}
-			<span class="highlight"></span>
-		</a>
+		<div class="band-page-header elevation-2">
+			<div class="background-blur">
+				<img src="{{band.imageUrl ? band.imageUrl : 'images/defaultArtistImage.svg'}}">
+			</div>
+			<div class="artitst-profile-image" style="background-image: url({{band.imageUrl ? band.imageUrl : 'images/defaultArtistImage.svg'}})"></div>
+			<a class="band-name" href="{{band.fullUrl}}" title="Read on scaruffi.com">
+				{{band.name}}
+				<span class="highlight"></span>
+			</a>
+		</div>
 		<div class="bio-album-container">
 			<ul class="bio-album-navbar">
 				<li ng-class="{'selected' : selectedSection == 0}" ng-if="band.albums.length !=0 || band.relatedBands.length != 0">
@@ -39,9 +45,12 @@
 					<h1>Albums</h1>
 					<ul>
 						<li ng-repeat="album in band.albums | orderBy:'year'" class="elevation-1" ng-class="{'essential': album.rating >= 7}" >
-							<span>{{album.year != 0 ? album.year : 'UNK'}}</span>
-							<span>{{album.name | ampersand}}<span class="highlight">{{album.name | ampersand}}</span></span>
-							<span>{{album.rating}}/10</span>
+							<span style="background-image: url({{album.imageUrl ? album.imageUrl : 'images/defaultAlbumImage.svg'}});"></span>
+							<span>
+								<span>{{album.year != 0 ? album.year : 'UNK'}}</span>
+								<span>{{album.name | ampersand}}<span class="highlight">{{album.name | ampersand}}</span></span>
+								<span>{{album.rating}}/10</span>
+							</span>
 						</li>
 					</ul>
 				</div>
@@ -49,7 +58,10 @@
 					<h1>Related bands or artists</h1>
 					<ul>
 						<li class="album-info elevate" ng-repeat="bandR in band.relatedBands">
-							<a href="#band/{{bandR.url.replace('.html', '')}}">{{bandR.name}}</a>
+							<a href="#band/{{bandR.url.replace('.html', '')}}">
+								<span style="background-image: url({{bandR.imageUrl ? bandR.imageUrl : 'images/defaultArtistImage.svg'}});"></span>
+								<span>{{bandR.name}}</span>
+							</a>
 							<span class="highlight"></span>
 						</li>
 					</ul>

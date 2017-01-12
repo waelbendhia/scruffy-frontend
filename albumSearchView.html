@@ -56,13 +56,16 @@
 					<span><h1>Oops!</h1>Something messed up, maybe try again later.</span>
 				</div>
 			</div>
-			<ul ng-show="dataLoading == false && loadingError == false" class="fade-slow">
+			<ul ng-show="dataLoading == false && loadingError == false" class="album-field fade-slow">
 				<li ng-repeat="album in albums" class="elevate stagger" ng-class="{'column-1' : $index%2 == 0, 'column-2' : $index%2 == 1}">
-					<a href="#band/{{album.band.url.replace('.html', '')}}" ng-class="{'essential': album.rating >= 7}">
-						<span>{{album.year != 0 ? album.year : 'UNK'}}</span>
-						<span>{{album.band.name}}</span>
-						<span>{{album.name | ampersand}}<span class="highlight">{{album.name | ampersand}}</span></span>
-						<span>{{album.rating}}/10</span>
+					<a href="#band/{{album.band.url.replace('.html', '')}}" ng-class="{'essential': album.rating >= 7}" title="{{album.band.name}}-{{album.name}}">
+						<span  style="background-image: url({{album.imageUrl ? album.imageUrl : 'images/defaultAlbumImage.svg'}});"></span>
+						<span>
+							<span>{{album.year != 0 ? album.year : 'UNK'}}</span>
+							<span>{{album.band.name}}</span>
+							<span>{{album.name | ampersand}}<span class="highlight">{{album.name | ampersand}}</span></span>
+							<span>{{album.rating}}/10</span>
+						</span>
 						<span class="highlight"></span>
 					</a>
 				</li>

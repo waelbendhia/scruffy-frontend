@@ -28,15 +28,18 @@
 				</div>
 				<ul ng-show="dataLoading == false && loadingError == false" class="fade-slow">
 					<li ng-repeat="band in bands" class="elevate stagger" ng-class="{'column-1' : $index%3 == 1, 'column-2' : $index%3 == 2, }">
-						<a href="#band/{{band.url.replace('.html', '')}}">{{band.name}}</a>
+						<a href="#band/{{band.url.replace('.html', '')}}">
+							<span style="background-image: url({{band.imageUrl ? band.imageUrl : 'images/defaultArtistImage.svg'}});"></span>
+							<span>{{band.name}}</span>
+						</a>
 						<span class="highlight"></span>
 					</li>
 					<li class="elevate no-results" ng-if="bands.length === 0">No results found...</li>
 				</ul>
 			</div>
 			<div class="paginator elevation-1">
-				<a ng-class="{'inactive': searchRequest.page==1}" ng-click="changePage(-10)">10<</a>
-				<a ng-class="{'inactive': searchRequest.page==1}" ng-click="changePage(-1)">1<</a>
+				<a ng-class="{'inactive': searchRequest.page==0}" ng-click="changePage(-10)">10<</a>
+				<a ng-class="{'inactive': searchRequest.page==0}" ng-click="changePage(-1)">1<</a>
 				<h1>{{searchRequest.page+1}}/{{maxPage}}</h1>
 				<a ng-class="{'inactive': searchRequest.page==maxPage-1}" ng-click="changePage(1)">>1</a>
 				<a ng-class="{'inactive': searchRequest.page==maxPage-1}" ng-click="changePage(10)">>10</a>
