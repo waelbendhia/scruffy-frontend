@@ -22,11 +22,13 @@
 			<div class="background-blur">
 				<img src="{{band.imageUrl ? band.imageUrl : 'images/defaultArtistImage.svg'}}">
 			</div>
-			<div class="artitst-profile-image" style="background-image: url({{band.imageUrl ? band.imageUrl : 'images/defaultArtistImage.svg'}})"></div>
-			<a class="band-name" href="{{band.fullUrl}}" title="Read on scaruffi.com">
-				{{band.name}}
-				<span class="highlight"></span>
-			</a>
+			<div class="image-name-container">
+				<div class="artitst-profile-image" style="background-image: url({{band.imageUrl ? band.imageUrl : 'images/defaultArtistImage.svg'}})"></div>
+				<a class="band-name" href="{{band.fullUrl}}" title="Read on scaruffi.com">
+					{{band.name}}
+					<span class="highlight"></span>
+				</a>
+			</div>
 		</div>
 		<div class="bio-album-container">
 			<ul class="bio-album-navbar">

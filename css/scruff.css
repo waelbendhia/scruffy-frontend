@@ -1063,32 +1063,41 @@ header li.selected>a + .highlight,
 	color: var(--black);
 }
 
+.image-name-container{
+	position: relative;
+	width: calc(100%-40px);
+	height: 100%;
+	max-width: 970px;
+	margin: 0 auto;
+	height: 100%;
+}
+
 .band-name{
-	position: absolute;
-	height: 82px;
+	float: left;
+	height: 100%;
 	text-decoration: none;
-	bottom: 50%;
-	left: calc(50% + 10px);
+	margin-left: 10px;
     white-space: nowrap;
-    font-size: 70px;
+    font-size: 5vw;
 	font-family: var(--font-heading);
-	transform: translateY(100%);
     color: var(--black);
+    transform: translateY(60%);
 }
 
 .background-blur{
 	position: absolute;
 	z-index: -1;
 	width: 100%;
-	height: 50%;
+	height: 60%;
 	overflow: hidden;
+	background-color: var(--dark-grey);
 }
 
 .background-blur>img{
 	width: calc(40px + 100%);
 	position: absolute;
 	left: -20px;
-	top: -20px;
+	top: calc(-20px - 40%);
 	filter: blur(10px);
 }
 .band-name:hover{
@@ -1098,7 +1107,7 @@ header li.selected>a + .highlight,
 .band-name>.highlight{
 	z-index: -1;
 	position: absolute;
-	bottom: 10px;
+	top: 5vw;
 	left: 0;
 	width: 100%;
 	height: 0px;
@@ -1158,14 +1167,12 @@ header li.selected>a + .highlight,
 .bio-album-section{
 	width: calc(100% - 40px);
 	max-width: 970px;
-	min-height: calc(100vh - var(--header-height) - 174px);
 	display: flex;
 	flex-flow: row;
 	justify-content: center;
 	margin-left: auto;
 	margin-right: auto;
 	opacity: 1;
-	border-bottom: 2px solid var(--grey);
 }
 
 .bio-album-section.ng-hide-add{
@@ -1191,24 +1198,25 @@ header li.selected>a + .highlight,
 	float: left;
 	width: 100%;
 	z-index: 0;
-	height: calc(20vw + 40px);
+	height: calc(15vw + 40px);
 	max-height: 340px;
 	margin-bottom: 20px;
+	overflow: hidden;
 	background-color: var(--white);
 }
 
 .artitst-profile-image{
-	position: absolute;
-	top: 20px;
-	left: calc(50% - 10px);
-	height: 20vw;
+	float: left;
+	height: 15vw;
 	max-height: 300px;
-	width: 20vw;
+	width: 15vw;
 	max-width: 300px;
 	background-size: 100%;
 	background-position: center;
 	border-radius: 10vw;
-	transform: translateX(-100%);
+	margin-left: 10%;
+	margin-top: 20px;
+	background-color: var(--dark-grey);
 }
 
 .albums-view,
