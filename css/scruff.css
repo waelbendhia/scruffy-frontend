@@ -1065,23 +1065,29 @@ header li.selected>a + .highlight,
 
 .image-name-container{
 	position: relative;
-	width: calc(100%-40px);
+	width: calc(100% - 40px);
 	height: 100%;
 	max-width: 970px;
 	margin: 0 auto;
-	height: 100%;
 }
 
 .band-name{
 	float: left;
-	height: 100%;
+	position: relative;
+	top: 60%;
 	text-decoration: none;
+	max-width: calc(90% - 300px);
 	margin-left: 10px;
     white-space: nowrap;
-    font-size: 5vw;
+    font-size: 3vw;
 	font-family: var(--font-heading);
     color: var(--black);
-    transform: translateY(60%);
+    text-shadow: 1px 	0 	var(--white),
+    			 -1px 	0 	var(--white),
+    			 2px 	0 	var(--white),
+    			 -2px 	0 	var(--white),
+    			 3px 	0 	var(--white),
+    			 -3px 	0 	var(--white);
 }
 
 .background-blur{
@@ -1107,7 +1113,7 @@ header li.selected>a + .highlight,
 .band-name>.highlight{
 	z-index: -1;
 	position: absolute;
-	top: 5vw;
+	top: 3vw;
 	left: 0;
 	width: 100%;
 	height: 0px;
@@ -1168,7 +1174,7 @@ header li.selected>a + .highlight,
 	width: calc(100% - 40px);
 	max-width: 970px;
 	display: flex;
-	flex-flow: row;
+	flex-flow: column;
 	justify-content: center;
 	margin-left: auto;
 	margin-right: auto;
@@ -1221,8 +1227,7 @@ header li.selected>a + .highlight,
 
 .albums-view,
 .related-bands-view{
-	width: calc(50% - 16px);
-	max-width: 500px;
+	width: calc(100% - 16px);
 	padding-left: 8px;
 	padding-right: 8px;
 	float: left;
@@ -1235,10 +1240,12 @@ header li.selected>a + .highlight,
 
 .related-bands-view li,
 .albums-view li{
+	float: left;
 	position: relative;
-	width: calc(100% - 20px);
-	height: 120px;
-	font-size: 22px;
+	width: calc(50% - 20px);
+	min-width: 160px;
+	height: 160px;
+	font-size: 18px;
 	line-height: 40px;
 	margin: 5px 10px;
 }
@@ -1270,15 +1277,18 @@ header li.selected>a + .highlight,
 .related-bands-view li>a>span:nth-child(2),
 .albums-view li>span:nth-child(2){
 	position: absolute;
-	width: calc(100% - 20px);
+	width: calc(100% - 10px);
 	left: 0;
 	bottom: 0;
-	padding: 0 10px;
+	padding: 0 5px;
 	height: 40px;
 	background-color: var(--white-transparent);
 }
 
 .related-bands-view li>a>span:nth-child(2){
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 	font-weight: bolder;
 	color: var(--black);
 }
@@ -1286,7 +1296,7 @@ header li.selected>a + .highlight,
 .albums-view li>span:nth-child(2)>span:nth-child(1){
 	display: block;
 	float: left;
-	width: 56px;
+	width: 48px;
 	height: 100%;
 }
 
@@ -1294,7 +1304,7 @@ header li.selected>a + .highlight,
 	position: relative;
 	display: block;
 	float: left;
-	width: calc(100% - 123px);
+	width: calc(100% - 108px);
 	height: 100%;
 	overflow: hidden;
 	white-space: nowrap;
@@ -1304,7 +1314,7 @@ header li.selected>a + .highlight,
 }
 
 .albums-view li>span:nth-child(2)>span:nth-child(3){
-	width: 67px;
+	width: 60px;
 	text-align: right;
 	float: right;
 }
