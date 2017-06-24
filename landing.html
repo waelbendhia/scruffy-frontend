@@ -1,26 +1,17 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	
+
 </head>
+
 <body>
-	<div ng-show="dataLoading" class="loading-placeholder opaque">
-		<div>
-			<img src="images/ScruffFace.png" class="spinner">
-			<span class="loading-text">Loading...</span>
-		</div>
-	</div>
-	<div ng-show="loadingError && dataLoading == false" class="error-placeholder opaque">
-		<div>
-			<img src="images/ScruffFace.png">
-			<span><h1>Oops!</h1>Something messed up, maybe try again later.</span>
-		</div>
-	</div>
-	<div ng-show="dataLoading == false && loadingError == false" class="landing opaque">
+	<div class="landing opaque">
 		<div class="landing-intro">
 			<h1>Scaruffi2.0</h1>
 			<div>
-				<p>In which I attempt to organize and beautify the award winning music, film, political and scientific historian Scaruffi's knowledge base of film and music.</p>
+				<p>In which I attempt to organize and beautify the award winning music, film, political and scientific historian Scaruffi's
+					knowledge base of film and music.</p>
 				<p>For a general overview of the data scroll down, for how it works keeps scrolling.</p>
 				<p>If you don't care:</p>
 			</div>
@@ -60,10 +51,14 @@
 		<div class="landing-how">
 			<h1>How it works</h1>
 			<div>
-				<p>The front end is written in angularJS that consumes rest Json services provided by a java web app that scrapes Scaruffi's website and insert that data into a database. The source code for both can be found on my github.</p>
-				<p>Given that Scaruffi's knowledge base predates the internet it is not very consistent in formatting and that reflects here. If you find a dead link or an incomplete page you can use google to find the original page or follow the link to the original page by clicking the band or film name at the top.</p>
+				<p>The front end is written in angularJS that consumes rest Json services provided by a java web app that scrapes Scaruffi's
+					website and insert that data into a database. The source code for both can be found on my github.</p>
+				<p>Given that Scaruffi's knowledge base predates the internet it is not very consistent in formatting and that reflects
+					here. If you find a dead link or an incomplete page you can use google to find the original page or follow the link
+					to the original page by clicking the band or film name at the top.</p>
 			</div>
 		</div>
 	</div>
 </body>
+
 </html>

@@ -1,197 +1,193 @@
 @import url('https://fonts.googleapis.com/css?family=Libre+Baskerville:400,700|Work+Sans:300,400,700&subset=latin-ext');
-
-@keyframes spin { 
-    from { 
-        transform: rotate(0deg); 
-    } to { 
-        transform: rotate(360deg); 
-    }
+@keyframes spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
 }
 
 @keyframes fadeIn {
-	0%{
+	0% {
 		opacity: 0.0;
 	}
-	50%{
+	50% {
 		opacity: 0.0;
 	}
-	100%{
+	100% {
 		opacity: 1;
 	}
 }
 
 @keyframes fadeOut {
-	0%{
+	0% {
 		opacity: 1;
 	}
-	50%{
+	50% {
 		opacity: 0.0;
 	}
-	100%{
+	100% {
 		opacity: 0.0;
 	}
 }
 
 input[type=range] {
-  -webkit-appearance: none;
-  margin: 14px 0;
-  width: 100%;
+	-webkit-appearance: none;
+	margin: 14px 0;
+	width: 100%;
 }
 
 input[type=range]:focus {
-  outline: none;
+	outline: none;
 }
 
 input[type=range]::-webkit-slider-runnable-track {
-  width: 100%;
-  height: 2px;
-  cursor: pointer;
-  background: var(--grey);
+	width: 100%;
+	height: 2px;
+	cursor: pointer;
+	background: var(--grey);
 }
 
 input[type=range]::-webkit-slider-thumb {
-  height: 20px;
-  width: 4px;
-  background: var(--black);
-  cursor: pointer;
-  -webkit-appearance: none;
-  margin-top: -9px;
+	height: 20px;
+	width: 4px;
+	background: var(--black);
+	cursor: pointer;
+	-webkit-appearance: none;
+	margin-top: -9px;
 }
 
 input[type="checkbox"] {
-    display:none;
+	display: none;
 }
 
-input[type="checkbox"] + label:before{
+input[type="checkbox"]+label:before {
 	content: "";
-    display:inline-block;
-    width:12px;
-    height:12px;
-    margin-top: 1px;
-    margin-bottom: 1px;
-    margin-right: 2px;
-    background-color: var(--dark-white);
-    cursor:pointer;
-    border: 2px solid var(--black);
-    border-radius: 4px;
-    transition: color linear var(--transition-time-fast);
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	margin-top: 1px;
+	margin-bottom: 1px;
+	margin-right: 2px;
+	background-color: var(--dark-white);
+	cursor: pointer;
+	border: 2px solid var(--black);
+	border-radius: 4px;
+	transition: color linear var(--transition-time-fast);
 }
 
-input[type="checkbox"]:checked + label:before {
-    background-color: var(--first-color);
+input[type="checkbox"]:checked+label:before {
+	background-color: var(--first-color);
 }
 
 select {
-   user-select: none;
-   background-color: var(--dark-white);
-   background-position: 97% center;
-   background-repeat: no-repeat;
-   border: 0;
-   border-bottom: 2px solid var(--first-color);
-   color: var(--black);
-   font-size: 1.5em;
-   overflow: hidden;
-   text-overflow: ellipsis;
-   white-space: nowrap;
+	user-select: none;
+	background-color: var(--dark-white);
+	background-position: 97% center;
+	background-repeat: no-repeat;
+	border: 0;
+	border-bottom: 2px solid var(--first-color);
+	color: var(--black);
+	font-size: 1.5em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 select:focus {
-  outline: none;
+	outline: none;
 }
 
-*{
+* {
 	margin: 0;
 	padding: 0;
 	font-family: var(--font-body);
 }
 
-a{
+a {
 	cursor: pointer;
 	color: var(--grey);
 	text-decoration: none;
 	transition: color linear var(--transition-time-fast);
 }
 
-h1{
+h1 {
 	font-family: var(--font-heading);
 }
 
-a:hover{
+a:hover {
 	color: var(--first-color);
 }
 
-a.inactive{
+a.inactive {
 	pointer-events: none;
 }
 
-:root{
-	--font-heading:"Libre Baskerville", serif;
-	--font-body:"Work Sans", sans-serif;
-
-	--header-height : 60px;
-
-	--black : #1A1A1A;
-	--super-dark-grey : #242424;
-	--grey : #5E5E5E;
+:root {
+	--font-heading: "Libre Baskerville", serif;
+	--font-body: "Work Sans", sans-serif;
+	--header-height: 60px;
+	--black: #1A1A1A;
+	--super-dark-grey: #242424;
+	--grey: #5E5E5E;
 	--dark-grey: #404040;
 	--less-dark-grey: #424242;
-	--dark-white : #eee;
+	--dark-white: #eee;
 	--less-dark-white: #F2F2F2;
-	--white : #fff;
-	--black : #1A1A1A;
+	--white: #fff;
 	--white-transparent: rgba(255, 255, 255, 0.75);
 	--first-color: #FF3530;
 	--second-color: #55DDE0;
-
 	--shadow: rgba(0, 0, 0, 0.23);
-
-	--transition-time-very-slow : 0.6s;
-	--transition-time-slow : 0.3s;
-	--transition-time-fast : 0.15s;
+	--transition-time-very-slow: 0.6s;
+	--transition-time-slow: 0.3s;
+	--transition-time-fast: 0.15s;
 }
 
-html, body{
+html,
+body {
 	overflow-x: hidden;
 	height: 100%;
 	width: 100%;
 	margin: 0;
 }
 
-body{
+body {
 	position: relative;
 }
 
 .elevation-1 {
-	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 
 .elevation-2 {
-	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
 .elevation-3 {
-	box-shadow: 0 6px 6px rgba(0,0,0,0.23), 0 10px 20px rgba(0,0,0,0.19);
+	box-shadow: 0 6px 6px rgba(0, 0, 0, 0.23), 0 10px 20px rgba(0, 0, 0, 0.19);
 }
 
 .elevation-4 {
-	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+	box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
 .elevation-5 {
-	box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+	box-shadow: 0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
 }
 
-.elevate{
+.elevate {
 	position: relative;
-	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 	transition: transform ease-in-out var(--transition-time-fast);
 }
 
-.elevate:hover{
+.elevate:hover {
 	z-index: 1;
 	transform: scale(1.04) translateY(0%);
 }
-/**/
+
 .elevate::after {
 	pointer-events: none;
 	z-index: 0;
@@ -201,16 +197,16 @@ body{
 	top: 0;
 	width: 100%;
 	height: 100%;
-	box-shadow: 0 10px 10px rgba(0,0,0,0.22), 0 14px 28px rgba(0,0,0,0.25);
+	box-shadow: 0 10px 10px rgba(0, 0, 0, 0.22), 0 14px 28px rgba(0, 0, 0, 0.25);
 	opacity: 0;
 	transition: opacity var(--transition-time-fast) ease-in-out;
 }
 
 .elevate:hover::after {
-  opacity: 1;
+	opacity: 1;
 }
 
-header{
+header {
 	position: relative;
 	width: calc(100% - var(--header-height));
 	height: var(--header-height);
@@ -220,7 +216,8 @@ header{
 	padding-right: calc(var(--header-height) / 2);
 	z-index: 5;
 }
-.site-title{
+
+.site-title {
 	display: block;
 	float: left;
 	height: var(--header-height);
@@ -231,7 +228,7 @@ header{
 	font-size: 3em;
 }
 
-header li{
+header li {
 	position: relative;
 	height: var(--header-height);
 	width: 120px;
@@ -240,7 +237,7 @@ header li{
 	float: right;
 }
 
-header li>a{
+header li>a {
 	display: block;
 	width: 100%;
 	height: var(--header-height);
@@ -249,7 +246,7 @@ header li>a{
 	line-height: calc(var(--header-height) * 1.2);
 }
 
-header .expander>a{
+header .expander>a {
 	display: block;
 	width: 100%;
 	height: var(--header-height);
@@ -258,7 +255,7 @@ header .expander>a{
 	line-height: var(--header-height);
 }
 
-header li>.expander{
+header li>.expander {
 	position: absolute;
 	height: 0;
 	width: 100%;
@@ -268,16 +265,16 @@ header li>.expander{
 	transition: height ease-in-out var(--transition-time-fast);
 }
 
-header li:hover>.expander{
+header li:hover>.expander {
 	height: calc(var(--header-height) * 2);
 }
 
 header li.selected>a,
-header li>a:hover{
+header li>a:hover {
 	color: var(--white);
 }
 
-footer{
+footer {
 	display: flex;
 	font-weight: 200;
 	justify-content: center;
@@ -287,36 +284,36 @@ footer{
 	color: var(--dark-white);
 }
 
-footer>div{
+footer>div {
 	margin: 40px;
 }
 
-footer>div:nth-child(1){
+footer>div:nth-child(1) {
 	width: calc(60% - 80px);
 	max-width: 534px;
 }
 
-footer>div>h1{
+footer>div>h1 {
 	margin-bottom: 20px;
 }
 
-footer>div a{
+footer>div a {
 	font-weight: 400;
 	color: var(--white);
 }
 
-footer>div:nth-child(2){
+footer>div:nth-child(2) {
 	width: calc(40% - 80px);
 	max-width: 356px;
 }
 
-footer>div:nth-child(2) p{
+footer>div:nth-child(2) p {
 	font-size: 1.5em;
 	margin-top: 5px;
 	margin-bottom: 5px;
 }
 
-footer>div:nth-child(2) ul{
+footer>div:nth-child(2) ul {
 	list-style: none;
 	margin-left: 15px;
 	font-size: 1.3em;
@@ -327,22 +324,20 @@ footer>div:nth-child(2) ul{
 	z-index: 1;
 }
 
-.view-holder.ng-leave{
+.view-holder.ng-leave {
 	position: absolute;
 	max-width: 100%;
 	animation: fadeOut var(--transition-time-very-slow) both ease-out;
 	z-index: 2;
 }
 
-
-.fade-slow.ng-hide-add{
+.fade-slow.ng-hide-add {
 	animation: fadeOut var(--transition-time-slow) both ease-in;
 }
 
-.fade-slow.ng-hide-remove{
+.fade-slow.ng-hide-remove {
 	animation: fadeIn var(--transition-time-slow) both ease-in;
 }
-
 
 .opaque-fast.ng-leave,
 .opaque-fast.ng-move.ng-move-active,
@@ -351,7 +346,7 @@ footer>div:nth-child(2) ul{
 .opaque.ng-leave,
 .opaque.ng-move.ng-move-active,
 .opaque.ng-enter.ng-enter-active,
-.opaque{
+.opaque {
 	opacity: 1;
 }
 
@@ -382,7 +377,7 @@ footer>div:nth-child(2) ul{
 	transition: opacity var(--transition-time-fast) linear;
 }
 
-.stagger.ng-enter-stagger{
+.stagger.ng-enter-stagger {
 	transition-delay: calc(var(--transition-time-slow) / 10);
 	transition-duration: 0s;
 }
@@ -395,7 +390,7 @@ footer>div:nth-child(2) ul{
 .stagger.ng-leave,
 .stagger.ng-move.ng-move-active,
 .stagger.ng-enter.ng-enter-active,
-.stagger{
+.stagger {
 	opacity: 1;
 	transform: translateY(0%);
 }
@@ -407,7 +402,7 @@ footer>div:nth-child(2) ul{
 }
 
 .stagger.ng-leave,
-.stagger.ng-hide-remove{
+.stagger.ng-hide-remove {
 	display: none;
 }
 
@@ -419,8 +414,7 @@ footer>div:nth-child(2) ul{
 	transform: translateY(50%);
 }
 
-
-.background{
+.background {
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -433,7 +427,7 @@ footer>div:nth-child(2) ul{
 	user-select: none;
 }
 
-.view-holder{
+.view-holder {
 	top: var(--header-height);
 	float: left;
 	width: 100%;
@@ -441,11 +435,11 @@ footer>div:nth-child(2) ul{
 	overflow-y: hidden;
 }
 
-.lighter{
+.lighter {
 	font-weight: lighter;
 }
 
-.landing-intro{
+.landing-intro {
 	width: calc(100% - 20px);
 	max-width: 970px;
 	margin-left: auto;
@@ -453,11 +447,11 @@ footer>div:nth-child(2) ul{
 	height: calc(100vh - var(--header-height));
 }
 
-.landing-intro>*{
+.landing-intro>* {
 	float: left;
 }
 
-.landing-intro>h1{
+.landing-intro>h1 {
 	width: 100%;
 	height: 300px;
 	line-height: 300px;
@@ -466,19 +460,19 @@ footer>div:nth-child(2) ul{
 	user-select: none;
 }
 
-.landing-intro>div{
+.landing-intro>div {
 	width: 100%;
 	font-size: 26px;
 	font-weight: lighter;
 	text-align: center;
 }
 
-.landing-intro>div>p{
+.landing-intro>div>p {
 	margin-top: 5vh;
 	margin-bottom: 5vh;
 }
 
-.landing-intro>a{
+.landing-intro>a {
 	background-color: var(--white);
 	position: relative;
 	width: 150px;
@@ -488,22 +482,22 @@ footer>div:nth-child(2) ul{
 	text-align: center;
 }
 
-.landing-intro>.band-field{
+.landing-intro>.band-field {
 	width: 100%;
 	height: 100%;
 }
 
-.landing-intro>a:nth-of-type(1){
+.landing-intro>a:nth-of-type(1) {
 	margin-left: calc(50% - 160px);
 	margin-right: 10px;
 }
 
-.landing-intro>a:nth-of-type(2){
+.landing-intro>a:nth-of-type(2) {
 	margin-right: calc(50% - 160px);
 	margin-left: 10px;
 }
 
-.landing-albums{
+.landing-albums {
 	width: calc(100% - 20px);
 	margin-left: auto;
 	margin-right: auto;
@@ -512,20 +506,20 @@ footer>div:nth-child(2) ul{
 	margin-bottom: 10px;
 }
 
-.landing-albums>.band-field>ul{
+.landing-albums>.band-field>ul {
 	margin: 0;
 	width: 100%;
 	height: initial;
 }
 
-.landing-albums h1{
+.landing-albums h1 {
 	font-family: var(--font-body);
 	font-weight: normal;
 	font-size: 30px;
 	margin-top: 20px;
 }
 
-ul.histogram{
+ul.histogram {
 	display: flex;
 	flex-flow: row;
 	justify-content: center;
@@ -535,7 +529,7 @@ ul.histogram{
 	border-top: 2px solid var(--grey);
 }
 
-.histogram li{
+.histogram li {
 	width: 4.6%;
 	height: 100%;
 	margin-left: 1px;
@@ -543,7 +537,7 @@ ul.histogram{
 	list-style: none;
 }
 
-.histogram li>a{
+.histogram li>a {
 	height: 100%;
 	width: 100%;
 	display: flex;
@@ -553,11 +547,11 @@ ul.histogram{
 	transition: border var(--transition-time-fast) linear;
 }
 
-.histogram li>a:hover{
+.histogram li>a:hover {
 	border-color: var(--first-color);
 }
 
-.histogram li>a>div{
+.histogram li>a>div {
 	cursor: pointer;
 	text-align: center;
 	align-self: flex-end;
@@ -567,26 +561,26 @@ ul.histogram{
 	border-color: inherit;
 }
 
-.histogram li>a:hover>div:nth-child(2){
+.histogram li>a:hover>div:nth-child(2) {
 	color: var(--first-color);
 }
 
-li.histogram-bar-0{
+li.histogram-bar-0 {
 	pointer-events: none;
 }
 
-.landing-how{
+.landing-how {
 	width: calc(100% - 20px);
 	max-width: 970px;
 	margin-left: auto;
 	margin-right: auto;
 }
 
-.landing-how>*{
+.landing-how>* {
 	float: left;
 }
 
-.landing-how>h1{
+.landing-how>h1 {
 	width: 100%;
 	height: 200px;
 	line-height: 200px;
@@ -594,7 +588,7 @@ li.histogram-bar-0{
 	font-size: 6vw;
 }
 
-.landing-how>div{
+.landing-how>div {
 	width: 100%;
 	font-size: 26px;
 	font-weight: lighter;
@@ -602,7 +596,7 @@ li.histogram-bar-0{
 	margin-bottom: 50px;
 }
 
-.error-placeholder{
+.error-placeholder {
 	position: absolute;
 	display: flex;
 	align-items: center;
@@ -611,25 +605,22 @@ li.histogram-bar-0{
 	height: calc(100vh - var(--header-height));
 }
 
-.error-placeholder img{
+.error-placeholder img {
 	width: 200px;
 	height: 200px;
-	filter: drop-shadow(0 2px 1px black) 
-			drop-shadow(0 -2px 1px black)
-			drop-shadow(2px 0 1px black)
-			drop-shadow(-2px 0 1px black);
+	filter: drop-shadow(0 2px 1px black) drop-shadow(0 -2px 1px black) drop-shadow(2px 0 1px black) drop-shadow(-2px 0 1px black);
 }
 
-.error-placeholder span{
+.error-placeholder span {
 	color: var(--black);
 	font-size: 30px;
 }
 
-.error-placeholder h1{
+.error-placeholder h1 {
 	font-family: var(--font-heading);
 }
 
-.error-placeholder>div{
+.error-placeholder>div {
 	margin-left: 25%;
 	margin-right: 25%;
 	width: 50%;
@@ -640,7 +631,7 @@ li.histogram-bar-0{
 	justify-content: center;
 }
 
-.loading-placeholder{
+.loading-placeholder {
 	display: flex;
 	position: absolute;
 	align-items: center;
@@ -649,22 +640,19 @@ li.histogram-bar-0{
 	min-height: calc(100vh - var(--header-height));
 }
 
-img.spinner{
+img.spinner {
 	width: 100px;
 	height: 100px;
 	animation: spin 2s linear infinite;
-	filter: drop-shadow(0 2px 1px black) 
-			drop-shadow(0 -2px 1px black)
-			drop-shadow(2px 0 1px black)
-			drop-shadow(-2px 0 1px black);
+	filter: drop-shadow(0 2px 1px black) drop-shadow(0 -2px 1px black) drop-shadow(2px 0 1px black) drop-shadow(-2px 0 1px black);
 }
 
-.loading-text{
+.loading-text {
 	font-size: 60px;
 	color: var(--black);
 }
 
-.loading-placeholder>div{
+.loading-placeholder>div {
 	display: flex;
 	flex-wrap: wrap;
 	flex-flow: column;
@@ -676,7 +664,7 @@ img.spinner{
 	text-align: center;
 }
 
-.loading-placeholder>div>*{
+.loading-placeholder>div>* {
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
@@ -685,7 +673,7 @@ img.spinner{
 }
 
 .albums-parent,
-.bands-parent{
+.bands-parent {
 	position: relative;
 	float: left;
 	display: block;
@@ -694,14 +682,14 @@ img.spinner{
 	width: 100%;
 }
 
-.band-field>ul>li>a{
+.band-field>ul>li>a {
 	width: 100%;
 	height: 100%;
 	display: block;
 }
 
 .album-field li>a>span:nth-child(1),
-.band-field>ul>li>a>span:nth-child(1){
+.band-field>ul>li>a>span:nth-child(1) {
 	position: absolute;
 	z-index: -1;
 	height: 100%;
@@ -711,7 +699,7 @@ img.spinner{
 	background-color: var(--dark-grey);
 }
 
-.band-field>ul>li>a>span:nth-child(2){
+.band-field>ul>li>a>span:nth-child(2) {
 	width: 100%;
 	line-height: 8vh;
 	font-size: 3vh;
@@ -724,19 +712,19 @@ img.spinner{
 }
 
 .album-field li>a>span:nth-child(2),
-.band-field>ul>li>a>span:nth-child(2){
+.band-field>ul>li>a>span:nth-child(2) {
 	position: absolute;
 	bottom: 0;
 	height: 8vh;
 	background-color: var(--white-transparent);
 }
 
-.band-field>ul>li:hover{
+.band-field>ul>li:hover {
 	color: var(--first-color);
 	cursor: pointer;
 }
 
-.filters-field{
+.filters-field {
 	contain: strict;
 	position: relative;
 	float: left;
@@ -748,7 +736,7 @@ img.spinner{
 	background-color: var(--white);
 }
 
-.album-ratings-sliders{
+.album-ratings-sliders {
 	position: relative;
 	margin-top: 40px;
 	width: calc(100% - 40px);
@@ -757,8 +745,8 @@ img.spinner{
 	height: 60px;
 }
 
-.album-ratings-sliders>span{
-	position: absolute; 
+.album-ratings-sliders>span {
+	position: absolute;
 	min-width: 1px;
 	height: 32px;
 	top: 14px;
@@ -766,7 +754,7 @@ img.spinner{
 	background-color: var(--first-color);
 }
 
-.ratings-sliders-text{
+.ratings-sliders-text {
 	pointer-events: none;
 	position: absolute;
 	height: 100%;
@@ -775,7 +763,7 @@ img.spinner{
 	left: 0;
 }
 
-.ratings-sliders-text>p{
+.ratings-sliders-text>p {
 	height: 60px;
 	line-height: 60px;
 	font-size: 22px;
@@ -784,21 +772,21 @@ img.spinner{
 	font-weight: lighter;
 }
 
-.ratings-sliders-text>p:nth-child(1){
+.ratings-sliders-text>p:nth-child(1) {
 	text-align: right;
 	width: 10%;
 	min-width: 45px;
 	float: left;
 }
 
-.ratings-sliders-text>p:nth-child(2){
+.ratings-sliders-text>p:nth-child(2) {
 	text-align: center;
 	width: 80%;
 	max-width: calc(100% - 90px);
 	float: left;
 }
 
-.ratings-sliders-text>p:nth-child(3){
+.ratings-sliders-text>p:nth-child(3) {
 	text-align: left;
 	width: 10%;
 	min-width: 45px;
@@ -807,7 +795,7 @@ img.spinner{
 
 .selector,
 .check-selector,
-.year-selector{
+.year-selector {
 	margin-top: 40px;
 	width: calc(100% - 40px);
 	height: 29px;
@@ -815,39 +803,40 @@ img.spinner{
 	margin-right: 20px;
 }
 
-.selector{
+.selector {
 	height: 33px;
 }
 
-.selector>select{
+.selector>select {
 	width: 100%;
 	height: 100%;
 }
 
-.check-selector>label{
+.check-selector>label {
 	display: block;
 	height: 100%;
 	line-height: 100%;
 	font-size: 23px;
 }
 
-.year-selector>p>input{
+.year-selector>p>input {
 	font-size: inherit;
 }
-.year-selector>p{
+
+.year-selector>p {
 	float: left;
 	font-weight: lighter;
 	font-size: 23px;
 	width: 70px;
 }
 
-.year-selector>p:nth-child(2){
+.year-selector>p:nth-child(2) {
 	width: calc(100% - 140px);
 	text-align: center;
 	font-weight: normal;
 }
 
-.search-results{
+.search-results {
 	position: relative;
 	float: left;
 	width: 70%;
@@ -855,7 +844,7 @@ img.spinner{
 	height: 100%;
 }
 
-.search-results ul{
+.search-results ul {
 	contain: strict;
 	position: absolute;
 	display: block;
@@ -865,7 +854,7 @@ img.spinner{
 }
 
 .band-field>ul>li,
-.search-results li{
+.search-results li {
 	list-style: none;
 	float: left;
 	position: relative;
@@ -877,44 +866,45 @@ img.spinner{
 	background-color: var(--white);
 }
 
-.band-field>ul>li{
+.band-field>ul>li {
 	width: calc((100% / 4) - 10px);
 }
 
-.search-results li>a{
+.search-results li>a {
 	display: block;
 	width: 100%;
 	height: 100%;
 }
 
-li.no-results{
+li.no-results {
 	pointer-events: none;
 	line-height: 6vh;
 	font-size: 3vh;
 }
 
-.album-field li>a>span:nth-child(2){
+.album-field li>a>span:nth-child(2) {
 	padding: 0 5px;
 	width: calc(100% - 10px);
 }
 
-.album-field li>a>span:nth-child(2)>*{
+.album-field li>a>span:nth-child(2)>* {
 	display: flex;
 	align-items: center;
 	height: 100%;
 }
 
-.album-field li>a>span:nth-child(2)>*:nth-child(1){
+.album-field li>a>span:nth-child(2)>*:nth-child(1) {
 	float: left;
 	width: 53px;
 }
 
 .album-field li>a>span:nth-child(2)>*:nth-child(1),
-.album-field li>a>span:nth-child(2)>*:nth-child(4){
+.album-field li>a>span:nth-child(2)>*:nth-child(4) {
 	font-size: 2.5vh;
 }
+
 .album-field li>a>span:nth-child(2)>*:nth-child(2),
-.album-field li>a>span:nth-child(2)>*:nth-child(3){
+.album-field li>a>span:nth-child(2)>*:nth-child(3) {
 	position: relative;
 	display: block;
 	float: left;
@@ -924,16 +914,16 @@ li.no-results{
 	line-height: 150%;
 	overflow: hidden;
 	white-space: nowrap;
-	text-overflow: ellipsis; 
+	text-overflow: ellipsis;
 	font-weight: lighter;
 	z-index: 1;
 }
 
-.album-field li>a>span:nth-child(2)>*:nth-child(3){
+.album-field li>a>span:nth-child(2)>*:nth-child(3) {
 	font-weight: bold;
 }
 
-.album-field li>a>span:nth-child(2)>*:nth-child(4){
+.album-field li>a>span:nth-child(2)>*:nth-child(4) {
 	position: absolute;
 	top: 0;
 	right: 5px;
@@ -941,13 +931,12 @@ li.no-results{
 	text-align: right;
 }
 
-
 .search-results a>.highlight,
 .landing-intro>a>.highlight,
-header li>a + .highlight,
+header li>a+.highlight,
 .related-bands-view li>.highlight,
 .bio-album-navbar>li>.highlight,
-.band-field>ul>li>.highlight{
+.band-field>ul>li>.highlight {
 	position: absolute;
 	left: 50%;
 	bottom: 0;
@@ -960,23 +949,22 @@ header li>a + .highlight,
 
 .related-bands-view li>.highlight,
 .band-field>ul>li>.highlight,
-.search-results a>.highlight{
+.search-results a>.highlight {
 	transition: width ease-out var(--transition-time-slow), left ease-out var(--transition-time-slow);
 }
 
 .search-results a:hover>.highlight,
 .landing-intro>a:hover>.highlight,
-header li.selected>a + .highlight,
+header li.selected>a+.highlight,
 .related-bands-view li:hover>.highlight,
 .bio-album-navbar>li.selected>.highlight,
-.band-field>ul>li:hover>.highlight{
+.band-field>ul>li:hover>.highlight {
 	left: 0;
 	width: 100%;
 	height: 2px;
 }
 
-
-.paginator{
+.paginator {
 	position: absolute;
 	bottom: 0;
 	display: flex;
@@ -987,12 +975,12 @@ header li.selected>a + .highlight,
 	height: 60px;
 }
 
-.paginator>h1{
+.paginator>h1 {
 	width: 200px;
 	text-align: center;
 }
 
-.paginator>a{
+.paginator>a {
 	margin-right: 10px;
 	margin-left: 10px;
 	font-size: 28px;
@@ -1000,16 +988,16 @@ header li.selected>a + .highlight,
 	transition: color var(--transition-time-fast) linear;
 }
 
-.paginator>a:hover{
+.paginator>a:hover {
 	color: var(--first-color);
 }
 
-.paginator>a.inactive{
+.paginator>a.inactive {
 	color: var(--grey);
 }
 
 .album-name-search,
-.band-input-field{
+.band-input-field {
 	position: relative;
 	display: flex;
 	align-items: center;
@@ -1021,7 +1009,7 @@ header li.selected>a + .highlight,
 }
 
 .album-name-search .input-highlight,
-.band-input-field .input-highlight{
+.band-input-field .input-highlight {
 	position: absolute;
 	font-size: 30px;
 	bottom: 0;
@@ -1036,14 +1024,14 @@ header li.selected>a + .highlight,
 }
 
 .band-input-field .input-highlight,
-.album-name-search .input-highlight{
+.album-name-search .input-highlight {
 	max-width: calc(100% - 40px);
 	left: 20px;
 }
 
 .year-selector input,
 .album-name-search>input,
-.band-input-field>input{
+.band-input-field>input {
 	outline: none;
 	height: calc(100% - 2px);
 	width: calc(100% - 40px);
@@ -1054,16 +1042,16 @@ header li.selected>a + .highlight,
 	background-color: transparent;
 }
 
-.year-selector input{
+.year-selector input {
 	width: 70px;
 }
 
-.band-info{
+.band-info {
 	height: 100%;
 	color: var(--black);
 }
 
-.image-name-container{
+.image-name-container {
 	position: relative;
 	width: calc(100% - 40px);
 	height: 100%;
@@ -1071,26 +1059,21 @@ header li.selected>a + .highlight,
 	margin: 0 auto;
 }
 
-.band-name{
+.band-name {
 	float: left;
 	position: relative;
 	top: 60%;
 	text-decoration: none;
 	max-width: calc(90% - 300px);
 	margin-left: 10px;
-    white-space: nowrap;
-    font-size: 3vw;
+	white-space: nowrap;
+	font-size: 3vw;
 	font-family: var(--font-heading);
-    color: var(--black);
-    text-shadow: 1px 	0 	var(--white),
-    			 -1px 	0 	var(--white),
-    			 2px 	0 	var(--white),
-    			 -2px 	0 	var(--white),
-    			 3px 	0 	var(--white),
-    			 -3px 	0 	var(--white);
+	color: var(--black);
+	text-shadow: 1px 0 var(--white), -1px 0 var(--white), 2px 0 var(--white), -2px 0 var(--white), 3px 0 var(--white), -3px 0 var(--white);
 }
 
-.background-blur{
+.background-blur {
 	position: absolute;
 	z-index: -1;
 	width: 100%;
@@ -1099,18 +1082,19 @@ header li.selected>a + .highlight,
 	background-color: var(--dark-grey);
 }
 
-.background-blur>img{
+.background-blur>img {
 	width: calc(40px + 100%);
 	position: absolute;
 	left: -20px;
 	top: calc(-20px - 40%);
 	filter: blur(10px);
 }
-.band-name:hover{
+
+.band-name:hover {
 	color: var(--black);
 }
 
-.band-name>.highlight{
+.band-name>.highlight {
 	z-index: -1;
 	position: absolute;
 	top: 3vw;
@@ -1121,11 +1105,11 @@ header li.selected>a + .highlight,
 	transition: height var(--transition-time-fast) linear;
 }
 
-.band-name:hover>.highlight{
+.band-name:hover>.highlight {
 	height: 2px;
 }
 
-.bio-album-container{
+.bio-album-container {
 	position: relative;
 	width: 100%;
 	display: block;
@@ -1134,7 +1118,7 @@ header li.selected>a + .highlight,
 	margin-bottom: 10px;
 }
 
-.bio-album-navbar{
+.bio-album-navbar {
 	width: calc(100% - 40px);
 	max-width: 970px;
 	margin-left: auto;
@@ -1145,7 +1129,7 @@ header li.selected>a + .highlight,
 	border-bottom: 2px solid var(--grey);
 }
 
-.bio-album-navbar>li{
+.bio-album-navbar>li {
 	position: relative;
 	height: 40px;
 	width: 160px;
@@ -1153,7 +1137,7 @@ header li.selected>a + .highlight,
 	float: left;
 }
 
-.bio-album-navbar>li>a{
+.bio-album-navbar>li>a {
 	display: block;
 	text-align: center;
 	height: 100%;
@@ -1162,15 +1146,15 @@ header li.selected>a + .highlight,
 	transition: color linear var(--transition-time-fast);
 }
 
-.bio-album-navbar>li:hover>a{
+.bio-album-navbar>li:hover>a {
 	color: var(--black);
 }
 
-.bio-album-navbar>li.selected>a{
+.bio-album-navbar>li.selected>a {
 	color: var(--black);
 }
 
-.bio-album-section{
+.bio-album-section {
 	width: calc(100% - 40px);
 	max-width: 970px;
 	display: flex;
@@ -1181,25 +1165,25 @@ header li.selected>a + .highlight,
 	opacity: 1;
 }
 
-.bio-album-section.ng-hide-add{
+.bio-album-section.ng-hide-add {
 	position: absolute;
 	left: 50%;
 	transform: translateX(-50%);
 	animation: fadeOut var(--transition-time-very-slow) both ease-in;
 }
 
-.bio-album-section.ng-hide-remove{
+.bio-album-section.ng-hide-remove {
 	position: absolute;
 	left: 50%;
 	transform: translateX(-50%);
 	animation: fadeIn var(--transition-time-very-slow) both ease-in;
 }
 
-.bio-album-section.ng-hide{
+.bio-album-section.ng-hide {
 	opacity: 0;
 }
 
-.band-page-header{
+.band-page-header {
 	position: relative;
 	float: left;
 	width: 100%;
@@ -1211,7 +1195,7 @@ header li.selected>a + .highlight,
 	background-color: var(--white);
 }
 
-.artitst-profile-image{
+.artitst-profile-image {
 	float: left;
 	height: 15vw;
 	max-height: 300px;
@@ -1226,7 +1210,7 @@ header li.selected>a + .highlight,
 }
 
 .albums-view,
-.related-bands-view{
+.related-bands-view {
 	width: calc(100% - 16px);
 	padding-left: 8px;
 	padding-right: 8px;
@@ -1234,12 +1218,12 @@ header li.selected>a + .highlight,
 }
 
 .related-bands-view ul,
-.albums-view ul{
+.albums-view ul {
 	list-style: none;
 }
 
 .related-bands-view li,
-.albums-view li{
+.albums-view li {
 	float: left;
 	position: relative;
 	width: calc(50% - 20px);
@@ -1250,19 +1234,18 @@ header li.selected>a + .highlight,
 	margin: 5px 10px;
 }
 
-.related-bands-view li{
+.related-bands-view li {
 	text-align: center;
 }
 
-
-.related-bands-view li>a{
+.related-bands-view li>a {
 	display: block;
 	width: calc(100% - 20px);
 	height: 100%;
 }
 
 .related-bands-view li>a>span:nth-child(1),
-.albums-view li>span:nth-child(1){
+.albums-view li>span:nth-child(1) {
 	position: absolute;
 	left: 0;
 	top: 0;
@@ -1275,7 +1258,7 @@ header li.selected>a + .highlight,
 }
 
 .related-bands-view li>a>span:nth-child(2),
-.albums-view li>span:nth-child(2){
+.albums-view li>span:nth-child(2) {
 	position: absolute;
 	width: calc(100% - 10px);
 	left: 0;
@@ -1285,7 +1268,7 @@ header li.selected>a + .highlight,
 	background-color: var(--white-transparent);
 }
 
-.related-bands-view li>a>span:nth-child(2){
+.related-bands-view li>a>span:nth-child(2) {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -1293,14 +1276,14 @@ header li.selected>a + .highlight,
 	color: var(--black);
 }
 
-.albums-view li>span:nth-child(2)>span:nth-child(1){
+.albums-view li>span:nth-child(2)>span:nth-child(1) {
 	display: block;
 	float: left;
 	width: 48px;
 	height: 100%;
 }
 
-.albums-view li>span:nth-child(2)>span:nth-child(2){
+.albums-view li>span:nth-child(2)>span:nth-child(2) {
 	position: relative;
 	display: block;
 	float: left;
@@ -1308,25 +1291,25 @@ header li.selected>a + .highlight,
 	height: 100%;
 	overflow: hidden;
 	white-space: nowrap;
-	text-overflow: ellipsis; 
+	text-overflow: ellipsis;
 	font-weight: bold;
 	z-index: 1;
 }
 
-.albums-view li>span:nth-child(2)>span:nth-child(3){
+.albums-view li>span:nth-child(2)>span:nth-child(3) {
 	width: 60px;
 	text-align: right;
 	float: right;
 }
 
 .search-results li>a>span:nth-child(2)>*:nth-child(3)>.highlight,
-.albums-view li>span:nth-child(2)>span:nth-child(2)>.highlight{
+.albums-view li>span:nth-child(2)>span:nth-child(2)>.highlight {
 	user-select: none;
 	display: none;
 }
 
 .search-results a.essential>span:nth-child(2)>*:nth-child(3)>.highlight,
-.albums-view li.essential>span:nth-child(2)>span:nth-child(2)>.highlight{
+.albums-view li.essential>span:nth-child(2)>span:nth-child(2)>.highlight {
 	position: absolute;
 	bottom: calc(50% - 0.5em);
 	left: 0;
@@ -1339,7 +1322,7 @@ header li.selected>a + .highlight,
 }
 
 .albums-view h1,
-.related-bands-view h1{
+.related-bands-view h1 {
 	width: calc(100% - 20px);
 	margin-left: 10px;
 	margin-right: 10px;
@@ -1348,13 +1331,13 @@ header li.selected>a + .highlight,
 	border-bottom: 1px solid var(--grey);
 }
 
-.biography{
+.biography {
 	width: calc(100% - 2em);
 	margin: 1em;
 	background-color: var(--white);
 }
 
-.biography p{
+.biography p {
 	width: 100%;
 	max-width: 600px;
 	font-size: 1.4em;
@@ -1362,7 +1345,7 @@ header li.selected>a + .highlight,
 	margin: 2.8em auto;
 }
 
-.biography p::first-letter{
+.biography p::first-letter {
 	font-size: 3.36em;
 	line-height: 0.8em;
 	display: block;
@@ -1370,51 +1353,42 @@ header li.selected>a + .highlight,
 }
 
 @media only screen and (max-device-width: 480px) {
-	header{
+	header {
 		padding-left: 0;
 		padding-right: 0;
 	}
-
-	.site-title{
+	.site-title {
 		padding-left: 10px;
 		font-size: 2em;
 	}
-
-	.landing-intro>h1{
+	.landing-intro>h1 {
 		font-size: 16vw;
 		height: 200px;
 		line-height: 200px;
 	}
-
-	.landing-intro>a{
+	.landing-intro>a {
 		width: calc(50% - 10px);
 		height: 80px;
 		line-height: 80px;
 	}
-
-	.landing-intro>a:nth-of-type(1){
+	.landing-intro>a:nth-of-type(1) {
 		margin-left: 5px;
 		margin-right: 5px;
 	}
-
-	.landing-intro>a:nth-of-type(2){
+	.landing-intro>a:nth-of-type(2) {
 		margin-left: 5px;
 		margin-right: 5px;
 	}
-
-	.histogram li{
+	.histogram li {
 		width: 4.4%;
 	}
-
-	.histogram li>a>div:nth-child(2){
+	.histogram li>a>div:nth-child(2) {
 		transform: rotate(-90deg) translateX(10px);
 	}
-
-	.band-field>ul>li{
+	.band-field>ul>li {
 		width: calc(100% - 30px);
 	}
-
-	.landing-albums>.band-field{
+	.landing-albums>.band-field {
 		height: initial;
 	}
 }
