@@ -3,8 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "aphrodite": "^2.1.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-redux": "^5.0.7",
+    "react-router-dom": "^4.2.2",
     "react-scripts-ts": "2.14.0"
   },
   "scripts": {
@@ -14,10 +17,14 @@
     "eject": "react-scripts-ts eject"
   },
   "devDependencies": {
+    "@types/aphrodite": "^0.5.7",
     "@types/jest": "^22.2.0",
     "@types/node": "^9.4.7",
     "@types/react": "^16.0.40",
     "@types/react-dom": "^16.0.4",
+    "@types/react-redux": "^5.0.15",
+    "@types/react-router-dom": "^4.2.5",
     "typescript": "^2.7.2"
-  }
+  },
+  "proxy": "http://localhost:8001/api/"
 }
