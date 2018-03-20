@@ -1,11 +1,18 @@
-class Loadable<T> {
-  constructor(
-    public data: T,
-    public loading: boolean,
-    public error: string | null,
-  ) { }
+type Loadable<T> = Loading | Err | LoadedData<T>;
+
+class Loading {
+  readonly loading = true;
+}
+class Err {
+  constructor(public message: string) { }
 }
 
+class LoadedData<T>  {
+  readonly loading = false;
+  constructor(
+    public data: T
+  ) { }
+}
 interface Album {
   name: string;
   year: number;
@@ -24,4 +31,4 @@ interface Band {
   albums?: Album[];
 }
 
-export { Band, Album, Loadable };
+export { Band, Album, Err, Loading, Loadable, LoadedData };

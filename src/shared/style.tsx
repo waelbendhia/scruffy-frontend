@@ -8,6 +8,7 @@ const definitions = {
   headerHeight: '60px',
   colors: {
     black: '#1A1A1A',
+    blackTransparent: 'rgba(26, 26, 26, 0.84)',
     grey: '#5E5E5E',
     lessDarkGrey: '#424242',
     darkGrey: '#404040',
@@ -48,8 +49,9 @@ const styles = StyleSheet.create({
     boxShadow:
       '0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22)'
   },
-  link: {
-
+  card: {
+    backgroundColor: definitions.colors.white,
+    borderRadius: '2px',
   }
 });
 

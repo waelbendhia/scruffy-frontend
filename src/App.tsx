@@ -27,7 +27,7 @@ class App extends React.Component<{}, { location: string, home: Home.State }> {
 
   render() {
     return (
-      <div className="App">
+      <div>
         <Header location={this.state.location} />
         <Background />
         <Body home={this.state.home} />

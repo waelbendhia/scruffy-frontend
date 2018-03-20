@@ -16,7 +16,7 @@ const getDistribution = async () =>
     )).json()
   ) as number[];
 
-const getCount = async () =>
+const getBandCount = async () =>
   (await
     (await fetch(
       '/api/band/total',
@@ -24,4 +24,12 @@ const getCount = async () =>
     )).json()
   ) as number;
 
-export { getInfluential, getDistribution, getCount };
+const getAlbumCount = async () =>
+  (await
+    (await fetch(
+      '/api/album/total',
+      { method: 'GET' },
+    )).json()
+  ) as number;
+
+export { getInfluential, getDistribution, getBandCount, getAlbumCount };

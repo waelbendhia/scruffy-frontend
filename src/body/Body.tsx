@@ -10,7 +10,7 @@ import { definitions } from '../shared';
 
 const styles = StyleSheet.create({
   body: {
-    height: `calc(100vh - ${definitions.headerHeight})`,
+    minHeight: `calc(100vh - ${definitions.headerHeight})`,
   }
 });
 

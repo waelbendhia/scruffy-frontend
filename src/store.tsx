@@ -7,7 +7,6 @@ import createHistory from 'history/createBrowserHistory';
 import { Store } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 import * as Home from './home';
-import { toPlainObjectMiddleware } from './home';
 const sagaMiddleware = createSagaMiddleware(),
   history = createHistory();
 
@@ -29,7 +28,6 @@ const store: Store<State> = createStore(
   initialState,
   applyMiddleware(
     routerMiddleware(history),
-    toPlainObjectMiddleware,
     sagaMiddleware,
   ),
 );

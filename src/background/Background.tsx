@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     minWidth: '100%',
-    minWeight: '100%',
+    minHeight: '100vh',
     fontSize: '6vh',
     backgroundColor: definitions.colors.darkWhite,
     color: definitions.colors.lessDarkWhite,
