@@ -4,7 +4,7 @@ import { definitions, styles as sharedStyles } from '../shared';
 import { Link } from 'react-router-dom';
 import HeaderLink from './HeaderLink';
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   header: {
     position: 'sticky',
     top: 0,
@@ -27,14 +27,26 @@ export const styles = StyleSheet.create({
     color: definitions.colors.white,
     fontSize: '3em',
   },
+  hide: {
+    pointerEvents: 'none',
+    opacity: 0,
+  },
   spacer: {
     flex: 1,
   },
 });
 
-export default ({ location }: { location: string }) => (
+const View = ({ location }: { location: string }) => (
   <div className={css(styles.header, sharedStyles.elevation3)}>
-    <Link to="/" className={css(styles.siteTitle)}>Scaruffi2.0</Link>
+    <Link
+      to="/"
+      className={css(
+        styles.siteTitle,
+        location === '/' && styles.hide
+      )}
+    >
+      Scaruffi2.0
+    </Link>
     <div className={css(styles.spacer)} />
     <HeaderLink
       text="Music"
@@ -56,3 +68,5 @@ export default ({ location }: { location: string }) => (
     />
   </div>
 );
+
+export default View;

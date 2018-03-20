@@ -5,21 +5,36 @@ import {
 } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
 import { Store } from 'react-redux';
-export const history = createHistory();
+import createSagaMiddleware from 'redux-saga';
+import * as Home from './home';
+import { toPlainObjectMiddleware } from './home';
+const sagaMiddleware = createSagaMiddleware(),
+  history = createHistory();
 
 interface State {
   router: RouterState;
+  home: Home.State;
 }
 
 const initialState: State = {
   router: { location: null },
+  home: Home.initialState,
 };
 
 const store: Store<State> = createStore(
   combineReducers({
-    router: routerReducer
+    router: routerReducer,
+    home: Home.reducer,
   }),
   initialState,
-  applyMiddleware(routerMiddleware(history)),
+  applyMiddleware(
+    routerMiddleware(history),
+    toPlainObjectMiddleware,
+    sagaMiddleware,
+  ),
 );
+
+sagaMiddleware.run(Home.effects);
+
 export default store;
+export { State, history };

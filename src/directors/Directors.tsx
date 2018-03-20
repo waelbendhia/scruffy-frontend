@@ -1,5 +1,7 @@
 import * as React from 'react';
 
-export default () => (
+const View = () => (
   <div>Directors</div>
 );
+
+export default View;

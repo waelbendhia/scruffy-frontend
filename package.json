@@ -10,7 +10,8 @@
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.9",
-    "react-scripts-ts": "2.14.0"
+    "react-scripts-ts": "2.14.0",
+    "redux-saga": "^0.16.0"
   },
   "scripts": {
     "start": "react-scripts-ts start",
@@ -27,7 +28,8 @@
     "@types/react-redux": "^5.0.15",
     "@types/react-router-dom": "^4.2.5",
     "@types/react-router-redux": "^5.0.12",
+    "@types/redux-saga": "^0.10.5",
     "typescript": "^2.7.2"
   },
-  "proxy": "http://localhost:8001/api/"
+  "proxy": "http://localhost:8001/"
 }

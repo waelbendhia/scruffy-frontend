@@ -1,7 +1,7 @@
 import { definitions } from '../shared';
 import { StyleSheet } from 'aphrodite/no-important';
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   header: {
     position: 'relative',
     display: 'flex',
@@ -60,3 +60,5 @@ export const styles = StyleSheet.create({
     transition: `height ease-in-out ${definitions.transitions.fast}`,
   },
 });
+
+export default styles;

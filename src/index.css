@@ -29,7 +29,8 @@ a {
     cursor: pointer;
     color: #5E5E5E;
     text-decoration: none;
-    transition: color linear 0.15s;
+    transition-property: color, opacity, display;
+    transition: linear 0.15s;
 }
 
 a:hover {

@@ -1,6 +1,6 @@
 import { StyleSheet } from 'aphrodite/no-important';
 
-export const definitions = {
+const definitions = {
   fonts: {
     heading: ['Libre Baskerville', 'serif'],
     body: ['Work Sans', 'sans-serif'],
@@ -27,7 +27,7 @@ export const definitions = {
   }
 };
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   elevation1: {
     boxShadow:
       '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)'
@@ -52,3 +52,5 @@ export const styles = StyleSheet.create({
 
   }
 });
+
+export { styles, definitions };

@@ -2,7 +2,8 @@ import * as React from 'react';
 import { StyleSheet, css } from 'aphrodite/no-important';
 import { definitions, styles as sharedStyles } from '../shared';
 import { Link } from 'react-router-dom';
-export const styles = StyleSheet.create({
+
+const styles = StyleSheet.create({
   linkStyle: {
     position: 'relative',
     height: definitions.headerHeight,
@@ -60,7 +61,8 @@ interface Props extends HeaderLink {
   location: string;
   options: HeaderLink[];
 }
-export default
+
+const View =
   ({ text, location, link, options }: Props) => (
     <div className={css(styles.linkStyle, styles.expandChild)}>
       <Link className={css(styles.linkChildStyle)} to={link}>{text}</Link>
@@ -86,3 +88,5 @@ export default
       </div>
     </div>
   );
+
+export default View;

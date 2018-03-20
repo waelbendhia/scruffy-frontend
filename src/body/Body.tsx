@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Route } from 'react-router-dom';
-import Home from '../home';
+import * as Home from '../home';
 import Bands from '../bands';
 import Albums from '../albums';
 import Directors from '../directors';
@@ -13,12 +13,19 @@ const styles = StyleSheet.create({
     height: `calc(100vh - ${definitions.headerHeight})`,
   }
 });
-export default () => (
+
+const View = ({ home }: { home: Home.State }) => (
   <div className={css(styles.body)}>
-    <Route exact={true} path="/" component={Home} />
+    <Route
+      exact={true}
+      path="/"
+      render={() => <Home.default {...home} />}
+    />
     <Route exact={true} path="/bands" component={Bands} />
     <Route exact={true} path="/albums" component={Albums} />
     <Route exact={true} path="/directors" component={Directors} />
     <Route exact={true} path="/films" component={Films} />
   </div>
-); 
+);
+
+export default View;

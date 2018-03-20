@@ -1,1 +1,2 @@
-export { definitions, styles } from './style';
+export * from './style';
+export * from './types';

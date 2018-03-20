@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default () => (
+const View = () => (
   <div
     className={css(styles.background)}
   >
@@ -39,3 +39,5 @@ export default () => (
     worthy of being saved.
   </div>
 );
+
+export default View;
