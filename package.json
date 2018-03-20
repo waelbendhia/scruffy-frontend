@@ -4,10 +4,12 @@
   "private": true,
   "dependencies": {
     "aphrodite": "^2.1.0",
+    "history": "^4.7.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
+    "react-router-redux": "^5.0.0-alpha.9",
     "react-scripts-ts": "2.14.0"
   },
   "scripts": {
@@ -24,6 +26,7 @@
     "@types/react-dom": "^16.0.4",
     "@types/react-redux": "^5.0.15",
     "@types/react-router-dom": "^4.2.5",
+    "@types/react-router-redux": "^5.0.12",
     "typescript": "^2.7.2"
   },
   "proxy": "http://localhost:8001/api/"

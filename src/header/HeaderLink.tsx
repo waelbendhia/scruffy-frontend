@@ -1,0 +1,88 @@
+import * as React from 'react';
+import { StyleSheet, css } from 'aphrodite/no-important';
+import { definitions, styles as sharedStyles } from '../shared';
+import { Link } from 'react-router-dom';
+export const styles = StyleSheet.create({
+  linkStyle: {
+    position: 'relative',
+    height: definitions.headerHeight,
+    width: '120px',
+    marginRight: '16px',
+  },
+  expandChild: {
+    ':hover > div': {
+      height: `calc(2 * ${definitions.headerHeight})`,
+    }
+  },
+  linkChildStyle: {
+    display: 'block',
+    width: '100%',
+    height: definitions.headerHeight,
+    fontSize: '2em',
+    textAlign: 'center',
+    lineHeight: `calc(${definitions.headerHeight} * 1.2)`,
+  },
+  expanderChild: {
+    fontSize: '1.4em',
+    lineHeight: definitions.headerHeight,
+  },
+  expander: {
+    position: 'absolute',
+    height: 0,
+    top: definitions.headerHeight,
+    width: '100%',
+    backgroundColor: definitions.colors.superDarkGrey,
+    zIndex: 5,
+    overflow: 'hidden',
+    transition: `height ease-in-out ${definitions.transitions.fast}`,
+  },
+  highlight: {
+    position: 'absolute',
+    left: '50%',
+    bottom: 0,
+    width: 0,
+    height: '2px',
+    backgroundColor: definitions.colors.primary,
+    transition: `width ease-out ${definitions.transitions.fast}, 
+               left ease-out ${definitions.transitions.fast}`,
+  },
+  selected: {
+    left: 0,
+    width: '100%',
+  }
+});
+
+interface HeaderLink {
+  text: string;
+  link: string;
+}
+interface Props extends HeaderLink {
+  location: string;
+  options: HeaderLink[];
+}
+export default
+  ({ text, location, link, options }: Props) => (
+    <div className={css(styles.linkStyle, styles.expandChild)}>
+      <Link className={css(styles.linkChildStyle)} to={link}>{text}</Link>
+      <span
+        className={css(
+          styles.highlight,
+          [link, ...options.map(o => o.link)].some(l => l === location) &&
+          styles.selected,
+        )}
+      />
+      <div className={css(styles.expander, sharedStyles.elevation3)}>
+        {options.map(
+          o => (
+            <Link
+              key={o.link}
+              className={css(styles.linkChildStyle, styles.expanderChild)}
+              to={o.link}
+            >
+              {o.text}
+            </Link>
+          )
+        )}
+      </div>
+    </div>
+  );
