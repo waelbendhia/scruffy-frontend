@@ -52,7 +52,32 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: definitions.colors.white,
     borderRadius: '2px',
-  }
+  },
+  elevate: {
+    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)',
+    transition: `transform ease-in-out ${definitions.transitions.fast}`,
+    ':hover': {
+      zIndex: 1,
+      transform: 'scale(1.04) translateY(0%)',
+    },
+    '::after': {
+      pointerEvents: 'none',
+      zIndex: 0,
+      content: `''`,
+      position: 'absolute',
+      left: 0,
+      top: 0,
+      width: '100%',
+      height: '100%',
+      boxShadow: '0 10px 10px rgba(0, 0, 0, 0.22),' +
+        ' 0 14px 28px rgba(0, 0, 0, 0.25)',
+      opacity: 0,
+      transition: `opacity var(${definitions.transitions.fast}) ease-in-out`,
+      ':hover': {
+        opacity: 1,
+      },
+    },
+  },
 });
 
 export { styles, definitions };

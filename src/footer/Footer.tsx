@@ -40,7 +40,7 @@ export default () => (
       <p className={css(styles.paragraph)}>
         This app is a loving homage to a man who has dedicated a lot
         of time to obsessively cataloguing his opinions on just about every
-        band known to the western world.
+        band or musician known to the western world.
         </p>
       <p className={css(styles.paragraph)}>
         App built and designed by&nbsp;
@@ -56,7 +56,7 @@ export default () => (
         and formatted as best as possible.
         Errors are aplenty as the original website is not the most organized
         and consistent in format. For more information on the band and
-        Scaruffi's opinions on them I urge to visit his website.
+        Scaruffi's opinions on them I urge you to visit his website.
       </p>
     </div>
     <div className={css(styles.container, styles.second)}>

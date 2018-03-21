@@ -36,6 +36,7 @@ const makeGetBandsDone =
       type: DON_BNDS,
       bands,
       count,
+      error,
     });
 
 interface ChangeRequest {

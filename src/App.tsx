@@ -4,6 +4,7 @@ import Background from './background';
 import Body from './body';
 import Footer from './footer';
 import store from './store';
+import { history } from './store';
 import {
   State as HomeState,
   initialState as homeInitialState,
@@ -12,9 +13,10 @@ import {
   State as BandsState,
   initialState as bandsInitialState,
 } from './bands';
+import { Location } from 'history';
 
 class App extends React.Component<{}, {
-  location: string,
+  location: Location,
   home: HomeState,
   bands: BandsState
 }> {
@@ -22,7 +24,7 @@ class App extends React.Component<{}, {
     super(props);
 
     this.state = {
-      location: (store.getState().router.location || { pathname: '' }).pathname,
+      location: store.getState().router.location || history.location,
       home: homeInitialState,
       bands: bandsInitialState,
     };
@@ -30,8 +32,7 @@ class App extends React.Component<{}, {
     store.subscribe(() => {
       const { router, home, bands } = store.getState();
       this.setState({
-        location:
-          (router.location || { pathname: '' }).pathname,
+        location: router.location || history.location,
         home,
         bands,
       });
@@ -41,9 +42,13 @@ class App extends React.Component<{}, {
   render() {
     return (
       <div>
-        <Header location={this.state.location} />
+        <Header location={this.state.location.pathname} />
         <Background />
-        <Body home={this.state.home} bands={this.state.bands} />
+        <Body
+          location={this.state.location}
+          home={this.state.home}
+          bands={this.state.bands}
+        />
         <Footer />
       </div>
     );

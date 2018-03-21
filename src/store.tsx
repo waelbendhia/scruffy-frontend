@@ -12,15 +12,13 @@ import {
   reducer as homeReducer,
   effects as homeEffects,
 } from './home';
+
 import {
   initialState as bandsInitialState,
   reducer as bandsReducer,
   effects as bandsEffects,
-} from './bands/state';
-import { State as BandsState } from './bands/types';
-
-import * as Home from './home';
-console.log(Home);
+  State as BandsState,
+} from './bands';
 
 const sagaMiddleware = createSagaMiddleware(),
   history = createHistory();

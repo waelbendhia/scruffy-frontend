@@ -21,6 +21,8 @@ const styles = StyleSheet.create({
     height: definitions.headerHeight,
     fontSize: '2em',
     textAlign: 'center',
+    fontWeight: 'lighter',
+    color: definitions.colors.white,
     lineHeight: `calc(${definitions.headerHeight} * 1.2)`,
   },
   expanderChild: {

@@ -18,7 +18,7 @@ const initialState: State = {
   count: 0,
   request: {
     page: 0,
-    numberOfResults: 10000,
+    numberOfResults: 20,
     name: '',
   }
 };
@@ -37,6 +37,7 @@ function* fetchBands(action: GetBandsAction) {
 function* dispatchGetBands() {
   yield put(makeGetBandsAction(initialState.request));
 }
+
 function* effects() {
   yield all([
     takeEvery(GET_BNDS, fetchBands),
