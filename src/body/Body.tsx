@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { Route } from 'react-router-dom';
-import * as Home from '../home';
+import Home from '../home';
+import { State as HomeState } from '../home';
 import Bands from '../bands';
+import { State as BandsState } from '../bands';
 import Albums from '../albums';
 import Directors from '../directors';
 import Films from '../films';
@@ -14,14 +16,18 @@ const styles = StyleSheet.create({
   }
 });
 
-const View = ({ home }: { home: Home.State }) => (
+const View = ({ home, bands }: { home: HomeState, bands: BandsState }) => (
   <div className={css(styles.body)}>
     <Route
       exact={true}
       path="/"
-      render={() => <Home.default {...home} />}
+      render={() => <Home {...home} />}
     />
-    <Route exact={true} path="/bands" component={Bands} />
+    <Route
+      exact={true}
+      path="/bands"
+      component={() => <Bands {...bands} />}
+    />
     <Route exact={true} path="/albums" component={Albums} />
     <Route exact={true} path="/directors" component={Directors} />
     <Route exact={true} path="/films" component={Films} />

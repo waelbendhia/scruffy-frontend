@@ -1,17 +1,20 @@
-type Loadable<T> = Loading | Err | LoadedData<T>;
+type Loadable<T> = DataLoading | DataError | DataLoaded<T>;
 
-class Loading {
+class DataLoading {
   readonly loading = true;
-}
-class Err {
-  constructor(public message: string) { }
+  readonly failed = false;
 }
 
-class LoadedData<T>  {
+class DataError {
   readonly loading = false;
-  constructor(
-    public data: T
-  ) { }
+  readonly failed = true;
+  constructor(public error: Error) { }
+}
+
+class DataLoaded<T>  {
+  readonly loading = false;
+  readonly failed = false;
+  constructor(public data: T) { }
 }
 interface Album {
   name: string;
@@ -31,4 +34,4 @@ interface Band {
   albums?: Album[];
 }
 
-export { Band, Album, Err, Loading, Loadable, LoadedData };
+export { Band, Album, DataLoading, Loadable, DataLoaded, DataError };

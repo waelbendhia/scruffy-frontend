@@ -1,7 +1,8 @@
 import * as React from 'react';
+import { State } from './types';
 
-const View = () => (
-  <div>Bands</div>
+const View = (props: State) => (
+  <div>{JSON.stringify(props)}</div>
 );
 
 export default View;

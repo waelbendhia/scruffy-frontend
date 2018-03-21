@@ -37,18 +37,25 @@ const styles = StyleSheet.create({
     color: definitions.colors.blackTransparent,
   },
   histogram: {
-    alignSelf: 'stretch',
+    flex: 1,
     margin: '32px',
     padding: '16px',
     height: '400px',
     display: 'grid',
     fontSize: '24px',
+    maxWidth: '1000px',
     gridTemplateColumns: 'repeat(20, 5%)',
     gridTemplateRows: '1fr 32px',
   },
   cell: {
     textAlign: 'center',
-  }
+  },
+  flexRow: {
+    alignSelf: 'stretch',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
 });
 
 export default styles;

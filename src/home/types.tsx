@@ -14,18 +14,18 @@ type State = Loadable<HomeData>;
 const GET_DATA = '[Home] Get data';
 const DON_DATA = '[Home] Get data done';
 
-const makeGetDataAction = () => ({ type: GET_DATA }),
-  makeGetDataDone =
-    (data: HomeData | null, error: string | null) =>
-      ({ type: DON_DATA, data, error });
 interface GetDataAction {
   readonly type: '[Home] Get data';
 }
 
+const makeGetDataAction = () => ({ type: GET_DATA }),
+  makeGetDataDone =
+    (data: HomeData | null, error: Error | null) =>
+      ({ type: DON_DATA, data, error });
 interface GetDataDone {
   readonly type: '[Home] Get data done';
   data: HomeData | null;
-  error: string | null;
+  error: Error | null;
 }
 
 type Action =
