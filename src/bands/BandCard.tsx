@@ -8,26 +8,53 @@ const styles = StyleSheet.create({
   card: {
     position: 'relative',
     backgroundColor: definitions.colors.darkGrey,
-  }
+    ':hover > span': {
+      left: 0,
+      width: '100%',
+    },
+  },
+  name: {
+    position: 'absolute',
+    width: '100%',
+    height: '32px',
+    backgroundColor: definitions.colors.whiteTransparent,
+    textAlign: 'center',
+    fontSize: '24px',
+    lineHeight: '32px',
+    bottom: 0,
+  },
+  cell: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+  },
+  highlight: {
+    position: 'absolute',
+    left: '50%',
+    bottom: 0,
+    width: 0,
+    height: '2px',
+    backgroundColor: definitions.colors.primary,
+    transition: `width ease-out ${definitions.transitions.fast}, 
+               left ease-out ${definitions.transitions.fast}`,
+  },
 });
 
 const BandCard = (b: Band) => {
   const bg = StyleSheet.create({
     bg: {
-      width: '100%',
-      height: '100%',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
-      backgroundSize: 'cover',
       backgroundImage: `url(${b.imageUrl || image})`,
-      position: 'absolute',
     }
   });
   return (
-    <div className={css(styles.card, sharedStyles.elevate)} key={b.url}>
-      <div className={css(bg.bg)} />
-      {b.name} {b.imageUrl}
-    </div>
+    <a className={css(styles.card, sharedStyles.elevate)} key={b.url}>
+      <div className={css(styles.cell, bg.bg)} />
+      <div className={css(styles.name)}>{b.name}</div>
+      <span className={css(styles.highlight)} />
+    </a>
   );
 };
 

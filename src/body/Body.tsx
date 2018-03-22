@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
   enterActive: {
     opacity: 1,
     position: 'absolute',
+    width: '100%',
     transform: 'translateY(0px)',
   },
   exit: {
@@ -33,6 +34,7 @@ const styles = StyleSheet.create({
   exitActive: {
     opacity: 0,
     position: 'absolute',
+    width: '100%',
     transform: 'translateY(10px)',
     transitionDuration: definitions.transitions.slow,
   },

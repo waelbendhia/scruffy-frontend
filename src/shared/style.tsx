@@ -59,8 +59,11 @@ const styles = StyleSheet.create({
     ':hover': {
       zIndex: 1,
       transform: 'scale(1.04) translateY(0%)',
+      ':after': {
+        opacity: 1,
+      }
     },
-    '::after': {
+    ':after': {
       pointerEvents: 'none',
       zIndex: 0,
       content: `''`,
@@ -73,9 +76,6 @@ const styles = StyleSheet.create({
         ' 0 14px 28px rgba(0, 0, 0, 0.25)',
       opacity: 0,
       transition: `opacity var(${definitions.transitions.fast}) ease-in-out`,
-      ':hover': {
-        opacity: 1,
-      },
     },
   },
 });
