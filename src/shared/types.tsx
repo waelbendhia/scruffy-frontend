@@ -34,4 +34,25 @@ interface Band {
   albums?: Album[];
 }
 
-export { Band, Album, DataLoading, Loadable, DataLoaded, DataError };
+function mapLoadable<T, T1, T2, T3>(
+  a: Loadable<T>,
+  failedF: (_: Error) => T1,
+  loadingF: () => T2,
+  successF: (_: T) => T3,
+) {
+  return a.failed
+    ? failedF(a.error)
+    : a.loading
+      ? loadingF()
+      : successF(a.data);
+}
+
+export {
+  Band,
+  Album,
+  DataLoading,
+  Loadable,
+  DataLoaded,
+  DataError,
+  mapLoadable,
+};

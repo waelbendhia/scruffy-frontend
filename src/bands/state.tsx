@@ -56,7 +56,7 @@ const reducer = (state = initialState, action: Action): State => {
       return {
         ...state,
         request: { ...state.request, ...action.req },
-        bands: new DataLoading,
+        bands: new DataLoading(),
       };
     case DON_BNDS:
       return !!action.error
