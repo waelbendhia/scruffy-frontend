@@ -14,14 +14,14 @@ interface State {
 
 const GET_BNDS = '[Bands] Get bands';
 const DON_BNDS = '[Bands] Get bands done';
-const CHN_REQ = '[Bands] Change request';
 
 interface GetBandsAction {
   type: '[Bands] Get bands';
-  req: SearchRequest;
+  req: Partial<SearchRequest>;
 }
 
-const makeGetBandsAction = (req: SearchRequest) => ({ type: GET_BNDS, req });
+const makeGetBandsAction =
+  (req: Partial<SearchRequest>) => ({ type: GET_BNDS, req });
 
 interface GetBandsDone {
   type: '[Bands] Get bands done';
@@ -39,27 +39,7 @@ const makeGetBandsDone =
       error,
     });
 
-interface ChangeRequest {
-  type: '[Bands] Change request';
-  req: {
-    name?: string;
-    numberOfResults?: number;
-    page?: number;
-  };
-}
-
-const makeChangeRequest =
-  (
-    name: string | undefined,
-    numberOfResults: number | undefined,
-    page: number | undefined,
-  ): ChangeRequest =>
-    ({
-      type: CHN_REQ,
-      req: { name, numberOfResults, page }
-    });
-
-type Action = ChangeRequest | GetBandsAction | GetBandsDone;
+type Action = GetBandsAction | GetBandsDone;
 
 export {
   SearchRequest,
@@ -69,7 +49,5 @@ export {
   GetBandsAction,
   makeGetBandsAction,
   DON_BNDS,
-  CHN_REQ,
-  makeChangeRequest,
   makeGetBandsDone,
 };

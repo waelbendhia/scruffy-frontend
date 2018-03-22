@@ -5,29 +5,30 @@ import {
   GET_BNDS,
   GetBandsAction,
   DON_BNDS,
-  CHN_REQ,
   makeGetBandsAction,
 } from './types';
 import { call, put, takeEvery, all } from 'redux-saga/effects';
 import { LocationChangeAction, LOCATION_CHANGE } from 'react-router-redux';
 import { DataLoading, DataError, DataLoaded } from '../shared/types';
 import { searchBands } from './api';
-
+import { select } from 'redux-saga/effects';
+import { State as AppState } from '../store';
 const initialState: State = {
   bands: new DataLoading(),
   count: 0,
   request: {
     page: 0,
-    numberOfResults: 20,
+    numberOfResults: 15,
     name: '',
   }
 };
 
 function* fetchBands(action: GetBandsAction) {
   try {
-    const res = yield call(
-      searchBands.bind(null, action.req)
-    );
+    const prevReq = yield select((s: AppState) => s.bands.request),
+      res = yield call(
+        searchBands.bind(null, { ...prevReq, ...action.req })
+      );
     yield put(makeGetBandsDone(res.result, res.count, null));
   } catch (e) {
     yield put(makeGetBandsDone(null, null, e));
@@ -54,6 +55,7 @@ const reducer = (state = initialState, action: Action): State => {
     case GET_BNDS:
       return {
         ...state,
+        request: { ...state.request, ...action.req },
         bands: new DataLoading,
       };
     case DON_BNDS:
@@ -70,14 +72,6 @@ const reducer = (state = initialState, action: Action): State => {
             bands: new DataLoaded(action.bands),
           }
           : { ...state };
-    case CHN_REQ:
-      return {
-        ...state,
-        request: {
-          ...state.request,
-          ...action.req,
-        }
-      };
     default:
       return state;
   }

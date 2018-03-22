@@ -17,8 +17,8 @@ import {
   initialState as bandsInitialState,
   reducer as bandsReducer,
   effects as bandsEffects,
-  State as BandsState,
-} from './bands';
+} from './bands/state';
+import { State as BandsState } from './bands/types';
 
 const sagaMiddleware = createSagaMiddleware(),
   history = createHistory();
