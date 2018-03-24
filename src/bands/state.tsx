@@ -13,6 +13,7 @@ import { DataLoading, DataError, DataLoaded } from '../shared/types';
 import { searchBands } from './api';
 import { select } from 'redux-saga/effects';
 import { State as AppState } from '../store';
+import { takeLatest } from 'redux-saga';
 const initialState: State = {
   bands: new DataLoading(),
   count: 0,
@@ -41,7 +42,7 @@ function* dispatchGetBands() {
 
 function* effects() {
   yield all([
-    takeEvery(GET_BNDS, fetchBands),
+    takeLatest(GET_BNDS, fetchBands),
     takeEvery(
       (action: LocationChangeAction) =>
         action.type === LOCATION_CHANGE && action.payload.pathname === '/bands',
@@ -51,6 +52,7 @@ function* effects() {
 }
 
 const reducer = (state = initialState, action: Action): State => {
+  console.log('action', action);
   switch (action.type) {
     case GET_BNDS:
       return {

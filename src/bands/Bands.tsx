@@ -1,106 +1,64 @@
 import * as React from 'react';
 import { State, makeGetBandsAction } from './types';
-import BandCard from './BandCard';
-import { StyleSheet, css } from 'aphrodite';
-import {
-  Loading,
-  definitions,
-  styles as sharedStyles,
-  mapLoadable,
-} from '../shared';
+import { StyleSheet, css } from 'aphrodite/no-important';
+import { definitions, Paginator } from '../shared';
 import store from '../store';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import Filters from './Filters';
+import BandsGrid from './BandsGrid';
 
 const styles = StyleSheet.create({
   layoutGrid: {
+    height: `calc(100vh - ${definitions.headerHeight})`,
     display: 'grid',
     gridTemplateColumns: 'minmax(20%, 200px) 1fr',
-  },
-  bandGrid: {
-    height: `calc(100vh - ${definitions.headerHeight} - 32px)`,
-    display: 'grid',
-    gridGap: '16px',
-    padding: '16px',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-    gridTemplateRows: 'minmax(10px, 33%)',
+    gridTemplateRows: '1fr 60px',
+    gridTemplateAreas: `
+      "filter grid"
+      "filter paginator"
+    `,
   },
   filters: {
-    backgroundColor: definitions.colors.white,
+    gridArea: 'filter',
+    zIndex: 1,
   },
-  enter: {
-    opacity: 0,
-    transform: 'translateY(10px)',
-    transitionDuration: definitions.transitions.slow,
+  grid: {
+    gridArea: 'grid',
+    position: 'relative',
   },
-  enterActive: {
-    opacity: 1,
-    // position: 'absolute',
-    // width: '100%',
-    transform: 'translateY(0px)',
-  },
-  exit: {
-    opacity: 1,
-    transform: 'translateY(0px)',
-  },
-  exitActive: {
-    opacity: 0,
-    // position: 'absolute',
-    // width: '100%',
-    transform: 'translateY(10px)',
-    transitionDuration: definitions.transitions.slow,
-  },
+  paginator: { gridArea: 'paginator' }
 });
 
-const View = (props: State) => (
-  <div className={css(styles.layoutGrid)}>
-    <div className={css(styles.filters, sharedStyles.elevation2)} >
-      <div>
-        Name:
-        <input
-          type="text"
-          onChange={
-            e =>
-              store.dispatch(makeGetBandsAction({ name: e.target.value }))
-          }
-        />
-      </div>
+const View = ({ bands, count, request }: State) => {
+  const maxPage = Math.ceil(count / request.numberOfResults);
+  return (
+    <div className={css(styles.layoutGrid)}>
+      <Filters
+        className={css(styles.filters)}
+        value={request.name}
+        updateName={s => store.dispatch(makeGetBandsAction({
+          name: s,
+          page: 0,
+        }))}
+      />
+      <BandsGrid
+        className={css(styles.grid)}
+        bands={bands}
+      />
+      <Paginator
+        className={css(styles.paginator)}
+        page={Math.min(request.page, maxPage - 1)}
+        maxPage={Math.ceil(count / request.numberOfResults)}
+        changePage={(delta) =>
+          store.dispatch(makeGetBandsAction({
+            page: Math.max(
+              Math.min(request.page + delta, maxPage - 1),
+              0,
+            ),
+          }))
+        }
+      />
     </div>
-    <TransitionGroup>
-      {
-        <CSSTransition
-          key={
-            mapLoadable(
-              props.bands,
-              () => 'error',
-              () => 'loading',
-              () => 'bands',
-            )
-          }
-          timeout={300}
-          classNames={{
-            appear: css(styles.enter),
-            appearActive: css(styles.enterActive),
-            enter: css(styles.enter),
-            enterActive: css(styles.enterActive),
-            exit: css(styles.exit),
-            exitActive: css(styles.exitActive),
-          }}
-        >
-          {
-            mapLoadable(
-              props.bands,
-              e => JSON.stringify(e),
-              () => <Loading />,
-              bands =>
-                <div className={css(styles.bandGrid)}>
-                  {bands.map(b => <BandCard key={b.url} {...b} />)}
-                </div>
-            )
-          }
-        </CSSTransition>
-      }
-    </TransitionGroup>
-  </div>
-);
+  );
+};
 
 export default View;

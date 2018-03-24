@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     color: definitions.colors.black,
     fontSize: '60px',
+    zIndex: 1,
   },
   spinner: {
     width: '100px',
@@ -30,8 +31,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const View = () => (
-  <div className={css(styles.container)}>
+const View = ({ className }: { className?: string }) => (
+  <div className={css(styles.container) + ' ' + className}>
     <img src={loadingImage} className={css(styles.spinner)} />
     <div className="loading-text">Loading...</div>
   </div>

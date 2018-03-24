@@ -36,15 +36,19 @@ interface Band {
 
 function mapLoadable<T, T1, T2, T3>(
   a: Loadable<T>,
-  failedF: (_: Error) => T1,
-  loadingF: () => T2,
-  successF: (_: T) => T3,
+  failedF: T1 | ((_: Error) => T1),
+  loadingF: T2 | (() => T2),
+  successF: T3 | ((_: T) => T3),
 ) {
+  const callIfFunc =
+    function <T4, T5>(f: T4 | ((_: T5) => T4), arg: T5) {
+      return typeof f === 'function' ? f(arg) : f;
+    };
   return a.failed
-    ? failedF(a.error)
+    ? callIfFunc(failedF, a.error)
     : a.loading
-      ? loadingF()
-      : successF(a.data);
+      ? callIfFunc(loadingF, undefined)
+      : callIfFunc(successF, a.data);
 }
 
 export {

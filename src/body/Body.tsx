@@ -46,50 +46,48 @@ interface BodyProps {
   bands: BandsState;
 }
 const View = ({ location, home, bands }: BodyProps) => (
-  <div className={css(styles.body)}>
-    <TransitionGroup>
-      <CSSTransition
-        key={location.pathname}
-        timeout={300}
-        classNames={{
-          appear: css(styles.enter),
-          appearActive: css(styles.enterActive),
-          enter: css(styles.enter),
-          enterActive: css(styles.enterActive),
-          exit: css(styles.exit),
-          exitActive: css(styles.exitActive),
-        }}
-      >
-        <Switch location={location}>
-          <Route
-            exact={true}
-            path="/"
-            render={() => <Home {...home} />}
-          />
-          <Route
-            exact={true}
-            path="/bands"
-            render={() => <Bands {...bands} />}
-          />
-          <Route
-            exact={true}
-            path="/albums"
-            render={() => <Albums />}
-          />
-          <Route
-            exact={true}
-            path="/directors"
-            render={() => <Directors />}
-          />
-          <Route
-            exact={true}
-            path="/films"
-            render={() => <Films />}
-          />
-        </Switch>
-      </CSSTransition>
-    </TransitionGroup>
-  </div>
+  <TransitionGroup className={css(styles.body)}>
+    <CSSTransition
+      key={location.pathname}
+      timeout={300}
+      classNames={{
+        appear: css(styles.enter),
+        appearActive: css(styles.enterActive),
+        enter: css(styles.enter),
+        enterActive: css(styles.enterActive),
+        exit: css(styles.exit),
+        exitActive: css(styles.exitActive),
+      }}
+    >
+      <Switch location={location}>
+        <Route
+          exact={true}
+          path="/"
+          render={() => <Home {...home} />}
+        />
+        <Route
+          exact={true}
+          path="/bands"
+          render={() => <Bands {...bands} />}
+        />
+        <Route
+          exact={true}
+          path="/albums"
+          render={() => <Albums />}
+        />
+        <Route
+          exact={true}
+          path="/directors"
+          render={() => <Directors />}
+        />
+        <Route
+          exact={true}
+          path="/films"
+          render={() => <Films />}
+        />
+      </Switch>
+    </CSSTransition>
+  </TransitionGroup>
 );
 
 export default View;

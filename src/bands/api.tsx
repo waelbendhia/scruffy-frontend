@@ -11,6 +11,16 @@ const searchBands = async (req: SearchRequest) => {
     '/api/band?' + toParams(req).toString(),
     { method: 'GET', },
   );
+  await new Promise((r, _) => {
+    let timeout = setTimeout(
+      () => {
+        clearTimeout(timeout);
+        r();
+      },
+      200
+    );
+  }
+  );
   return await res.json() as SearchResult;
 };
 
