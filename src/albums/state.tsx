@@ -1,76 +1,86 @@
 import {
   State,
   Action,
-  makeGetBandsDone,
-  GET_BNDS,
-  GetBandsAction,
-  DON_BNDS,
-  makeGetBandsAction,
+  makeGetAlbumsDone,
+  GET_ALBMS,
+  GetAlbumsAction,
+  DON_ALBMS,
+  makeGetAlbumsAction,
+  SortBy,
 } from './types';
 import { call, put, takeEvery, all } from 'redux-saga/effects';
 import { LocationChangeAction, LOCATION_CHANGE } from 'react-router-redux';
 import { DataLoading, DataError, DataLoaded } from '../shared/types';
-import { searchBands } from './api';
+import { searchAlbums } from './api';
 import { select } from 'redux-saga/effects';
 import { State as AppState } from '../store';
 import { takeLatest } from 'redux-saga';
+
 const initialState: State = {
-  bands: new DataLoading(),
+  albums: new DataLoading(),
   count: 0,
   request: {
+    ratingLower: 0,
+    ratingHigher: 10,
+    yearLower: 0,
+    yearHigher: new Date().getFullYear(),
+    includeUnknown: true,
+    name: '',
+    sortBy: SortBy.SORT_BY_ALBUM_NAME,
+    sortOrderAsc: false,
     page: 0,
     numberOfResults: 15,
-    name: '',
   }
 };
 
-function* fetchBands(action: GetBandsAction) {
+function* fetchAlbums(action: GetAlbumsAction) {
   try {
     const prevReq = yield select((s: AppState) => s.bands.request),
       res = yield call(
-        searchBands.bind(null, { ...prevReq, ...action.req })
+        searchAlbums.bind(null, { ...prevReq, ...action.req })
       );
-    yield put(makeGetBandsDone(res.result, res.count, null));
+    yield put(makeGetAlbumsDone(res.result, res.count, null));
   } catch (e) {
-    yield put(makeGetBandsDone(null, null, e));
+    yield put(makeGetAlbumsDone(null, null, e));
   }
 }
 
-function* dispatchGetBands() {
-  yield put(makeGetBandsAction(initialState.request));
+function* dispatchGetAlbums() {
+  yield put(makeGetAlbumsAction(initialState.request));
 }
 
 function* effects() {
   yield all([
-    takeLatest(GET_BNDS, fetchBands),
+    takeLatest(GET_ALBMS, fetchAlbums),
     takeEvery(
       (action: LocationChangeAction) =>
-        action.type === LOCATION_CHANGE && action.payload.pathname === '/bands',
-      dispatchGetBands,
+        action.type === LOCATION_CHANGE &&
+        action.payload.pathname === '/albums',
+      dispatchGetAlbums,
     ),
   ]);
 }
 
 const reducer = (state = initialState, action: Action): State => {
   switch (action.type) {
-    case GET_BNDS:
+    case GET_ALBMS:
       return {
         ...state,
         request: { ...state.request, ...action.req },
-        bands: new DataLoading(),
+        albums: new DataLoading(),
       };
-    case DON_BNDS:
+    case DON_ALBMS:
       return !!action.error
         ? {
           ...state,
           count: action.count,
-          bands: new DataError(action.error),
+          albums: new DataError(action.error),
         }
-        : !!action.bands
+        : !!action.albums
           ? {
             ...state,
             count: action.count,
-            bands: new DataLoaded(action.bands),
+            albums: new DataLoaded(action.albums),
           }
           : { ...state };
     default:

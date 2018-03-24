@@ -6,6 +6,7 @@ import { State as HomeState } from '../home';
 import Bands from '../bands';
 import { State as BandsState } from '../bands';
 import Albums from '../albums';
+import { State as AlbumsState } from '../albums';
 import Directors from '../directors';
 import Films from '../films';
 import { StyleSheet, css } from 'aphrodite/no-important';
@@ -44,8 +45,9 @@ interface BodyProps {
   location: Location;
   home: HomeState;
   bands: BandsState;
+  albums: AlbumsState;
 }
-const View = ({ location, home, bands }: BodyProps) => (
+const View = ({ location, home, bands, albums }: BodyProps) => (
   <TransitionGroup className={css(styles.body)}>
     <CSSTransition
       key={location.pathname}
@@ -73,7 +75,7 @@ const View = ({ location, home, bands }: BodyProps) => (
         <Route
           exact={true}
           path="/albums"
-          render={() => <Albums />}
+          render={() => <Albums {...albums} />}
         />
         <Route
           exact={true}

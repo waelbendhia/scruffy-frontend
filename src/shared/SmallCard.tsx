@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { Band, definitions, styles as sharedStyles } from '../shared';
+import { definitions, styles as sharedStyles } from '../shared';
 import { StyleSheet, css } from 'aphrodite/no-important';
 
-const image = require('./default.svg');
+const bandImage = require('./bandDefault.svg');
+const albumImage = require('./albumDefault.svg');
 
 const styles = StyleSheet.create({
   card: {
@@ -46,19 +47,26 @@ const styles = StyleSheet.create({
   },
 });
 
-const BandCard = (b: Band) => {
+interface Props {
+  imageUrl?: string;
+  name: string;
+  isBand: boolean;
+  url: string;
+}
+
+const SmallCard = ({ imageUrl, name, url, isBand }: Props) => {
   const bg = StyleSheet.create({
     bg: {
-      backgroundImage: `url(${b.imageUrl || image})`,
+      backgroundImage: `url(${imageUrl || (isBand ? bandImage : albumImage)})`,
     }
   });
   return (
-    <a className={css(styles.card, sharedStyles.elevate)} key={b.url}>
+    <a className={css(styles.card, sharedStyles.elevate)} key={url}>
       <div className={css(styles.cell, bg.bg)} />
-      <div className={css(styles.name)}>{b.name}</div>
+      <div className={css(styles.name)}>{name}</div>
       <span className={css(styles.highlight)} />
     </a>
   );
 };
 
-export default BandCard;
+export default SmallCard;

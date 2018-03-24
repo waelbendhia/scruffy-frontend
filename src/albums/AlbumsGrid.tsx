@@ -3,10 +3,10 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import {
   SmallCard,
   mapLoadable,
-  Band,
   Loadable,
   Loading,
   definitions,
+  Album,
 } from '../shared';
 import { StyleSheet, css } from 'aphrodite';
 
@@ -43,16 +43,14 @@ const styles = StyleSheet.create({
 
 interface GridProps {
   className?: string;
-  bands: Loadable<Band[]>;
+  albums: Loadable<Album[]>;
 }
 
-const BandsGrid = ({ className, bands }: GridProps) => (
+const AlbumsGrid = ({ className, albums }: GridProps) => (
   <TransitionGroup className={className}>
     {
       <CSSTransition
-        key={
-          mapLoadable(bands, 'error', 'loading', 'bands')
-        }
+        key={mapLoadable(albums, 'error', 'loading', 'bands')}
         timeout={150}
         classNames={{
           appear: css(styles.in),
@@ -65,16 +63,17 @@ const BandsGrid = ({ className, bands }: GridProps) => (
       >
         {
           mapLoadable(
-            bands,
+            albums,
             e => JSON.stringify(e),
             <Loading className={css(styles.loading, styles.position)} />,
-            bs =>
+            as =>
               <div className={css(styles.bandGrid, styles.position)}>
-                {bs.map(b =>
+                {as.map(a =>
                   <SmallCard
-                    key={b.url}
-                    isBand={true}
-                    {...b}
+                    key={a.band ? a.band.url : ''}
+                    url={a.band ? a.band.url : ''}
+                    isBand={false}
+                    {...a}
                   />)}
               </div>
           )
@@ -84,4 +83,4 @@ const BandsGrid = ({ className, bands }: GridProps) => (
   </TransitionGroup>
 );
 
-export default BandsGrid;
+export default AlbumsGrid;
