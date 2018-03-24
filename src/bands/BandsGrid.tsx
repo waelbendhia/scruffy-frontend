@@ -10,6 +10,8 @@ import {
 } from '../shared';
 import { StyleSheet, css } from 'aphrodite';
 
+const defaultImage = require('./bandDefault.svg') as string;
+
 const styles = StyleSheet.create({
   bandGrid: {
     height: 'calc(100% - 32px)',
@@ -73,9 +75,12 @@ const BandsGrid = ({ className, bands }: GridProps) => (
                 {bs.map(b =>
                   <SmallCard
                     key={b.url}
-                    isBand={true}
+                    bgUrl={b.imageUrl || defaultImage}
                     {...b}
-                  />)}
+                  >
+                    {b.name}
+                  </SmallCard>
+                )}
               </div>
           )
         }

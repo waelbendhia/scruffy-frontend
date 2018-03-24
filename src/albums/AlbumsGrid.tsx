@@ -10,6 +10,8 @@ import {
 } from '../shared';
 import { StyleSheet, css } from 'aphrodite';
 
+const defaultImage = require('./albumDefault.svg') as string;
+
 const styles = StyleSheet.create({
   bandGrid: {
     height: 'calc(100% - 32px)',
@@ -71,10 +73,14 @@ const AlbumsGrid = ({ className, albums }: GridProps) => (
                 {as.map(a =>
                   <SmallCard
                     key={a.band ? a.band.url : ''}
+                    bgUrl={a.imageUrl || defaultImage}
                     url={a.band ? a.band.url : ''}
-                    isBand={false}
-                    {...a}
-                  />)}
+                  >
+                    <div>{a.year !== 0 ? a.year : 'UNK'}</div>
+                    <div>{!!a.band ? a.band.name : ''}</div>
+                    <div>{a.name}</div>
+                    <div>{a.rating}/10</div>
+                  </SmallCard>)}
               </div>
           )
         }

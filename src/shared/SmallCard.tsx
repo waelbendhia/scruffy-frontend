@@ -2,9 +2,6 @@ import * as React from 'react';
 import { definitions, styles as sharedStyles } from '../shared';
 import { StyleSheet, css } from 'aphrodite/no-important';
 
-const bandImage = require('./bandDefault.svg');
-const albumImage = require('./albumDefault.svg');
-
 const styles = StyleSheet.create({
   card: {
     position: 'relative',
@@ -14,17 +11,15 @@ const styles = StyleSheet.create({
       width: '100%',
     },
   },
-  name: {
+  label: {
     position: 'absolute',
     width: '100%',
-    height: '32px',
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
     backgroundColor: definitions.colors.whiteTransparent,
     textAlign: 'center',
     fontSize: '24px',
-    lineHeight: '32px',
     bottom: 0,
   },
   cell: {
@@ -48,22 +43,21 @@ const styles = StyleSheet.create({
 });
 
 interface Props {
-  imageUrl?: string;
-  name: string;
-  isBand: boolean;
+  bgUrl: string;
   url: string;
+  children: React.ReactNode;
 }
 
-const SmallCard = ({ imageUrl, name, url, isBand }: Props) => {
+const SmallCard = ({ bgUrl, url, children }: Props) => {
   const bg = StyleSheet.create({
     bg: {
-      backgroundImage: `url(${imageUrl || (isBand ? bandImage : albumImage)})`,
+      backgroundImage: `url(${bgUrl})`,
     }
   });
   return (
     <a className={css(styles.card, sharedStyles.elevate)} key={url}>
       <div className={css(styles.cell, bg.bg)} />
-      <div className={css(styles.name)}>{name}</div>
+      <div className={css(styles.label)}>{children}</div>
       <span className={css(styles.highlight)} />
     </a>
   );
