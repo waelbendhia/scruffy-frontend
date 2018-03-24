@@ -11,9 +11,9 @@ import { call, put, takeEvery, all } from 'redux-saga/effects';
 import { LocationChangeAction, LOCATION_CHANGE } from 'react-router-redux';
 import { DataLoading, DataError, DataLoaded } from '../shared/types';
 import { searchBands } from './api';
-import { select } from 'redux-saga/effects';
+import { select, takeLatest } from 'redux-saga/effects';
 import { State as AppState } from '../store';
-import { takeLatest } from 'redux-saga';
+
 const initialState: State = {
   bands: new DataLoading(),
   count: 0,

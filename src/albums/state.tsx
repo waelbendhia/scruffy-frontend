@@ -12,9 +12,8 @@ import { call, put, takeEvery, all } from 'redux-saga/effects';
 import { LocationChangeAction, LOCATION_CHANGE } from 'react-router-redux';
 import { DataLoading, DataError, DataLoaded } from '../shared/types';
 import { searchAlbums } from './api';
-import { select } from 'redux-saga/effects';
+import { select, takeLatest } from 'redux-saga/effects';
 import { State as AppState } from '../store';
-import { takeLatest } from 'redux-saga';
 
 const initialState: State = {
   albums: new DataLoading(),
@@ -26,7 +25,7 @@ const initialState: State = {
     yearHigher: new Date().getFullYear(),
     includeUnknown: true,
     name: '',
-    sortBy: SortBy.SORT_BY_ALBUM_NAME,
+    sortBy: SortBy.RATING,
     sortOrderAsc: false,
     page: 0,
     numberOfResults: 15,
@@ -35,7 +34,8 @@ const initialState: State = {
 
 function* fetchAlbums(action: GetAlbumsAction) {
   try {
-    const prevReq = yield select((s: AppState) => s.bands.request),
+
+    const prevReq = yield select((s: AppState) => s.albums.request),
       res = yield call(
         searchAlbums.bind(null, { ...prevReq, ...action.req })
       );

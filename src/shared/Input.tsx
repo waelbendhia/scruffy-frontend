@@ -63,7 +63,7 @@ const Input = (props: InputProps) => (
       onChange={
         e =>
           props.type === 'number'
-            ? props.onChange(parseFloat(e.target.value))
+            ? props.onChange(parseFloat(e.target.value) || 0)
             : props.onChange(e.target.value)
       }
       value={props.value}

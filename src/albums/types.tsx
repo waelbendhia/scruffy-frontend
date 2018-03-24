@@ -1,10 +1,10 @@
 import { Loadable, Album } from '../shared';
 
 enum SortBy {
-  SORT_BY_RATING = 0,
-  SORT_BY_DATE = 1,
-  SORT_BY_ALBUM_NAME = 2,
-  SORT_BY_BANDNAME = 3,
+  RATING = 'rating',
+  DATE = 'date',
+  ALBUM_NAME = 'albumName',
+  BAND_NAME = 'bandName',
 }
 
 interface SearchRequest {

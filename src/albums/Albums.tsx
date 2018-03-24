@@ -3,7 +3,7 @@ import { State, makeGetAlbumsAction } from './types';
 import { StyleSheet, css } from 'aphrodite/no-important';
 import { Paginator, definitions } from '../shared';
 import store from '../store';
-import Filters from '../bands/Filters';
+import Filters from './Filters';
 import AlbumsGrid from './AlbumsGrid';
 
 const styles = StyleSheet.create({
@@ -39,6 +39,30 @@ const View = ({ count, albums, request }: State) => {
           name: s,
           page: 0,
         }))}
+        updateRatingLower={r => store.dispatch(makeGetAlbumsAction({
+          ratingLower: Math.min(Math.max(r, 0), request.ratingHigher),
+          page: 0,
+        }))}
+        updateRatingHigher={s => store.dispatch(makeGetAlbumsAction({
+          ratingHigher: Math.max(Math.min(s, 10), request.ratingLower),
+          page: 0,
+        }))}
+        updateYearLower={r => store.dispatch(makeGetAlbumsAction({
+          yearLower: Math.min(Math.max(r, 0), request.yearHigher),
+          page: 0,
+        }))}
+        updateYearHigher={s => store.dispatch(makeGetAlbumsAction({
+          yearHigher: Math.max(
+            Math.min(s, new Date().getFullYear()),
+            request.yearLower,
+          ),
+          page: 0,
+        }))}
+        updateIncludeUnknown={s => store.dispatch(makeGetAlbumsAction({
+          includeUnknown: s,
+          page: 0,
+        }))}
+        {...request}
       />
       <AlbumsGrid className={css(styles.grid)} albums={albums} />
       <Paginator

@@ -40,7 +40,19 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0,
-  }
+  },
+  band: {
+    fontSize: '0.8em',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  },
+  album: {
+    fontSize: '0.9em',
+    fontWeight: 700,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  },
+  date: { fontSize: '0.8em' }
 });
 
 interface GridProps {
@@ -72,13 +84,19 @@ const AlbumsGrid = ({ className, albums }: GridProps) => (
               <div className={css(styles.bandGrid, styles.position)}>
                 {as.map(a =>
                   <SmallCard
-                    key={a.band ? a.band.url : ''}
+                    key={(a.band ? a.band.url : '') + a.name}
                     bgUrl={a.imageUrl || defaultImage}
                     url={a.band ? a.band.url : ''}
                   >
-                    <div>{a.year !== 0 ? a.year : 'UNK'}</div>
-                    <div>{!!a.band ? a.band.name : ''}</div>
-                    <div>{a.name}</div>
+                    <div className={css(styles.band)}>
+                      {!!a.band ? a.band.name : ''}
+                    </div>
+                    <div className={css(styles.album)}>
+                      {a.name}
+                    </div>
+                    <div className={css(styles.date)}>
+                      ({a.year !== 0 ? a.year : 'NA'})
+                    </div>
                     <div>{a.rating}/10</div>
                   </SmallCard>)}
               </div>
