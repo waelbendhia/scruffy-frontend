@@ -1,10 +1,42 @@
 import * as React from 'react';
-import { Band, SmallCard } from '../shared';
+import {
+  Band,
+  SmallCard,
+  styles as sharedStyles,
+  definitions,
+} from '../shared';
 import { StyleSheet, css } from 'aphrodite/no-important';
 
 const defaultImage = require('../albums/albumDefault.svg') as string;
+const defaultBandImage = require('../bands/bandDefault.svg') as string;
 
 const styles = StyleSheet.create({
+  header: {
+    position: 'sticky',
+    top: `calc(-30vh + 90px + ${definitions.headerHeight})`,
+    borderRadius: '2px',
+    width: '100%',
+    height: '30vh',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+    backgroundColor: definitions.colors.darkGrey,
+    zIndex: 1,
+  },
+  headerTitle: {
+    color: definitions.colors.black,
+    position: 'absolute',
+    width: '90%',
+    height: '90px',
+    lineHeight: '90px',
+    fontSize: '50px',
+    paddingLeft: '10%',
+    fontWeight: 700,
+    bottom: '0',
+    display: 'block',
+    backgroundColor: definitions.colors.whiteTransparent,
+    fontFamily: definitions.fonts.heading,
+  },
   container: {
     display: 'flex',
     flexDirection: 'column',
@@ -31,23 +63,35 @@ const styles = StyleSheet.create({
     maxWidth: '300px',
     minWidth: '150px',
     gridTemplateColumns: 'minmax(200px, 400px)',
-    gridTemplateRows: '80px repeat(auto-fit, 150px)',
+    gridTemplateRows: '80px repeat(auto-fit, 120px)',
     gridColumnGap: '16px',
     gridRowGap: '16px',
     flexGrow: 1,
   },
   album: {
-    fontSize: '0.9em',
+    fontSize: '0.7em',
     fontWeight: 700,
     overflow: 'hidden',
     textOverflow: 'ellipsis',
   },
-  date: { fontSize: '0.8em' }
+  date: { fontSize: '0.6em' },
 });
 
-const Band = ({ name, bio, albums }: Band) => (
+const Band = ({ name, bio, albums, fullUrl, imageUrl }: Band) => (
   <div className={css(styles.container)}>
-    <h1>{name}</h1>
+    <div
+      className={css(
+        styles.header,
+        sharedStyles.elevation2,
+        StyleSheet.create({
+          bg: { backgroundImage: `url(${imageUrl || defaultBandImage})` }
+        }).bg
+      )}
+    >
+      <a className={css(styles.headerTitle)} href={fullUrl} target="_blank">
+        {name}
+      </a>
+    </div>
     <div className={css(styles.body)}>
       <div className={css(styles.bio)}>
         {
