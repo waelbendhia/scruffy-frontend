@@ -50,20 +50,20 @@ const View = ({ location }: { location: string }) => (
     <div className={css(styles.spacer)} />
     <HeaderLink
       text="Music"
-      link="bands"
+      link="/bands"
       location={location.substr(1)}
       options={[
-        { text: 'Bands', link: 'bands' },
-        { text: 'Albums', link: 'albums' },
+        { text: 'Bands', link: '/bands' },
+        { text: 'Albums', link: '/albums' },
       ]}
     />
     <HeaderLink
       text="Film"
-      link="films"
+      link="/films"
       location={location.substr(1)}
       options={[
-        { text: 'Directors', link: 'directors' },
-        { text: 'Films', link: 'films' },
+        { text: 'Directors', link: '/directors' },
+        { text: 'Films', link: '/films' },
       ]}
     />
   </div>

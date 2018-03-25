@@ -44,18 +44,15 @@ const View = ({ count, albums, request }: State) => {
           page: 0,
         }))}
         updateRatingHigher={s => store.dispatch(makeGetAlbumsAction({
-          ratingHigher: Math.max(Math.min(s, 10), request.ratingLower),
+          ratingHigher: s,
           page: 0,
         }))}
         updateYearLower={r => store.dispatch(makeGetAlbumsAction({
-          yearLower: Math.min(Math.max(r, 0), request.yearHigher),
+          yearLower: r,
           page: 0,
         }))}
         updateYearHigher={s => store.dispatch(makeGetAlbumsAction({
-          yearHigher: Math.max(
-            Math.min(s, new Date().getFullYear()),
-            request.yearLower,
-          ),
+          yearHigher: s,
           page: 0,
         }))}
         updateIncludeUnknown={s => store.dispatch(makeGetAlbumsAction({

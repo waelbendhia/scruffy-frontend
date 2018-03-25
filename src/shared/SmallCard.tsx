@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { definitions, styles as sharedStyles } from '../shared';
 import { StyleSheet, css } from 'aphrodite/no-important';
+import { Link } from 'react-router-dom';
 
 const styles = StyleSheet.create({
   card: {
@@ -40,26 +41,38 @@ const styles = StyleSheet.create({
     transition: `width ease-out ${definitions.transitions.fast}, 
                left ease-out ${definitions.transitions.fast}`,
   },
+  noHover: {
+    pointerEvents: 'none',
+  }
 });
 
 interface Props {
   bgUrl: string;
   url: string;
   children: React.ReactNode;
+  hover?: boolean;
 }
 
-const SmallCard = ({ bgUrl, url, children }: Props) => {
+const SmallCard = ({ bgUrl, url, children, hover }: Props) => {
   const bg = StyleSheet.create({
     bg: {
       backgroundImage: `url(${bgUrl})`,
     }
   });
   return (
-    <a className={css(styles.card, sharedStyles.elevate)} key={url}>
+    <Link
+      className={css(
+        styles.card,
+        sharedStyles.elevate,
+        typeof hover !== 'undefined' && !hover && styles.noHover,
+      )}
+      key={url}
+      to={`/bands/${url.split('.')[0]}`}
+    >
       <div className={css(styles.cell, bg.bg)} />
       <div className={css(styles.label)}>{children}</div>
       <span className={css(styles.highlight)} />
-    </a>
+    </Link>
   );
 };
 

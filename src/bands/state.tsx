@@ -37,7 +37,8 @@ function* fetchBands(action: GetBandsAction) {
 }
 
 function* dispatchGetBands() {
-  yield put(makeGetBandsAction(initialState.request));
+  const prevReq = yield select((s: AppState) => s.bands.request);
+  yield put(makeGetBandsAction(prevReq));
 }
 
 function* effects() {

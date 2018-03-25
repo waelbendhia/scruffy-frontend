@@ -51,6 +51,8 @@ interface NumberInputProps extends InputPropsBase {
   type: 'number';
   onChange: (_: number) => void;
   value: number;
+  minValue: number;
+  maxValue: number;
 }
 
 type InputProps = TextInputProps | NumberInputProps;
@@ -63,7 +65,12 @@ const Input = (props: InputProps) => (
       onChange={
         e =>
           props.type === 'number'
-            ? props.onChange(parseFloat(e.target.value) || 0)
+            ? props.onChange(
+              Math.max(
+                Math.min(parseFloat(e.target.value) || 0, props.maxValue),
+                props.minValue,
+              )
+            )
             : props.onChange(e.target.value)
       }
       value={props.value}

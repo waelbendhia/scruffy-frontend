@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     gridGap: '16px',
     padding: '16px',
     gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-    gridAutoRows: 'minmax(100px, 33%)',
+    gridAutoRows: 'minmax(1px, 33%)',
   },
   loading: {
     height: '100%',

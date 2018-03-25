@@ -74,12 +74,16 @@ const Filters = ({
           onChange={updateRatingLower}
           value={ratingLower}
           placeHolder="min"
+          minValue={0}
+          maxValue={ratingHigher}
         />
         <Input
           type="number"
           onChange={updateRatingHigher}
           value={ratingHigher}
           placeHolder="max"
+          minValue={ratingLower}
+          maxValue={0}
         />
       </div>
       <div className={css(styles.subHeading)}>
@@ -91,12 +95,16 @@ const Filters = ({
           onChange={updateYearLower}
           value={yearLower}
           placeHolder="min"
+          minValue={0}
+          maxValue={yearHigher}
         />
         <Input
           type="number"
           onChange={updateYearHigher}
           value={yearHigher}
           placeHolder="max"
+          minValue={yearLower}
+          maxValue={new Date().getFullYear()}
         />
       </div>
       <div>

@@ -17,6 +17,10 @@ import {
   State as AlbumsState,
   initialState as albumsInitialState,
 } from './albums';
+import {
+  State as BandState,
+  initialState as bandInitialState,
+} from './band';
 import { Location } from 'history';
 
 class App extends React.Component<{}, {
@@ -24,6 +28,7 @@ class App extends React.Component<{}, {
   home: HomeState,
   bands: BandsState
   albums: AlbumsState,
+  band: BandState,
 }> {
   constructor(props: {}) {
     super(props);
@@ -33,15 +38,17 @@ class App extends React.Component<{}, {
       home: homeInitialState,
       bands: bandsInitialState,
       albums: albumsInitialState,
+      band: bandInitialState,
     };
 
     store.subscribe(() => {
-      const { router, home, bands, albums } = store.getState();
+      const { router, home, bands, albums, band } = store.getState();
       this.setState({
         location: router.location || history.location,
         home,
         bands,
         albums,
+        band,
       });
     });
   }
@@ -51,12 +58,7 @@ class App extends React.Component<{}, {
       <div>
         <Header location={this.state.location.pathname} />
         <Background />
-        <Body
-          location={this.state.location}
-          home={this.state.home}
-          bands={this.state.bands}
-          albums={this.state.albums}
-        />
+        <Body {...this.state} />
         <Footer />
       </div>
     );
