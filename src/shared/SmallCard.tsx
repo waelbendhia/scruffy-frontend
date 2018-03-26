@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { definitions, styles as sharedStyles } from '../shared';
 import { StyleSheet, css } from 'aphrodite/no-important';
-import { Link } from 'react-router-dom';
+import { Link, LinkProps } from 'react-router-dom';
 
 const styles = StyleSheet.create({
   card: {
@@ -48,31 +48,33 @@ const styles = StyleSheet.create({
 
 interface Props {
   bgUrl: string;
-  url: string;
+  url?: string;
   children: React.ReactNode;
-  hover?: boolean;
 }
 
-const SmallCard = ({ bgUrl, url, children, hover }: Props) => {
+const SmallCard = ({ bgUrl, url, children }: Props) => {
   const bg = StyleSheet.create({
     bg: {
       backgroundImage: `url(${bgUrl})`,
     }
-  });
+  }),
+    Elem = (props: Partial<LinkProps>) =>
+      !!url
+        ? <Link {...props} to={`/bands/${url.split('.')[0]}`} />
+        : <span {...props} />;
+
   return (
-    <Link
+    <Elem
       className={css(
         styles.card,
         sharedStyles.elevate,
-        typeof hover !== 'undefined' && !hover && styles.noHover,
+        !url && styles.noHover,
       )}
-      key={url}
-      to={`/bands/${url.split('.')[0]}`}
     >
       <div className={css(styles.cell, bg.bg)} />
       <div className={css(styles.label)}>{children}</div>
       <span className={css(styles.highlight)} />
-    </Link>
+    </Elem>
   );
 };
 

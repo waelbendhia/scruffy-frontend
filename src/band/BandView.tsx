@@ -4,6 +4,7 @@ import {
   SmallCard,
   styles as sharedStyles,
   definitions,
+  Album,
 } from '../shared';
 import { StyleSheet, css } from 'aphrodite/no-important';
 
@@ -13,9 +14,8 @@ const defaultBandImage = require('../bands/bandDefault.svg') as string;
 const styles = StyleSheet.create({
   header: {
     position: 'sticky',
-    top: `calc(-30vh + 90px + ${definitions.headerHeight})`,
-    borderRadius: '2px',
-    width: '100%',
+    top: `calc(-30vh + 80px + ${definitions.headerHeight})`,
+    width: '80%',
     height: '30vh',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
@@ -23,20 +23,27 @@ const styles = StyleSheet.create({
     backgroundColor: definitions.colors.darkGrey,
     zIndex: 1,
   },
+  headerBand: {
+    position: 'absolute',
+    left: 0,
+    bottom: 0,
+    width: '100%',
+    height: '80px',
+    backgroundColor: definitions.colors.whiteTransparent,
+  },
   headerTitle: {
     color: definitions.colors.black,
     position: 'absolute',
-    width: '90%',
-    height: '90px',
-    lineHeight: '90px',
-    fontSize: '50px',
-    paddingLeft: '10%',
+    height: '80px',
+    lineHeight: '80px',
+    fontSize: '44px',
+    left: '10%',
     fontWeight: 700,
-    bottom: '0',
+    bottom: 0,
     display: 'block',
-    backgroundColor: definitions.colors.whiteTransparent,
     fontFamily: definitions.fonts.heading,
   },
+  bottomLink: { fontSize: '20px' },
   container: {
     display: 'flex',
     flexDirection: 'column',
@@ -54,14 +61,16 @@ const styles = StyleSheet.create({
   body: {
     display: 'flex',
     flexDirection: 'row',
+    maxWidth: 'calc(80% - 48px)',
+    paddingLeft: '24px',
+    paddingRight: '24px',
   },
   albums: {
     maxHeight: '1000vh',
     marginLeft: '80px',
-    marginRight: '4vw',
     display: 'grid',
     maxWidth: '300px',
-    minWidth: '150px',
+    minWidth: '180px',
     gridTemplateColumns: 'minmax(200px, 400px)',
     gridTemplateRows: '80px repeat(auto-fit, 120px)',
     gridColumnGap: '16px',
@@ -88,49 +97,63 @@ const Band = ({ name, bio, albums, fullUrl, imageUrl }: Band) => (
         }).bg
       )}
     >
-      <a className={css(styles.headerTitle)} href={fullUrl} target="_blank">
+      <span className={css(styles.headerBand)} />
+      <span className={css(styles.headerTitle)}>
         {name}
-      </a>
+      </span>
     </div>
     <div className={css(styles.body)}>
-      <div className={css(styles.bio)}>
-        {
-          (bio || '')
-            .split('\n')
-            .filter(t => t !== '')
-            .map(
-              (text, i) => (
-                <p
-                  key={i}
-                  className={css(styles.bioParagraph)}
-                >
-                  {text}
-                </p>
-              )
-            )
-        }
-      </div>
-      <div className={css(styles.albums)}>
-        <h1>Albums</h1>
-        {(albums || []).map(a => (
-          <SmallCard
-            hover={false}
-            key={(a.band ? a.band.url : '') + a.name}
-            bgUrl={a.imageUrl || defaultImage}
-            url={a.band ? a.band.url : ''}
-          >
-            <div className={css(styles.album)}>
-              {a.name}
-            </div>
-            <div className={css(styles.date)}>
-              ({a.year !== 0 ? a.year : 'NA'})
-            </div>
-            <div>{a.rating}/10</div>
-          </SmallCard>
-        ))}
-      </div>
+      <Bio bio={bio} fullUrl={fullUrl} albums={albums || []} />
+      <Albums albums={albums || []} />
     </div>
   </div>
 );
+
+const Bio = (
+  { bio, fullUrl, albums }
+    : {
+      bio: string;
+      fullUrl: string;
+      albums: Album[];
+    }
+) => (
+    <div className={css(styles.bio)}>
+      {
+        bio
+          .split('\n')
+          .filter(t => t !== '')
+          .map(
+            (text, i) => (
+              <p key={i} className={css(styles.bioParagraph)}>
+                {text}
+              </p>
+            )
+          )
+      }
+      <a className={css(styles.bottomLink)} href={fullUrl} target="_blank">
+        Read on Scaruffi.com
+    </a>
+    </div>
+  );
+
+const Albums = ({ albums }:
+  { albums: Album[] }) => (
+    <div className={css(styles.albums)}>
+      <h1>Albums</h1>
+      {
+        albums
+          .map(a => (
+            <SmallCard
+              key={(a.band ? a.band.url : '') + a.name}
+              bgUrl={a.imageUrl || defaultImage}
+            >
+              <div className={css(styles.album)}>{a.name}</div>
+              <div className={css(styles.date)}>({a.year || 'NA'}) </div>
+              <div>{a.rating}/10</div>
+            </SmallCard>
+          ))
+      }
+    </div>
+  );
 
 export default Band;

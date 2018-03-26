@@ -26,9 +26,9 @@ interface Album {
 
 interface Band {
   url: string;
-  fullUrl?: string;
+  fullUrl: string;
   name: string;
-  bio?: string;
+  bio: string;
   imageUrl?: string;
   relatedBands?: Band[];
   albums?: Album[];
@@ -51,6 +51,10 @@ function mapLoadable<T, T1, T2, T3>(
       : callIfFunc(successF, a.data);
 }
 
+function flatMap<T>(fn: (_: T) => T[], arr: T[]) {
+  return arr.map(fn).reduce((p, c) => [...p, ...c], []);
+}
+
 export {
   Band,
   Album,
@@ -59,4 +63,5 @@ export {
   DataLoaded,
   DataError,
   mapLoadable,
+  flatMap,
 };
