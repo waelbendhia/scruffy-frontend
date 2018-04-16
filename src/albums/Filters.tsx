@@ -91,7 +91,7 @@ const Filters = ({
           value={ratingHigher}
           placeHolder="max"
           minValue={ratingLower}
-          maxValue={0}
+          maxValue={10}
         />
       </div>
       <div className={css(styles.subHeading)}>

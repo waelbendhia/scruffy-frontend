@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     maxWidth: '300px',
     minWidth: '180px',
     gridTemplateColumns: 'minmax(200px, 400px)',
-    gridTemplateRows: '80px repeat(auto-fit, 120px)',
+    gridTemplateRows: '80px repeat(auto-fit, 240px)',
     gridColumnGap: '16px',
     gridRowGap: '16px',
     flexGrow: 1,
