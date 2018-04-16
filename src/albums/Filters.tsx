@@ -32,11 +32,15 @@ interface FiltersProps {
   ratingHigher: number;
   updateRatingLower: (_: number) => void;
   updateRatingHigher: (_: number) => void;
+  updateSortBy: (_: SortBy) => void;
   yearLower: number;
   yearHigher: number;
   updateYearLower: (_: number) => void;
   updateYearHigher: (_: number) => void;
   includeUnknown: boolean;
+  sortBy: SortBy;
+  sortOrderAsc: boolean;
+  updateSortOrderAsc: (_: boolean) => void;
   updateIncludeUnknown: (_: boolean) => void;
 }
 
@@ -48,11 +52,15 @@ const Filters = ({
   ratingHigher,
   updateRatingLower,
   updateRatingHigher,
+  updateSortBy,
   yearLower,
   yearHigher,
   updateYearLower,
   updateYearHigher,
   includeUnknown,
+  sortBy,
+  sortOrderAsc,
+  updateSortOrderAsc,
   updateIncludeUnknown,
 }: FiltersProps) => (
     <div
@@ -113,20 +121,37 @@ const Filters = ({
           onChange={e => updateIncludeUnknown(e.target.checked)}
           checked={includeUnknown}
         />
-        <label className={css(styles.label)}>Include unknown?</label>
+        <label className={css(styles.label)}>Include unknown date?</label>
       </div>
       <div className={css(styles.subHeading)}>
         Sort By
       </div>
-      {JSON.stringify(
-        Object.keys(SortBy)
-          .map(s =>
-            s.toLowerCase()
-              .split('_')
-              .map(s1 => s1.charAt(0).toUpperCase() + s1.slice(1))
-              .join(' ')
-          )
-      )}
+      <select
+        value={SortBy[sortBy]}
+        onChange={e => updateSortBy(SortBy[e.target.value])}
+      >
+        {
+          Object.keys(SortBy)
+            .map(s =>
+              <option value={s} key={s}>
+                {
+                  s.toLowerCase()
+                    .split('_')
+                    .map(s1 => s1.charAt(0).toUpperCase() + s1.slice(1))
+                    .join(' ')
+                }
+              </option>
+            )
+        }
+      </select>
+      <div>
+        <input
+          type="checkbox"
+          onChange={e => updateSortOrderAsc(e.target.checked)}
+          checked={sortOrderAsc}
+        />
+        <label className={css(styles.label)}>Sort ascending</label>
+      </div>
     </div >
   );
 

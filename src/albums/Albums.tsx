@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { State, makeGetAlbumsAction } from './types';
+import { State, makeGetAlbumsAction, SearchRequest } from './types';
 import { StyleSheet, css } from 'aphrodite/no-important';
 import { Paginator, definitions } from '../shared';
 import store from '../store';
@@ -28,6 +28,12 @@ const styles = StyleSheet.create({
   paginator: { gridArea: 'paginator' }
 });
 
+function wrap<T>(f: (_: T) => Partial<SearchRequest>) {
+  return (x: T) => store.dispatch(makeGetAlbumsAction(f(x)));
+}
+const bound = (min: number, max: number, val: number) =>
+  Math.max(Math.min(val, max), min);
+
 const View = ({ count, albums, request }: State) => {
   const maxPage = Math.ceil(count / request.numberOfResults);
   return (
@@ -35,45 +41,26 @@ const View = ({ count, albums, request }: State) => {
       <Filters
         className={css(styles.filters)}
         value={request.name}
-        updateName={s => store.dispatch(makeGetAlbumsAction({
-          name: s,
-          page: 0,
-        }))}
-        updateRatingLower={r => store.dispatch(makeGetAlbumsAction({
-          ratingLower: Math.min(Math.max(r, 0), request.ratingHigher),
-          page: 0,
-        }))}
-        updateRatingHigher={s => store.dispatch(makeGetAlbumsAction({
-          ratingHigher: s,
-          page: 0,
-        }))}
-        updateYearLower={r => store.dispatch(makeGetAlbumsAction({
-          yearLower: r,
-          page: 0,
-        }))}
-        updateYearHigher={s => store.dispatch(makeGetAlbumsAction({
-          yearHigher: s,
-          page: 0,
-        }))}
-        updateIncludeUnknown={s => store.dispatch(makeGetAlbumsAction({
-          includeUnknown: s,
-          page: 0,
-        }))}
+        updateName={wrap(s => ({ name: s, page: 0 }))}
+        updateRatingLower={wrap(
+          r => ({ ratingLower: bound(0, request.ratingHigher, r) })
+        )}
+        updateRatingHigher={wrap(s => ({ ratingHigher: s, page: 0 }))}
+        updateYearLower={wrap(r => ({ yearLower: r, page: 0 }))}
+        updateYearHigher={wrap(s => ({ yearHigher: s, page: 0 }))}
+        updateIncludeUnknown={wrap(s => ({ includeUnknown: s, page: 0 }))}
+        updateSortBy={wrap(s => ({ sortBy: s }))}
+        updateSortOrderAsc={wrap(s => ({ sortOrderAsc: s }))}
         {...request}
       />
       <AlbumsGrid className={css(styles.grid)} albums={albums} />
       <Paginator
         className={css(styles.paginator)}
         page={Math.min(request.page, maxPage - 1)}
-        maxPage={Math.ceil(count / request.numberOfResults)}
-        changePage={(delta) =>
-          store.dispatch(makeGetAlbumsAction({
-            page: Math.max(
-              Math.min(request.page + delta, maxPage - 1),
-              0,
-            ),
-          }))
-        }
+        maxPage={maxPage}
+        changePage={wrap(
+          d => ({ page: bound(0, maxPage - 1, request.page + d) })
+        )}
       />
     </div>
   );

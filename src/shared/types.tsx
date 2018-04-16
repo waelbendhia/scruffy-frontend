@@ -34,16 +34,16 @@ interface Band {
   albums?: Album[];
 }
 
+function callIfFunc<T4, T5>(f: T4 | ((_: T5) => T4), arg: T5) {
+  return typeof f === 'function' ? f(arg) : f;
+}
+
 function mapLoadable<T, T1, T2, T3>(
   a: Loadable<T>,
   failedF: T1 | ((_: Error) => T1),
   loadingF: T2 | (() => T2),
   successF: T3 | ((_: T) => T3),
 ) {
-  const callIfFunc =
-    function <T4, T5>(f: T4 | ((_: T5) => T4), arg: T5) {
-      return typeof f === 'function' ? f(arg) : f;
-    };
   return a.failed
     ? callIfFunc(failedF, a.error)
     : a.loading

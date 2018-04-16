@@ -34,7 +34,6 @@ const initialState: State = {
 
 function* fetchAlbums(action: GetAlbumsAction) {
   try {
-
     const prevReq = yield select((s: AppState) => s.albums.request),
       res = yield call(
         searchAlbums.bind(null, { ...prevReq, ...action.req })
