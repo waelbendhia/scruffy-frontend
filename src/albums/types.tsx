@@ -46,12 +46,7 @@ interface GetAlbumsDone {
 
 const makeGetAlbumsDone =
   (albums: Album[] | null, count: number | null, error: Error | null) =>
-    ({
-      type: DON_ALBMS,
-      albums,
-      count,
-      error,
-    });
+    ({ type: DON_ALBMS, albums, count, error });
 
 type Action = GetAlbumsAction | GetAlbumsDone;
 

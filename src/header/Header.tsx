@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { StyleSheet, css } from 'aphrodite/no-important';
-import { definitions, styles as sharedStyles } from '../shared';
+import { definitions } from '../shared';
 import { Link } from 'react-router-dom';
 import HeaderLink from './HeaderLink';
 
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
 });
 
 const View = ({ location }: { location: string }) => (
-  <div className={css(styles.header, sharedStyles.elevation3)}>
+  <div className={css(styles.header)}>
     <Link
       to="/"
       className={css(

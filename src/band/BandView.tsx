@@ -1,113 +1,149 @@
 import * as React from 'react';
 import {
   Band,
-  SmallCard,
-  styles as sharedStyles,
+  AlbumView,
   definitions,
   Album,
 } from '../shared';
 import { StyleSheet, css } from 'aphrodite/no-important';
 
-const defaultImage = require('../albums/albumDefault.svg') as string;
 const defaultBandImage = require('../bands/bandDefault.svg') as string;
 
 const styles = StyleSheet.create({
   header: {
-    position: 'sticky',
-    top: `calc(-30vh + 80px + ${definitions.headerHeight})`,
-    width: '80%',
-    height: '30vh',
+    background: definitions.colors.black,
+    position: 'relative',
+    width: '100%',
+    height: `calc(70vh - ${definitions.headerHeight})`,
+    marginBottom: '5vh',
+    zIndex: 1,
+    overflow: 'hidden',
+  },
+  headerElem: {
+    top: '12%',
+    position: 'absolute',
+    width: '40%',
+    height: '80%',
+  },
+  bandImage: {
+    backgroundColor: definitions.colors.darkGrey,
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
-    backgroundColor: definitions.colors.darkGrey,
+    left: '52%',
     zIndex: 1,
   },
-  headerBand: {
-    position: 'absolute',
-    left: 0,
-    bottom: 0,
-    width: '100%',
-    height: '80px',
-    backgroundColor: definitions.colors.whiteTransparent,
-  },
   headerTitle: {
-    color: definitions.colors.black,
-    position: 'absolute',
-    height: '80px',
+    right: '52%',
+    display: 'flex',
+    flexDirection: 'column',
+    color: definitions.colors.white,
     lineHeight: '80px',
-    fontSize: '44px',
-    left: '10%',
     fontWeight: 700,
-    bottom: 0,
-    display: 'block',
     fontFamily: definitions.fonts.heading,
+    borderBottom: `1px solid ${definitions.colors.white}`,
+    borderTop: `1px solid ${definitions.colors.white}`,
   },
-  bottomLink: { fontSize: '20px' },
+  borderBottom: {
+    marginLeft: '5%',
+    width: '90%',
+    height: '2px',
+    backgroundColor: definitions.colors.primary,
+  },
+  bioBorder: { marginTop: '96px' },
+  albumBorder: { marginTop: '32px' },
+  spacer: { flex: 1 },
+  headerBandName: {
+    fontSize: '64px',
+    overflow: 'hidden',
+    position: 'relative',
+    lineHeight: '1.2em',
+    margin: 0,
+    maxHeight: 'calc(100% - 80px)',
+    flexBasis: 'auto',
+    flexShrink: 0,
+    flexGrow: 0,
+  },
+  bottomLink: {
+    overflow: 'hidden',
+    bottom: 0,
+    height: '80px',
+    fontSize: '20px',
+  },
   container: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
   },
   bio: {
+    paddingLeft: '2em',
+    paddingRight: '2em',
+    paddingBottom: '3em',
+    background: definitions.colors.white,
     maxWidth: '740px',
   },
   bioParagraph: {
-    fontWeight: 300,
+    fontWeight: 400,
+    minHeight: '91px',
     fontSize: '21px',
     lineHeight: '31px',
     marginTop: '38px',
+    '::first-letter': {
+      fontFamily: definitions.fonts.heading,
+      float: 'left',
+      marginRight: '0.4em',
+      fontSize: '65px',
+      borderRight: `1px solid ${definitions.colors.primary}`,
+      padding: '0.45em 0.6em 0.45em 0',
+    }
   },
   body: {
+    alignSelf: 'stretch',
     display: 'flex',
     flexDirection: 'row',
-    maxWidth: 'calc(80% - 48px)',
+    alignItems: 'flex-start',
     paddingLeft: '24px',
     paddingRight: '24px',
   },
   albums: {
-    maxHeight: '1000vh',
-    marginLeft: '80px',
-    display: 'grid',
-    maxWidth: '300px',
+    paddingBottom: '2em',
+    backgroundColor: definitions.colors.white,
+    flexShrink: 0,
+    maxWidth: '400px',
+    marginLeft: '2%',
+    display: 'flex',
     minWidth: '180px',
-    gridTemplateColumns: 'minmax(200px, 400px)',
-    gridTemplateRows: '80px repeat(auto-fit, 240px)',
-    gridColumnGap: '16px',
-    gridRowGap: '16px',
+    flexDirection: 'column',
     flexGrow: 1,
   },
-  album: {
-    fontSize: '0.7em',
-    fontWeight: 700,
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-  },
-  date: { fontSize: '0.6em' },
 });
 
-const Band = ({ name, bio, albums, fullUrl, imageUrl }: Band) => (
-  <div className={css(styles.container)}>
-    <div
-      className={css(
-        styles.header,
-        sharedStyles.elevation2,
-        StyleSheet.create({
-          bg: { backgroundImage: `url(${imageUrl || defaultBandImage})` }
-        }).bg
-      )}
-    >
-      <span className={css(styles.headerBand)} />
-      <span className={css(styles.headerTitle)}>
-        {name}
-      </span>
+const Band = ({ name, bio, albums, fullUrl, imageUrl }: Band) => {
+  const bg = StyleSheet.create({
+    bg: { backgroundImage: `url(${imageUrl || defaultBandImage})` }
+  }).bg;
+  return (
+    <div className={css(styles.container)}>
+      <div className={css(styles.header)}>
+        <div className={css(styles.bandImage, styles.headerElem, bg)} />
+        <div className={css(styles.headerElem, styles.headerTitle)}>
+          <div className={css(styles.spacer)} />
+          <h1 className={css(styles.headerBandName)}>{name}</h1>
+          <div className={css(styles.spacer)} />
+          <a className={css(styles.bottomLink)} href={fullUrl} target="_blank">
+            Read on Scaruffi.com
+        </a>
+        </div>
+      </div>
+      <div className={css(styles.body)}>
+        <div className={css(styles.spacer)} />
+        <Bio bio={bio} fullUrl={fullUrl} albums={albums || []} />
+        <Albums albums={albums || []} />
+        <div className={css(styles.spacer)} />
+      </div>
     </div>
-    <div className={css(styles.body)}>
-      <Bio bio={bio} fullUrl={fullUrl} albums={albums || []} />
-      <Albums albums={albums || []} />
-    </div>
-  </div>
-);
+  );
+};
 
 const Bio = (
   { bio, fullUrl, albums }
@@ -121,7 +157,7 @@ const Bio = (
       {
         bio
           .split('\n')
-          .filter(t => t !== '')
+          .filter(t => t.trim() !== '')
           .map(
             (text, i) => (
               <p key={i} className={css(styles.bioParagraph)}>
@@ -130,29 +166,24 @@ const Bio = (
             )
           )
       }
-      <a className={css(styles.bottomLink)} href={fullUrl} target="_blank">
-        Read on Scaruffi.com
-    </a>
+      <div className={css(styles.borderBottom, styles.bioBorder)} />
     </div>
   );
 
 const Albums = ({ albums }:
   { albums: Album[] }) => (
     <div className={css(styles.albums)}>
-      <h1>Albums</h1>
       {
         albums
-          .map(a => (
-            <SmallCard
+          .sort((a, b) => b.rating - a.rating)
+          .map(a =>
+            <AlbumView
               key={(a.band ? a.band.url : '') + a.name}
-              bgUrl={a.imageUrl || defaultImage}
-            >
-              <div className={css(styles.album)}>{a.name}</div>
-              <div className={css(styles.date)}>({a.year || 'NA'}) </div>
-              <div>{a.rating}/10</div>
-            </SmallCard>
-          ))
+              {...a}
+            />
+          )
       }
+      <div className={css(styles.borderBottom, styles.albumBorder)} />
     </div>
   );
 

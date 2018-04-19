@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { StyleSheet, css } from 'aphrodite/no-important';
-import { definitions, styles as sharedStyles } from '../shared';
+import { definitions } from '../shared';
 import { Link } from 'react-router-dom';
 
 const styles = StyleSheet.create({
@@ -75,7 +75,7 @@ const View =
           styles.selected,
         )}
       />
-      <div className={css(styles.expander, sharedStyles.elevation3)}>
+      <div className={css(styles.expander)}>
         {options.map(
           o => (
             <Link

@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { } from 'aphrodite/no-important';
 import { StyleSheet, css } from 'aphrodite/no-important';
-import { definitions } from '../shared';
+import { definitions } from '.';
 
 const styles = StyleSheet.create({
   paginator: {
@@ -9,7 +8,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     userSelect: 'none',
-    backgroundColor: definitions.colors.whiteTransparent,
+    borderTop: `1px solid ${definitions.colors.black}`,
+    width: '90%',
+    marginLeft: '5%',
   },
   pageIndicator: {
     width: '200px',

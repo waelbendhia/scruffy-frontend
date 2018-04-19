@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { StyleSheet, css } from 'aphrodite/no-important';
-import { definitions, styles as sharedStyles, Input } from '../shared';
+import { definitions, Input } from '../shared';
 import { SortBy } from './types';
 
 const styles = StyleSheet.create({
@@ -64,7 +64,7 @@ const Filters = ({
   updateIncludeUnknown,
 }: FiltersProps) => (
     <div
-      className={css(styles.filters, sharedStyles.elevation2) + ' ' + className}
+      className={css(styles.filters) + ' ' + className}
     >
       <h1>Search:</h1>
       <Input

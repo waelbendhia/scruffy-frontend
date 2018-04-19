@@ -36,3 +36,8 @@ a {
 a:hover {
     color: #FF3530;
 }
+
+::selection {
+    background: #55DDE0;
+    color: #242424;
+}
