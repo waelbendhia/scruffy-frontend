@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
   inactive: { pointerEvents: 'none' }
 });
 
-interface PaginatorProps {
+interface IPaginatorProps {
   className?: string;
   page: number;
   maxPage: number;
@@ -36,7 +36,7 @@ const Paginator = ({
   page,
   maxPage,
   changePage
-}: PaginatorProps) => {
+}: IPaginatorProps) => {
   const Clicker = ({ value }: { value: number }) => (
     <a
       className={css(

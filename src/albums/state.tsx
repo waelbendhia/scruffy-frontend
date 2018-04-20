@@ -1,9 +1,9 @@
 import {
-  State,
+  IState,
   Action,
   makeGetAlbumsDone,
   GET_ALBMS,
-  GetAlbumsAction,
+  IGetAlbumsAction,
   DON_ALBMS,
   makeGetAlbumsAction,
   SortBy,
@@ -13,9 +13,9 @@ import { LocationChangeAction, LOCATION_CHANGE } from 'react-router-redux';
 import { DataLoading, DataError, DataLoaded } from '../shared/types';
 import { searchAlbums } from './api';
 import { select, takeLatest } from 'redux-saga/effects';
-import { State as AppState } from '../store';
+import { IState as AppState } from '../store';
 
-const initialState: State = {
+const initialState: IState = {
   albums: new DataLoading(),
   count: 0,
   request: {
@@ -32,7 +32,7 @@ const initialState: State = {
   }
 };
 
-function* fetchAlbums(action: GetAlbumsAction) {
+function* fetchAlbums(action: IGetAlbumsAction) {
   try {
     const prevReq = yield select((s: AppState) => s.albums.request),
       res = yield call(
@@ -60,7 +60,7 @@ function* effects() {
   ]);
 }
 
-const reducer = (state = initialState, action: Action): State => {
+const reducer = (state = initialState, action: Action): IState => {
   switch (action.type) {
     case GET_ALBMS:
       return {

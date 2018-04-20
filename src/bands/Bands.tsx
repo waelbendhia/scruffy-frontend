@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { State, makeGetBandsAction } from './types';
+import { IState, makeGetBandsAction } from './types';
 import { StyleSheet, css } from 'aphrodite/no-important';
 import { definitions, Paginator } from '../shared';
 import store from '../store';
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   paginator: { gridArea: 'paginator' }
 });
 
-const View = ({ bands, count, request }: State) => {
+const View = ({ bands, count, request }: IState) => {
   const maxPage = Math.ceil(count / request.numberOfResults);
   return (
     <div className={css(styles.layoutGrid)}>

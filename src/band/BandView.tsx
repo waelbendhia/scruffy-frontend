@@ -1,9 +1,9 @@
 import * as React from 'react';
 import {
-  Band,
+  IBand,
   AlbumView,
   definitions,
-  Album,
+  IAlbum,
 } from '../shared';
 import { StyleSheet, css } from 'aphrodite/no-important';
 
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Band = ({ name, bio, albums, fullUrl, imageUrl }: Band) => {
+const Band = ({ name, bio, albums, fullUrl, imageUrl }: IBand) => {
   const bg = StyleSheet.create({
     bg: { backgroundImage: `url(${imageUrl || defaultBandImage})` }
   }).bg;
@@ -150,7 +150,7 @@ const Bio = (
     : {
       bio: string;
       fullUrl: string;
-      albums: Album[];
+      albums: IAlbum[];
     }
 ) => (
     <div className={css(styles.bio)}>
@@ -171,7 +171,7 @@ const Bio = (
   );
 
 const Albums = ({ albums }:
-  { albums: Album[] }) => (
+  { albums: IAlbum[] }) => (
     <div className={css(styles.albums)}>
       {
         albums

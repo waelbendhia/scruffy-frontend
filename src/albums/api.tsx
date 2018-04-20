@@ -1,12 +1,12 @@
-import { Album, toParams } from '../shared';
-import { SearchRequest } from './types';
+import { IAlbum, toParams } from '../shared';
+import { ISearchRequest } from './types';
 
-interface SearchResult {
+interface ISearchResult {
   count: number;
-  result: Album[];
+  result: IAlbum[];
 }
 
-const searchAlbums = async (req: SearchRequest) => {
+const searchAlbums = async (req: ISearchRequest) => {
   const res = await fetch(
     '/api/album?' + toParams(req).toString(),
     { method: 'GET', },
@@ -21,7 +21,7 @@ const searchAlbums = async (req: SearchRequest) => {
     );
   }
   );
-  return await res.json() as SearchResult;
+  return await res.json() as ISearchResult;
 };
 
-export { searchAlbums, SearchResult };
+export { searchAlbums, ISearchResult };

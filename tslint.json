@@ -3,11 +3,17 @@
         "tslint-react"
     ],
     "rules": {
+        "interface-name": [
+            true,
+            "always-prefix"
+        ],
         "align": [
             true,
             "parameters",
             "arguments",
-            "statements"
+            "statements",
+            "members",
+            "elements"
         ],
         "ban": false,
         "class-name": true,
@@ -21,10 +27,6 @@
         "indent": [
             true,
             "spaces"
-        ],
-        "interface-name": [
-            true,
-            "never-prefix"
         ],
         "jsdoc-format": true,
         "jsx-no-lambda": false,

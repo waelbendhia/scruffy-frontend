@@ -16,22 +16,22 @@ class DataLoaded<T>  {
   readonly failed = false;
   constructor(public data: T) { }
 }
-interface Album {
+interface IAlbum {
   name: string;
   year: number;
   rating: number;
   imageUrl: string;
-  band?: Band;
+  band?: IBand;
 }
 
-interface Band {
+interface IBand {
   url: string;
   fullUrl: string;
   name: string;
   bio: string;
   imageUrl?: string;
-  relatedBands?: Band[];
-  albums?: Album[];
+  relatedBands?: IBand[];
+  albums?: IAlbum[];
 }
 
 function callIfFunc<T4, T5>(f: T4 | ((_: T5) => T4), arg: T5) {
@@ -56,8 +56,8 @@ function flatMap<T>(fn: (_: T) => T[], arr: T[]) {
 }
 
 export {
-  Band,
-  Album,
+  IBand,
+  IAlbum,
   DataLoading,
   Loadable,
   DataLoaded,

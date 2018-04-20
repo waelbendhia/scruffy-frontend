@@ -41,13 +41,13 @@ interface InputPropsBase {
   placeHolder?: string;
 }
 
-interface TextInputProps extends InputPropsBase {
+interface ITextInputProps extends InputPropsBase {
   type: 'text';
   onChange: (_: string) => void;
   value: string;
 }
 
-interface NumberInputProps extends InputPropsBase {
+interface INumberInputProps extends InputPropsBase {
   type: 'number';
   onChange: (_: number) => void;
   value: number;
@@ -55,7 +55,7 @@ interface NumberInputProps extends InputPropsBase {
   maxValue: number;
 }
 
-type InputProps = TextInputProps | NumberInputProps;
+type InputProps = ITextInputProps | INumberInputProps;
 
 const Input = (props: InputProps) => (
   <div className={css(styles.container) + ' ' + props.className}>

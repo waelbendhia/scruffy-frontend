@@ -4,9 +4,9 @@ import Home from '../home';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { State as HomeState } from '../home';
 import Bands from '../bands';
-import { State as BandsState } from '../bands';
+import { IState as BandsState } from '../bands';
 import Albums from '../albums';
-import { State as AlbumsState } from '../albums';
+import { IState as AlbumsState } from '../albums';
 import Directors from '../directors';
 import Films from '../films';
 import Band from '../band';
@@ -43,14 +43,14 @@ const styles = StyleSheet.create({
   },
 });
 
-interface BodyProps {
+interface IBodyProps {
   location: Location;
   home: HomeState;
   bands: BandsState;
   albums: AlbumsState;
   band: BandState;
 }
-const View = ({ location, home, bands, albums, band }: BodyProps) => (
+const View = ({ location, home, bands, albums, band }: IBodyProps) => (
   <TransitionGroup className={css(styles.body)}>
     <CSSTransition
       key={location.pathname}

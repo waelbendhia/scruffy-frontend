@@ -6,7 +6,7 @@ import {
   Loadable,
   Loading,
   definitions,
-  Album,
+  IAlbum,
 } from '../shared';
 import { StyleSheet, css } from 'aphrodite';
 
@@ -55,12 +55,12 @@ const styles = StyleSheet.create({
   date: { fontSize: '0.8em' }
 });
 
-interface GridProps {
+interface IGridProps {
   className?: string;
-  albums: Loadable<Album[]>;
+  albums: Loadable<IAlbum[]>;
 }
 
-const AlbumsGrid = ({ className, albums }: GridProps) => (
+const AlbumsGrid = ({ className, albums }: IGridProps) => (
   <TransitionGroup className={className}>
     {
       <CSSTransition

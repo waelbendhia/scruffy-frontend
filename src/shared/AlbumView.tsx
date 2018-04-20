@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { definitions, Album } from '../shared';
+import { definitions, IAlbum } from '../shared';
 import { StyleSheet, css } from 'aphrodite/no-important';
 import { Link, LinkProps } from 'react-router-dom';
 
@@ -83,11 +83,11 @@ const styles = StyleSheet.create({
   }
 });
 
-interface Props extends Album {
+interface IProps extends IAlbum {
   url?: string;
 }
 
-const AlbumView = ({ url, imageUrl, name, year, rating }: Props) => {
+const AlbumView = ({ url, imageUrl, name, year, rating }: IProps) => {
   const bg = StyleSheet.create({
     bg: {
       backgroundImage: `url(${imageUrl || defaultImage})`,

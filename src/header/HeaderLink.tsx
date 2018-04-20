@@ -55,17 +55,17 @@ const styles = StyleSheet.create({
   }
 });
 
-interface HeaderLink {
+interface IHeaderLink {
   text: string;
   link: string;
 }
-interface Props extends HeaderLink {
+interface IProps extends IHeaderLink {
   location: string;
-  options: HeaderLink[];
+  options: IHeaderLink[];
 }
 
 const View =
-  ({ text, location, link, options }: Props) => (
+  ({ text, location, link, options }: IProps) => (
     <div className={css(styles.linkStyle, styles.expandChild)}>
       <Link className={css(styles.linkChildStyle)} to={link}>{text}</Link>
       <span

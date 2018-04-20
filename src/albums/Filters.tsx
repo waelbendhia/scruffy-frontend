@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
   }
 });
 
-interface FiltersProps {
+interface IFiltersProps {
   className?: string;
   updateName: (_: string) => void;
   value: string;
@@ -62,7 +62,7 @@ const Filters = ({
   sortOrderAsc,
   updateSortOrderAsc,
   updateIncludeUnknown,
-}: FiltersProps) => (
+}: IFiltersProps) => (
     <div
       className={css(styles.filters) + ' ' + className}
     >

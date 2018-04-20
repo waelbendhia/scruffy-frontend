@@ -10,11 +10,11 @@ import {
   initialState as homeInitialState,
 } from './home';
 import {
-  State as BandsState,
+  IState as BandsState,
   initialState as bandsInitialState,
 } from './bands';
 import {
-  State as AlbumsState,
+  IState as AlbumsState,
   initialState as albumsInitialState,
 } from './albums';
 import {

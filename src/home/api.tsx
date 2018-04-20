@@ -1,4 +1,4 @@
-import { BandWithInfluence } from './types';
+import { IBandWithInfluence } from './types';
 
 const getInfluential = async () =>
   (await
@@ -6,7 +6,7 @@ const getInfluential = async () =>
       '/api/band/influential',
       { method: 'GET' },
     )).json()
-  ) as BandWithInfluence;
+  ) as IBandWithInfluence;
 
 const getDistribution = async () =>
   (await

@@ -3,22 +3,22 @@ import {
   Action,
   makeGetBandDone,
   GET_BND,
-  GetBandAction,
+  IGetBandAction,
   DON_BND,
   makeGetBandAction,
 } from './types';
 import { call, put, takeEvery, all } from 'redux-saga/effects';
 import { LocationChangeAction, LOCATION_CHANGE } from 'react-router-redux';
-import { DataLoading, DataError, DataLoaded, Band } from '../shared/types';
+import { DataLoading, DataError, DataLoaded, IBand } from '../shared/types';
 import { getBand } from './api';
 import { takeLatest } from 'redux-saga/effects';
 import { history } from '../store';
 
 const initialState: State = new DataLoading();
 
-function* fetchBand(action: GetBandAction) {
+function* fetchBand(action: IGetBandAction) {
   try {
-    const res = (yield call(getBand.bind(null, action.req))) as Band;
+    const res = (yield call(getBand.bind(null, action.req))) as IBand;
     yield put(makeGetBandDone(res, null));
   } catch (e) {
     yield put(makeGetBandDone(null, e));

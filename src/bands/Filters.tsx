@@ -9,13 +9,13 @@ const styles = StyleSheet.create({
   }
 });
 
-interface FiltersProps {
+interface IFiltersProps {
   className?: string;
   updateName: (_: string) => void;
   value: string;
 }
 
-const Filters = ({ updateName, className, value }: FiltersProps) => (
+const Filters = ({ updateName, className, value }: IFiltersProps) => (
   <div
     className={css(styles.filters) + ' ' + className}
   >

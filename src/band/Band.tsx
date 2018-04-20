@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Band, Loadable, Loading, mapLoadable, definitions } from '../shared';
+import { IBand, Loadable, Loading, mapLoadable, definitions } from '../shared';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { css, StyleSheet } from 'aphrodite/no-important';
 import BandView from './BandView';
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const View = (band: Loadable<Band>) => (
+const View = (band: Loadable<IBand>) => (
   <TransitionGroup className={css(styles.container)}>
     {
       <CSSTransition

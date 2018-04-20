@@ -3,7 +3,7 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import {
   SmallCard,
   mapLoadable,
-  Band,
+  IBand,
   Loadable,
   Loading,
   definitions,
@@ -43,12 +43,12 @@ const styles = StyleSheet.create({
   }
 });
 
-interface GridProps {
+interface IGridProps {
   className?: string;
-  bands: Loadable<Band[]>;
+  bands: Loadable<IBand[]>;
 }
 
-const BandsGrid = ({ className, bands }: GridProps) => (
+const BandsGrid = ({ className, bands }: IGridProps) => (
   <TransitionGroup className={className}>
     {
       <CSSTransition

@@ -1,37 +1,37 @@
-import { Band, Loadable } from '../shared';
+import { IBand, Loadable } from '../shared';
 
-interface SearchRequest {
+interface ISearchRequest {
   name: string;
   numberOfResults: number;
   page: number;
 }
 
-interface State {
-  bands: Loadable<Band[]>;
+interface IState {
+  bands: Loadable<IBand[]>;
   count: number;
-  request: SearchRequest;
+  request: ISearchRequest;
 }
 
 const GET_BNDS = '[Bands] Get bands';
 const DON_BNDS = '[Bands] Get bands done';
 
-interface GetBandsAction {
+interface IGetBandsAction {
   type: '[Bands] Get bands';
-  req: Partial<SearchRequest>;
+  req: Partial<ISearchRequest>;
 }
 
 const makeGetBandsAction =
-  (req: Partial<SearchRequest>) => ({ type: GET_BNDS, req });
+  (req: Partial<ISearchRequest>) => ({ type: GET_BNDS, req });
 
-interface GetBandsDone {
+interface IGetBandsDone {
   type: '[Bands] Get bands done';
-  bands: Band[] | null;
+  bands: IBand[] | null;
   error: Error | null;
   count: number;
 }
 
 const makeGetBandsDone =
-  (bands: Band[] | null, count: number | null, error: Error | null) =>
+  (bands: IBand[] | null, count: number | null, error: Error | null) =>
     ({
       type: DON_BNDS,
       bands,
@@ -39,14 +39,14 @@ const makeGetBandsDone =
       error,
     });
 
-type Action = GetBandsAction | GetBandsDone;
+type Action = IGetBandsAction | IGetBandsDone;
 
 export {
-  SearchRequest,
-  State,
+  ISearchRequest,
+  IState,
   Action,
   GET_BNDS,
-  GetBandsAction,
+  IGetBandsAction,
   makeGetBandsAction,
   DON_BNDS,
   makeGetBandsDone,

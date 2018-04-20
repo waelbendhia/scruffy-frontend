@@ -18,13 +18,13 @@ import {
   reducer as bandsReducer,
   effects as bandsEffects,
 } from './bands/state';
-import { State as BandsState } from './bands/types';
+import { IState as BandsState } from './bands/types';
 
 import {
   initialState as albumsInitialState,
   reducer as albumsReducer,
   effects as albumsEffects,
-  State as AlbumsState,
+  IState as AlbumsState,
 } from './albums';
 
 import {
@@ -37,7 +37,7 @@ import {
 const sagaMiddleware = createSagaMiddleware(),
   history = createHistory();
 
-interface State {
+interface IState {
   router: RouterState;
   home: HomeState;
   bands: BandsState;
@@ -45,7 +45,7 @@ interface State {
   band: BandState;
 }
 
-const initialState: State = {
+const initialState: IState = {
   router: { location: null },
   home: homeInitialState,
   bands: bandsInitialState,
@@ -53,7 +53,7 @@ const initialState: State = {
   band: bandInitialState,
 };
 
-const store: Store<State> = createStore(
+const store: Store<IState> = createStore(
   combineReducers({
     bands: bandsReducer,
     router: routerReducer,
@@ -74,4 +74,4 @@ sagaMiddleware.run(albumsEffects);
 sagaMiddleware.run(bandEffects);
 
 export default store;
-export { State, history };
+export { IState, history };

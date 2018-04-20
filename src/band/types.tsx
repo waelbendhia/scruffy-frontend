@@ -1,18 +1,18 @@
-import { Band, Loadable } from '../shared';
+import { IBand, Loadable } from '../shared';
 
-interface BandRequest {
+interface IBandRequest {
   vol: string;
   url: string;
 }
 
-type State = Loadable<Band>;
+type State = Loadable<IBand>;
 
 const GET_BND = '[Band] Get band';
 const DON_BND = '[Band] Get band done';
 
-interface GetBandAction {
+interface IGetBandAction {
   type: '[Band] Get band';
-  req: BandRequest;
+  req: IBandRequest;
 }
 
 const makeGetBandAction =
@@ -24,24 +24,24 @@ const makeGetBandAction =
     }
   });
 
-interface GetBandDone {
+interface IGetBandDone {
   type: '[Band] Get band done';
-  band: Band | null;
+  band: IBand | null;
   error: Error | null;
 }
 
 const makeGetBandDone =
-  (band: Band | null, error: Error | null) =>
+  (band: IBand | null, error: Error | null) =>
     ({ type: DON_BND, band, error });
 
-type Action = GetBandAction | GetBandDone;
+type Action = IGetBandAction | IGetBandDone;
 
 export {
-  BandRequest,
+  IBandRequest,
   State,
   Action,
   GET_BND,
-  GetBandAction,
+  IGetBandAction,
   makeGetBandAction,
   DON_BND,
   makeGetBandDone,

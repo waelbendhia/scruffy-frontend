@@ -1,12 +1,12 @@
-import { Band, toParams } from '../shared';
-import { SearchRequest } from './types';
+import { IBand, toParams } from '../shared';
+import { ISearchRequest } from './types';
 
-interface SearchResult {
+interface ISearchResult {
   count: number;
-  result: Band[];
+  result: IBand[];
 }
 
-const searchBands = async (req: SearchRequest) => {
+const searchBands = async (req: ISearchRequest) => {
   const res = await fetch(
     '/api/band?' + toParams(req).toString(),
     { method: 'GET', },
@@ -21,7 +21,7 @@ const searchBands = async (req: SearchRequest) => {
     );
   }
   );
-  return await res.json() as SearchResult;
+  return await res.json() as ISearchResult;
 };
 
-export { searchBands, SearchResult };
+export { searchBands, ISearchResult };

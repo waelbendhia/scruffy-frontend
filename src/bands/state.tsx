@@ -1,9 +1,9 @@
 import {
-  State,
+  IState,
   Action,
   makeGetBandsDone,
   GET_BNDS,
-  GetBandsAction,
+  IGetBandsAction,
   DON_BNDS,
   makeGetBandsAction,
 } from './types';
@@ -12,9 +12,9 @@ import { LocationChangeAction, LOCATION_CHANGE } from 'react-router-redux';
 import { DataLoading, DataError, DataLoaded } from '../shared/types';
 import { searchBands } from './api';
 import { select, takeLatest } from 'redux-saga/effects';
-import { State as AppState } from '../store';
+import { IState as AppState } from '../store';
 
-const initialState: State = {
+const initialState: IState = {
   bands: new DataLoading(),
   count: 0,
   request: {
@@ -24,7 +24,7 @@ const initialState: State = {
   }
 };
 
-function* fetchBands(action: GetBandsAction) {
+function* fetchBands(action: IGetBandsAction) {
   try {
     const prevReq = yield select((s: AppState) => s.bands.request),
       res = yield call(
@@ -52,7 +52,7 @@ function* effects() {
   ]);
 }
 
-const reducer = (state = initialState, action: Action): State => {
+const reducer = (state = initialState, action: Action): IState => {
   switch (action.type) {
     case GET_BNDS:
       return {

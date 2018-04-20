@@ -1,7 +1,7 @@
-import { Band } from '../shared';
-import { BandRequest } from './types';
+import { IBand } from '../shared';
+import { IBandRequest } from './types';
 
-const getBand = async (req: BandRequest) => {
+const getBand = async (req: IBandRequest) => {
   const res = await fetch(
     `/api/band/${req.vol}/${req.url}`,
     { method: 'GET' },
@@ -16,7 +16,7 @@ const getBand = async (req: BandRequest) => {
     );
   }
   );
-  return await res.json() as Band;
+  return await res.json() as IBand;
 };
 
 export { getBand };

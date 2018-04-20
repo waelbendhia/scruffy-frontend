@@ -1,43 +1,43 @@
-import { Band, Loadable } from '../shared';
+import { IBand, Loadable } from '../shared';
 
-interface HomeData {
+interface IHomeData {
   ratings: { [rating: string]: number };
-  influential: BandWithInfluence[];
+  influential: IBandWithInfluence[];
   bandCount: number;
   albumCount: number;
 }
-interface BandWithInfluence extends Band {
+interface IBandWithInfluence extends IBand {
   influence: number;
 }
-type State = Loadable<HomeData>;
+type State = Loadable<IHomeData>;
 
 const GET_DATA = '[Home] Get data';
 const DON_DATA = '[Home] Get data done';
 
-interface GetDataAction {
+interface IGetDataAction {
   readonly type: '[Home] Get data';
 }
 
 const makeGetDataAction = () => ({ type: GET_DATA }),
   makeGetDataDone =
-    (data: HomeData | null, error: Error | null) =>
+    (data: IHomeData | null, error: Error | null) =>
       ({ type: DON_DATA, data, error });
-interface GetDataDone {
+interface IGetDataDone {
   readonly type: '[Home] Get data done';
-  data: HomeData | null;
+  data: IHomeData | null;
   error: Error | null;
 }
 
 type Action =
-  GetDataAction |
-  GetDataDone;
+  IGetDataAction |
+  IGetDataDone;
 
 export {
-  BandWithInfluence,
+  IBandWithInfluence,
   State,
   GET_DATA, DON_DATA,
-  GetDataAction,
-  GetDataDone,
+  IGetDataAction,
+  IGetDataDone,
   makeGetDataAction,
   makeGetDataDone,
   Action,

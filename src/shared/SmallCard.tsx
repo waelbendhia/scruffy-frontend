@@ -46,13 +46,13 @@ const styles = StyleSheet.create({
   }
 });
 
-interface Props {
+interface IProps {
   bgUrl: string;
   url?: string;
   children: React.ReactNode;
 }
 
-const SmallCard = ({ bgUrl, url, children }: Props) => {
+const SmallCard = ({ bgUrl, url, children }: IProps) => {
   const bg = StyleSheet.create({
     bg: {
       backgroundImage: `url(${bgUrl})`,

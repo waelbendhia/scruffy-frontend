@@ -1,4 +1,4 @@
-import { Loadable, Album } from '../shared';
+import { Loadable, IAlbum } from '../shared';
 
 enum SortBy {
   RATING = 'rating',
@@ -7,7 +7,7 @@ enum SortBy {
   BAND_NAME = 'bandName',
 }
 
-interface SearchRequest {
+interface ISearchRequest {
   ratingLower: number;
   ratingHigher: number;
   yearLower: number;
@@ -20,45 +20,45 @@ interface SearchRequest {
   numberOfResults: number;
 }
 
-interface State {
-  albums: Loadable<Album[]>;
+interface IState {
+  albums: Loadable<IAlbum[]>;
   count: number;
-  request: SearchRequest;
+  request: ISearchRequest;
 }
 
 const GET_ALBMS = '[Albums] Get albums';
 const DON_ALBMS = '[Albums] Get albums done';
 
-interface GetAlbumsAction {
+interface IGetAlbumsAction {
   type: '[Albums] Get albums';
-  req: Partial<SearchRequest>;
+  req: Partial<ISearchRequest>;
 }
 
 const makeGetAlbumsAction =
-  (req: Partial<SearchRequest>) => ({ type: GET_ALBMS, req });
+  (req: Partial<ISearchRequest>) => ({ type: GET_ALBMS, req });
 
-interface GetAlbumsDone {
+interface IGetAlbumsDone {
   type: '[Albums] Get albums done';
-  albums: Album[] | null;
+  albums: IAlbum[] | null;
   error: Error | null;
   count: number;
 }
 
 const makeGetAlbumsDone =
-  (albums: Album[] | null, count: number | null, error: Error | null) =>
+  (albums: IAlbum[] | null, count: number | null, error: Error | null) =>
     ({ type: DON_ALBMS, albums, count, error });
 
-type Action = GetAlbumsAction | GetAlbumsDone;
+type Action = IGetAlbumsAction | IGetAlbumsDone;
 
 export {
   SortBy,
-  SearchRequest,
-  State,
+  ISearchRequest,
+  IState,
   Action,
   GET_ALBMS,
-  GetAlbumsAction,
+  IGetAlbumsAction,
   makeGetAlbumsAction,
   DON_ALBMS,
-  GetAlbumsDone,
+  IGetAlbumsDone,
   makeGetAlbumsDone,
 };
