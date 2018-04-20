@@ -43,6 +43,31 @@ class App extends React.Component<{}, {
 
     store.subscribe(() => {
       const { router, home, bands, albums, band } = store.getState();
+      if (!router.location) {
+        document.title = 'Scaruffi2.0';
+      } else {
+        switch (router.location.pathname) {
+          case '/bands':
+            document.title = 'Scaruffi2.0: Bands';
+            break;
+          case '/albums':
+            document.title = 'Scaruffi2.0: Albums';
+            break;
+          default:
+            if (router.location.pathname.indexOf('bands') !== -1) {
+              document.title = `Scaruffi2.0: ${
+                band.failed
+                  ? 'error'
+                  : band.loading
+                    ? ''
+                    : band.data.name
+                }`;
+            } else {
+              document.title = 'Scaruffi2.0';
+            }
+            break;
+        }
+      }
       this.setState({
         location: router.location || history.location,
         home,
