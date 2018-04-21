@@ -28,7 +28,7 @@ const initialState: IState = {
     sortBy: SortBy.RATING,
     sortOrderAsc: false,
     page: 0,
-    numberOfResults: 15,
+    numberOfResults: 10,
   }
 };
 

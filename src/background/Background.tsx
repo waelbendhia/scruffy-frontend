@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
     fontSize: '6vh',
     backgroundColor: definitions.colors.darkWhite,
     color: definitions.colors.lessDarkWhite,
+    filter: 'blur(1px)',
     zIndex: -1,
     userSelect: 'none',
   },

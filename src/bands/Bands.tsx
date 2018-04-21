@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
 const View = ({ bands, count, request }: IState) => {
   const maxPage = Math.ceil(count / request.numberOfResults);
   return (
-    <div className={css(styles.layoutGrid)}>
+    <div className={css(styles.layoutGrid)}    >
       <Filters
         className={css(styles.filters)}
         value={request.name}
@@ -43,6 +43,14 @@ const View = ({ bands, count, request }: IState) => {
       <BandsGrid
         className={css(styles.grid)}
         bands={bands}
+        changePage={(delta) =>
+          store.dispatch(makeGetBandsAction({
+            page: Math.max(
+              Math.min(request.page + delta, maxPage - 1),
+              0,
+            ),
+          }))
+        }
       />
       <Paginator
         className={css(styles.paginator)}

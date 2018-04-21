@@ -3,65 +3,73 @@ import { definitions } from '../shared';
 import { StyleSheet, css } from 'aphrodite/no-important';
 import { Link, LinkProps } from 'react-router-dom';
 
+const defaultImage = require('../albums/albumDefault.svg') as string;
+
 interface IProps {
-  bgUrl: string;
+  imageUrl: string;
   url?: string;
   children: React.ReactNode;
 }
 
-const SmallCard = ({ bgUrl, url, children }: IProps) => {
+const HLabeledImage = ({ url, imageUrl, children }: IProps) => {
   const styles = StyleSheet.create({
-    card: {
-      padding: '6%',
+    container: {
       position: 'relative',
-      display: 'flex',
-      alignItems: 'center',
-      flexDirection: 'column',
+      width: '100%',
+      height: 0,
+      paddingTop: '40%',
       backgroundColor: definitions.colors.white,
       ':hover > span': {
         left: 0,
         width: '100%',
       },
-      ':hover > div::after': {
-        opacity: 1,
-      }
     },
     label: {
-      width: '100%',
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      position: 'absolute',
+      top: 0,
+      left: '40%',
+      width: '60%',
+      height: '100%',
       whiteSpace: 'nowrap',
       textOverflow: 'ellipsis',
       overflow: 'hidden',
-      textAlign: 'center',
       fontSize: '24px',
       bottom: 0,
     },
+    ellipsis: {
+      whiteSpace: 'nowrap',
+      textOverflow: 'ellipsis',
+      overflow: 'hidden',
+    },
+    border: {
+      height: '70%',
+      width: '1px',
+      marginLeft: '12px',
+      marginRight: '16px',
+      backgroundColor: definitions.colors.black,
+    },
+    labelText: {
+      height: '90%',
+      display: 'flex',
+      maxWidth: 'calc(100% - 37px)',
+      flexDirection: 'column',
+      justifyContent: 'space-around',
+    },
     image: {
-      position: 'relative',
-      width: '100%',
-      flex: 1,
+      top: '8px',
+      left: '8px',
       backgroundColor: definitions.colors.darkGrey,
-      backgroundImage: `url(${bgUrl})`,
+      position: 'absolute',
+      width: 'calc(40% - 16px)',
+      height: 'calc(100% - 16px)',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',
       backgroundSize: 'cover',
-      overflow: 'hidden',
-      '::after': {
-        content: `''`,
-        'mix-blend-mode': 'color',
-        position: 'absolute',
-        opacity: 0,
-        width: '100%',
-        height: '100%',
-        backgroundColor: definitions.colors.primary,
-        transition: `opacity ease-in-out ${definitions.transitions.fast}`,
-      },
-    },
-    border: {
-      height: '1px',
-      width: '80%',
-      marginTop: '12px',
-      marginBotom: '16px',
-      backgroundColor: definitions.colors.black,
+      backgroundImage: `url(${imageUrl || defaultImage})`,
     },
     highlight: {
       position: 'absolute',
@@ -83,19 +91,15 @@ const SmallCard = ({ bgUrl, url, children }: IProps) => {
         : <span {...props} />;
 
   return (
-    <Elem
-      className={css(
-        styles.card,
-        // sharedStyles.elevate,
-        !url && styles.noHover,
-      )}
-    >
+    <Elem className={css(styles.container, !url && styles.noHover)}>
       <div className={css(styles.image)} />
-      <div className={css(styles.border)} />
-      <div className={css(styles.label)}>{children}</div>
+      <div className={css(styles.label)}>
+        <div className={css(styles.border)} />
+        {children}
+      </div>
       <span className={css(styles.highlight)} />
     </Elem>
   );
 };
 
-export default SmallCard;
+export default HLabeledImage;

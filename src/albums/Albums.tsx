@@ -53,7 +53,13 @@ const View = ({ count, albums, request }: IState) => {
         updateSortOrderAsc={wrap(s => ({ sortOrderAsc: s }))}
         {...request}
       />
-      <AlbumsGrid className={css(styles.grid)} albums={albums} />
+      <AlbumsGrid
+        changePage={wrap(
+          d => ({ page: bound(0, maxPage - 1, request.page + d) })
+        )}
+        className={css(styles.grid)}
+        albums={albums}
+      />
       <Paginator
         className={css(styles.paginator)}
         page={Math.min(request.page, maxPage - 1)}

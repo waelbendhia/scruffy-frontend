@@ -19,7 +19,7 @@ const initialState: IState = {
   count: 0,
   request: {
     page: 0,
-    numberOfResults: 15,
+    numberOfResults: 10,
     name: '',
   }
 };
