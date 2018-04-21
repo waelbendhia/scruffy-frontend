@@ -60,7 +60,7 @@ const SmallCard = ({ bgUrl, url, children }: IProps) => {
       height: '1px',
       width: '80%',
       marginTop: '12px',
-      marginBotom: '16px',
+      marginBottom: '16px',
       backgroundColor: definitions.colors.black,
     },
     highlight: {

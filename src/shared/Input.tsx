@@ -4,6 +4,15 @@ import { definitions } from '.';
 
 const styles = StyleSheet.create({
   container: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  icon: {
+    fontSize: '30px !important',
+    marginRight: '8px',
+  },
+  inputContainer: {
+    flex: 1,
     position: 'relative',
     height: '40px',
     marginTop: '5px',
@@ -16,11 +25,16 @@ const styles = StyleSheet.create({
     width: '100%',
     fontSize: '30px',
     border: 0,
-    color: definitions.colors.black,
     borderBottomWidth: '2px',
     borderBottomStyle: 'solid',
-    borderBottomColor: definitions.colors.grey,
     backgroundColor: 'transparent',
+    borderBottomColor: definitions.colors.grey,
+  },
+  black: {
+    color: definitions.colors.black,
+  },
+  white: {
+    color: definitions.colors.white,
   },
   highlight: {
     position: 'absolute',
@@ -57,26 +71,35 @@ interface INumberInputProps extends InputPropsBase {
 
 type InputProps = ITextInputProps | INumberInputProps;
 
-const Input = (props: InputProps) => (
+const Input = (props: InputProps & { whiteText?: boolean, icon?: string }) => (
   <div className={css(styles.container) + ' ' + props.className}>
-    <input
-      className={css(styles.input)}
-      type={props.type}
-      onChange={
-        e =>
-          props.type === 'number'
-            ? props.onChange(
-              Math.max(
-                Math.min(parseFloat(e.target.value) || 0, props.maxValue),
-                props.minValue,
+    {!!props.icon
+      ? <i className={'material-icons ' + css(styles.icon)}>{props.icon}</i>
+      : null
+    }
+    <div className={css(styles.inputContainer)}>
+      <input
+        className={css(
+          styles.input,
+          props.whiteText ? styles.white : styles.black,
+        )}
+        type={props.type}
+        onChange={
+          e =>
+            props.type === 'number'
+              ? props.onChange(
+                Math.max(
+                  Math.min(parseFloat(e.target.value) || 0, props.maxValue),
+                  props.minValue,
+                )
               )
-            )
-            : props.onChange(e.target.value)
-      }
-      value={props.value}
-      placeholder={props.placeHolder}
-    />
-    <span className={css(styles.highlight)}>{props.value}</span>
+              : props.onChange(e.target.value)
+        }
+        value={props.value}
+        placeholder={props.placeHolder}
+      />
+      <span className={css(styles.highlight)}>{props.value}</span>
+    </div>
   </div>
 );
 

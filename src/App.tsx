@@ -1,48 +1,24 @@
 import * as React from 'react';
-import Header from './header';
+import { Header } from './header';
 import Background from './background';
 import Body from './body';
 import Footer from './footer';
 import store from './store';
-import { history } from './store';
-import {
-  State as HomeState,
-  initialState as homeInitialState,
-} from './home';
-import {
-  IState as BandsState,
-  initialState as bandsInitialState,
-} from './bands';
-import {
-  IState as AlbumsState,
-  initialState as albumsInitialState,
-} from './albums';
-import {
-  State as BandState,
-  initialState as bandInitialState,
-} from './band';
+import { initialState, IState, history } from './store';
 import { Location } from 'history';
 
-class App extends React.Component<{}, {
-  location: Location,
-  home: HomeState,
-  bands: BandsState
-  albums: AlbumsState,
-  band: BandState,
-}> {
+class App extends React.Component<{}, IState & { location: Location }> {
   constructor(props: {}) {
     super(props);
 
     this.state = {
+      ...initialState,
       location: store.getState().router.location || history.location,
-      home: homeInitialState,
-      bands: bandsInitialState,
-      albums: albumsInitialState,
-      band: bandInitialState,
     };
 
     store.subscribe(() => {
-      const { router, home, bands, albums, band } = store.getState();
+      const state = store.getState();
+      const { router, band } = state;
       if (!router.location) {
         document.title = 'Scaruffi2.0';
       } else {
@@ -69,11 +45,8 @@ class App extends React.Component<{}, {
         }
       }
       this.setState({
+        ...state,
         location: router.location || history.location,
-        home,
-        bands,
-        albums,
-        band,
       });
     });
   }
@@ -81,7 +54,14 @@ class App extends React.Component<{}, {
   render() {
     return (
       <div>
-        <Header location={this.state.location.pathname} />
+        <link
+          href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet"
+        />
+        <Header
+          {...this.state.header}
+          location={this.state.location.pathname}
+        />
         <Background />
         <Body {...this.state} />
         <Footer />

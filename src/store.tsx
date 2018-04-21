@@ -34,6 +34,15 @@ import {
   State as BandState,
 } from './band';
 
+import {
+  IState as HeaderState,
+} from './header/types';
+import {
+  initialState as headerInitialState,
+  reducer as headerReducer,
+  effects as headerEffects,
+} from './header/state';
+
 const sagaMiddleware = createSagaMiddleware(),
   history = createHistory();
 
@@ -43,6 +52,7 @@ interface IState {
   bands: BandsState;
   albums: AlbumsState;
   band: BandState;
+  header: HeaderState;
 }
 
 const initialState: IState = {
@@ -51,7 +61,10 @@ const initialState: IState = {
   bands: bandsInitialState,
   albums: albumsInitialState,
   band: bandInitialState,
+  header: headerInitialState,
 };
+
+console.log('Header reducer', headerReducer, headerInitialState);
 
 const store: Store<IState> = createStore(
   combineReducers({
@@ -60,6 +73,7 @@ const store: Store<IState> = createStore(
     home: homeReducer,
     albums: albumsReducer,
     band: bandReducer,
+    header: headerReducer,
   }),
   initialState,
   applyMiddleware(
@@ -72,6 +86,7 @@ sagaMiddleware.run(homeEffects);
 sagaMiddleware.run(bandsEffects);
 sagaMiddleware.run(albumsEffects);
 sagaMiddleware.run(bandEffects);
+sagaMiddleware.run(headerEffects);
 
 export default store;
-export { IState, history };
+export { IState, history, initialState };
