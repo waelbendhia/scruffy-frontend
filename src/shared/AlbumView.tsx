@@ -18,8 +18,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   albumName: {
-    fontSize: '0.7em',
+    overflow: 'hidden',
     whiteSpace: 'normal',
+    maxHeight: '2.4em',
+    fontSize: '0.7em',
     fontWeight: 700,
   },
   date: { fontSize: '0.6em' },
@@ -51,18 +53,24 @@ const styles = StyleSheet.create({
 
 interface IProps extends IAlbum {
   url?: string;
+  whiteText?: boolean;
 }
 
-const AlbumView = ({ url, imageUrl, name, year, rating }: IProps) => (
-  <LabeledImage imageUrl={imageUrl || defaultImage} url={url}>
-    <div className={css(styles.labelText)}>
-      <div className={css(styles.albumName)}>{name}</div>
-      <div className={css(styles.ellipsis, styles.date)} >
-        ({year || 'NA'})
+const AlbumView =
+  ({ url, imageUrl, name, year, rating, whiteText }: IProps) => (
+    <LabeledImage
+      whiteText={whiteText}
+      imageUrl={imageUrl || defaultImage}
+      url={url}
+    >
+      <div className={css(styles.labelText)}>
+        <div className={css(styles.albumName)}>{name}</div>
+        <div className={css(styles.ellipsis, styles.date)} >
+          ({year || 'NA'})
            </div>
-      <div className={css(styles.ellipsis)} >{rating}/10</div>
-    </div>
-  </LabeledImage>
-);
+        <div className={css(styles.ellipsis)} >{rating}/10</div>
+      </div>
+    </LabeledImage>
+  );
 
 export default AlbumView;

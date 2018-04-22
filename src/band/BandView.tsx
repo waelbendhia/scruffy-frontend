@@ -105,17 +105,6 @@ const styles = StyleSheet.create({
     paddingLeft: '24px',
     paddingRight: '24px',
   },
-  albums: {
-    paddingBottom: '2em',
-    backgroundColor: definitions.colors.white,
-    flexShrink: 0,
-    maxWidth: '400px',
-    marginLeft: '2%',
-    display: 'flex',
-    minWidth: '180px',
-    flexDirection: 'column',
-    flexGrow: 1,
-  },
 });
 
 const Band = ({ name, bio, albums, fullUrl, imageUrl }: IBand) => {
@@ -171,8 +160,23 @@ const Bio = (
   );
 
 const Albums = ({ albums }:
-  { albums: IAlbum[] }) => (
-    <div className={css(styles.albums)}>
+  { albums: IAlbum[] }) => {
+  const albumStyles = StyleSheet.create({
+    albums: {
+      paddingBottom: '2em',
+      backgroundColor: definitions.colors.white,
+      flexShrink: 0,
+      maxWidth: '400px',
+      marginLeft: '2%',
+      display: 'grid',
+      gridTemplateRows: `repeat(${albums.length}, 8em)`,
+      minWidth: '180px',
+      flexDirection: 'column',
+      flexGrow: 1,
+    },
+  });
+  return (
+    <div className={css(albumStyles.albums)}>
       {
         albums
           .sort((a, b) => b.rating - a.rating)
@@ -186,5 +190,6 @@ const Albums = ({ albums }:
       <div className={css(styles.borderBottom, styles.albumBorder)} />
     </div>
   );
+};
 
 export default Band;

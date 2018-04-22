@@ -9,20 +9,21 @@ interface IProps {
   imageUrl: string;
   url?: string;
   children: React.ReactNode;
+  whiteText?: boolean;
 }
 
-const HLabeledImage = ({ url, imageUrl, children }: IProps) => {
+const HLabeledImage = ({ url, imageUrl, children, whiteText }: IProps) => {
   const styles = StyleSheet.create({
     container: {
       position: 'relative',
       width: '100%',
-      height: 0,
-      paddingTop: '40%',
-      backgroundColor: definitions.colors.white,
       ':hover > span': {
         left: 0,
         width: '100%',
       },
+      ':hover > div::after': {
+        opacity: 1,
+      }
     },
     label: {
       display: 'flex',
@@ -50,7 +51,9 @@ const HLabeledImage = ({ url, imageUrl, children }: IProps) => {
       width: '1px',
       marginLeft: '12px',
       marginRight: '16px',
-      backgroundColor: definitions.colors.black,
+      backgroundColor: whiteText
+        ? definitions.colors.white
+        : definitions.colors.black,
     },
     labelText: {
       height: '90%',
@@ -58,6 +61,9 @@ const HLabeledImage = ({ url, imageUrl, children }: IProps) => {
       maxWidth: 'calc(100% - 37px)',
       flexDirection: 'column',
       justifyContent: 'space-around',
+      backgroundColor: whiteText
+        ? definitions.colors.white
+        : definitions.colors.black,
     },
     image: {
       top: '8px',
@@ -70,6 +76,16 @@ const HLabeledImage = ({ url, imageUrl, children }: IProps) => {
       backgroundRepeat: 'no-repeat',
       backgroundSize: 'cover',
       backgroundImage: `url(${imageUrl || defaultImage})`,
+      '::after': {
+        content: `''`,
+        'mix-blend-mode': 'color',
+        position: 'absolute',
+        opacity: 0,
+        width: '100%',
+        height: '100%',
+        backgroundColor: definitions.colors.primary,
+        transition: `opacity ease-in-out ${definitions.transitions.fast}`,
+      },
     },
     highlight: {
       position: 'absolute',

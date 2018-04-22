@@ -1,17 +1,18 @@
 import * as React from 'react';
 import { StyleSheet, css } from 'aphrodite/no-important';
-import { definitions, Input } from '../shared';
+import { definitions } from '../shared';
 import { Link } from 'react-router-dom';
 import HeaderLink from './HeaderLink';
 import store from '../store';
-import { makeToggleSearchAction, IState, makeSearchAction } from './types';
+import { makeToggleSearchAction, IState } from './types';
+import SearchBar from './SearchBar';
 
 interface IProps {
   location: string;
 }
 
-const View = ({ open, search, location, bands, albums }: IProps & IState) => {
-
+const View = (props: IProps & IState) => {
+  const { location, open } = props;
   const styles = StyleSheet.create({
     header: {
       position: 'sticky',
@@ -25,32 +26,6 @@ const View = ({ open, search, location, bands, albums }: IProps & IState) => {
       paddingLeft: `calc(${definitions.headerHeight} / 2)`,
       paddingRight: `calc(${definitions.headerHeight} / 2)`,
       zIndex: 5,
-    },
-    searchView: {
-      display: 'flex',
-      left: 0,
-      position: 'absolute',
-      flexDirection: 'column',
-      alignItems: 'stretch',
-      height: open ? `calc(100vh - ${definitions.headerHeight})` : 0,
-      opacity: open ? 1 : 0,
-      top: definitions.headerHeight,
-      width: '100%',
-      backgroundColor: definitions.colors.blackTransparent,
-      transition:
-        open
-          ? `opacity ease-in-out ${definitions.transitions.fast}`
-          : (`opacity ease-in-out ${definitions.transitions.fast},` +
-            `height 0s linear ${definitions.transitions.fast}`),
-      overflow: 'hidden',
-    },
-    searchBar: {
-      paddingLeft: '32px',
-      paddingRight: '32px',
-      width: 'calc(100% - 64px)',
-      height: open ? '50%' : 0,
-      backgroundColor: definitions.colors.black,
-      transition: `height ease-in-out ${definitions.transitions.fast}`,
     },
     icon: {
       color: definitions.colors.white,
@@ -70,15 +45,13 @@ const View = ({ open, search, location, bands, albums }: IProps & IState) => {
       fontSize: '3em',
       transform: 'translateX(-50%)'
     },
-    whiteText: {
-      color: definitions.colors.white,
-    },
     show: {
       transition: `opacity ease-in-out ${definitions.transitions.fast}`,
     },
     hide: { pointerEvents: 'none', opacity: 0 },
     spacer: { flex: 1 },
   });
+
   return (
     <div className={css(styles.header)}>
       <Link
@@ -114,30 +87,13 @@ const View = ({ open, search, location, bands, albums }: IProps & IState) => {
             ],
           },
         ]
-          .map(x => (
+          .map(x =>
             <div className={css(styles.show, open && styles.hide)} key={x.text}>
               <HeaderLink {...x} location={location.substr(1)} />
             </div>
-          ))
+          )
       }
-      <div className={css(styles.searchView)}>
-        <div className={css(styles.searchBar)} >
-          <Input
-            whiteText={true}
-            className={css(styles.whiteText, styles.show, !open && styles.hide)}
-            icon="search"
-            type="text"
-            value={search}
-            onChange={(v: string) => store.dispatch(makeSearchAction(v))}
-          />
-          {JSON.stringify(bands.map(b => b.name))}
-          {JSON.stringify(albums.map(a => a.name))}
-        </div>
-        <div
-          className={css(styles.spacer)}
-          onClick={() => store.dispatch(makeToggleSearchAction())}
-        />
-      </div>
+      <SearchBar {...props} />
     </div>
   );
 };

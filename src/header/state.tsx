@@ -42,7 +42,7 @@ const reducer = (state = initialState, action: Action): IState => {
     case SEARCH_RESULT:
       return { ...state, bands: action.bands, albums: action.albums };
     default:
-      return state;
+      return { ...state, open: false };
   }
 };
 
