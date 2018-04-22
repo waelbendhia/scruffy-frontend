@@ -15,15 +15,19 @@ interface IProps {
 const HLabeledImage = ({ url, imageUrl, children, whiteText }: IProps) => {
   const styles = StyleSheet.create({
     container: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
       position: 'relative',
       width: '100%',
       ':hover > span': {
         left: 0,
         width: '100%',
       },
-      ':hover > div::after': {
-        opacity: 1,
-      }
+      ':hover > div::after': { opacity: 1 },
+      color: whiteText
+        ? definitions.colors.white
+        : definitions.colors.black,
     },
     label: {
       display: 'flex',
@@ -49,6 +53,7 @@ const HLabeledImage = ({ url, imageUrl, children, whiteText }: IProps) => {
     border: {
       height: '70%',
       width: '1px',
+      minWidth: '1px',
       marginLeft: '12px',
       marginRight: '16px',
       backgroundColor: whiteText
@@ -66,23 +71,22 @@ const HLabeledImage = ({ url, imageUrl, children, whiteText }: IProps) => {
         : definitions.colors.black,
     },
     image: {
-      top: '8px',
-      left: '8px',
+      marginLeft: '8px',
       backgroundColor: definitions.colors.darkGrey,
-      position: 'absolute',
       width: 'calc(40% - 16px)',
       height: 'calc(100% - 16px)',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',
       backgroundSize: 'cover',
+      overflow: 'hidden',
       backgroundImage: `url(${imageUrl || defaultImage})`,
       '::after': {
         content: `''`,
         'mix-blend-mode': 'color',
         position: 'absolute',
         opacity: 0,
-        width: '100%',
-        height: '100%',
+        width: 'calc(40% - 16px)',
+        height: 'calc(100% - 16px)',
         backgroundColor: definitions.colors.primary,
         transition: `opacity ease-in-out ${definitions.transitions.fast}`,
       },

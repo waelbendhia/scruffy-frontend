@@ -53,13 +53,11 @@ const styles = StyleSheet.create({
 
 interface IProps extends IAlbum {
   url?: string;
-  whiteText?: boolean;
 }
 
 const AlbumView =
-  ({ url, imageUrl, name, year, rating, whiteText }: IProps) => (
+  ({ url, imageUrl, name, year, rating }: IProps) => (
     <LabeledImage
-      whiteText={whiteText}
       imageUrl={imageUrl || defaultImage}
       url={url}
     >

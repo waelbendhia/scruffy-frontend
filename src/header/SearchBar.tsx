@@ -3,8 +3,9 @@ import { StyleSheet, css } from 'aphrodite/no-important';
 import { definitions, Input, IBand, IAlbum } from '../shared';
 import store from '../store';
 import { makeSearchAction, makeToggleSearchAction } from './types';
-import { AlbumView } from '../shared';
+import HLabeledImage from '../shared/LabeledImage';
 
+const defaultBandImage = require('../bands/bandDefault.svg') as string;
 interface IProps {
   open: boolean;
   search: string;
@@ -31,6 +32,7 @@ const SearchBar = ({ open, search, bands, albums }: IProps) => {
           : (`opacity ease-in-out ${definitions.transitions.fast},` +
             `height 0s linear ${definitions.transitions.fast}`),
       overflow: 'hidden',
+      ':focus': { outline: 'none' }
     },
     searchBar: {
       paddingLeft: '32px',
@@ -54,10 +56,11 @@ const SearchBar = ({ open, search, bands, albums }: IProps) => {
     resultGrid: {
       display: 'grid',
       gridTemplateColumns: '1fr',
-      gridTemplateRows: 'repeat(5, 1fr)',
+      gridTemplateRows: 'repeat(3, 1fr)',
     },
     hide: { pointerEvents: 'none', opacity: 0 },
     spacer: { flex: 1 },
+    text: { overflow: 'hidden' },
   });
   return (
     <div className={css(styles.searchView)}>
@@ -71,16 +74,32 @@ const SearchBar = ({ open, search, bands, albums }: IProps) => {
           onChange={(v: string) => store.dispatch(makeSearchAction(v))}
         />
         <div className={css(styles.resultGrid)}>
-          {JSON.stringify(bands.map(b => b.name))}
+          {bands.map(b =>
+            <HLabeledImage
+              key={b.name}
+              url={b.url}
+              imageUrl={b.imageUrl || defaultBandImage}
+              whiteText={true}
+            >
+              <div className={css(styles.text)}>
+                {b.name}
+              </div>
+            </HLabeledImage>
+          )}
         </div>
         <div className={css(styles.resultGrid)}>
           {albums.map(a =>
-            <AlbumView
+            <HLabeledImage
               key={a.name}
               url={a.band ? a.band.url : ''}
+              imageUrl={a.imageUrl}
               whiteText={true}
-              {...a}
-            />
+            >
+              <div className={css(styles.text)}>
+                <div>{!!a.band ? a.band.name : ''}</div>
+                <div><b>{a.name}</b></div>
+              </div>
+            </HLabeledImage>
           )}
         </div>
       </div>

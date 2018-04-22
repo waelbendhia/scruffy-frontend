@@ -64,8 +64,6 @@ const initialState: IState = {
   header: headerInitialState,
 };
 
-console.log('Header reducer', headerReducer, headerInitialState);
-
 const store: Store<IState> = createStore(
   combineReducers({
     bands: bandsReducer,

@@ -6,22 +6,9 @@ interface ISearchResult {
   result: IBand[];
 }
 
-const searchBands = async (req: ISearchRequest) => {
-  const res = await fetch(
-    '/api/band?' + toParams(req).toString(),
-    { method: 'GET', },
-  );
-  await new Promise((r, _) => {
-    let timeout = setTimeout(
-      () => {
-        clearTimeout(timeout);
-        r();
-      },
-      200
-    );
-  }
-  );
-  return await res.json() as ISearchResult;
-};
+const searchBands = async (req: ISearchRequest) =>
+  await (
+    await fetch('/api/band?' + toParams(req).toString(), { method: 'GET' })
+  ).json() as ISearchResult;
 
 export { searchBands, ISearchResult };

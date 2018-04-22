@@ -58,6 +58,10 @@ export default () => (
         and consistent in format. For more information on the band and
         Scaruffi's opinions on them I urge you to visit his website.
       </p>
+      <p className={css(styles.paragraph)}>
+        Powered by&nbsp;
+        <a className={css(styles.link)} href="https://www.last.fm">last.fm</a>
+      </p>
     </div>
     <div className={css(styles.container, styles.second)}>
       <h1>Contact:</h1>

@@ -4,6 +4,7 @@ import {
   AlbumView,
   definitions,
   IAlbum,
+  SmallCard,
 } from '../shared';
 import { StyleSheet, css } from 'aphrodite/no-important';
 
@@ -107,32 +108,38 @@ const styles = StyleSheet.create({
   },
 });
 
-const Band = ({ name, bio, albums, fullUrl, imageUrl }: IBand) => {
-  const bg = StyleSheet.create({
-    bg: { backgroundImage: `url(${imageUrl || defaultBandImage})` }
-  }).bg;
-  return (
-    <div className={css(styles.container)}>
-      <div className={css(styles.header)}>
-        <div className={css(styles.bandImage, styles.headerElem, bg)} />
-        <div className={css(styles.headerElem, styles.headerTitle)}>
-          <div className={css(styles.spacer)} />
-          <h1 className={css(styles.headerBandName)}>{name}</h1>
-          <div className={css(styles.spacer)} />
-          <a className={css(styles.bottomLink)} href={fullUrl} target="_blank">
-            Read on Scaruffi.com
-        </a>
+const Band =
+  ({ name, bio, albums, relatedBands, fullUrl, imageUrl }: IBand) => {
+    const bg = StyleSheet.create({
+      bg: { backgroundImage: `url(${imageUrl || defaultBandImage})` }
+    }).bg;
+    return (
+      <div className={css(styles.container)}>
+        <div className={css(styles.header)}>
+          <div className={css(styles.bandImage, styles.headerElem, bg)} />
+          <div className={css(styles.headerElem, styles.headerTitle)}>
+            <div className={css(styles.spacer)} />
+            <h1 className={css(styles.headerBandName)}>{name}</h1>
+            <div className={css(styles.spacer)} />
+            <a
+              className={css(styles.bottomLink)}
+              href={fullUrl}
+              target="_blank"
+            >
+              Read on Scaruffi.com
+            </a>
+          </div>
         </div>
+        <div className={css(styles.body)}>
+          <div className={css(styles.spacer)} />
+          <Bio bio={bio} fullUrl={fullUrl} albums={albums || []} />
+          <Albums albums={albums || []} />
+          <div className={css(styles.spacer)} />
+        </div>
+        <Related bands={relatedBands || []} />
       </div>
-      <div className={css(styles.body)}>
-        <div className={css(styles.spacer)} />
-        <Bio bio={bio} fullUrl={fullUrl} albums={albums || []} />
-        <Albums albums={albums || []} />
-        <div className={css(styles.spacer)} />
-      </div>
-    </div>
-  );
-};
+    );
+  };
 
 const Bio = (
   { bio, fullUrl, albums }
@@ -188,6 +195,42 @@ const Albums = ({ albums }:
           )
       }
       <div className={css(styles.borderBottom, styles.albumBorder)} />
+    </div>
+  );
+};
+
+const Related = ({ bands }: { bands: IBand[] }) => {
+  const relStyles = StyleSheet.create({
+    container: {
+      backgroundColor: definitions.colors.white,
+      padding: '16px',
+      marginTop: '64px',
+      width: '100%',
+      maxWidth: 'calc(1140px + 2em)'
+    },
+    bandsContainer: {
+      display: 'grid',
+      width: '100%',
+      gridTemplateColumns: 'repeat(auto-fit, minmax(14vw,1fr))',
+      gridAutoRows: '25vh'
+    }
+  });
+  return (
+    <div className={css(relStyles.container)}>
+      <h1 style={{ marginLeft: '5%' }}>Similar Artists</h1>
+      <div className={css(relStyles.bandsContainer)}>
+        {(bands || [])
+          .map(b =>
+            <SmallCard
+              key={b.url}
+              bgUrl={b.imageUrl || defaultBandImage}
+              {...b}
+            >
+              {b.name}
+            </SmallCard>
+          )
+        }
+      </div>
     </div>
   );
 };

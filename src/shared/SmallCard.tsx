@@ -18,6 +18,7 @@ const SmallCard = ({ bgUrl, url, children }: IProps) => {
       alignItems: 'center',
       flexDirection: 'column',
       backgroundColor: definitions.colors.white,
+      color: definitions.colors.black,
       ':hover > span': {
         left: 0,
         width: '100%',

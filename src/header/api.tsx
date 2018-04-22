@@ -1,4 +1,5 @@
 import { IBand, toParams, IAlbum } from '../shared';
+import { SortBy } from '../albums';
 
 interface IBandSearchResult {
   result: IBand[];
@@ -10,19 +11,20 @@ interface IAlbumSearchResult {
 const searchBandsAndAlbums =
   async (term: string): Promise<[IBand[], IAlbum[]]> => {
     term = term.trim();
-    if (!term) {
-      return [[], []];
-    }
-    const [bandsRes, albumsRes] = await Promise.all([
-      fetch(
-        '/api/band?' + toParams({ name: term, numberOfResults: 5 }).toString(),
-        { method: 'GET', },
-      ),
-      fetch(
-        '/api/album?' + toParams({ name: term, numberOfResults: 5 }).toString(),
-        { method: 'GET', },
-      ),
-    ]);
+    if (!term) { return [[], []]; }
+    const [bandsRes, albumsRes] = await Promise.all(
+      ['/api/band?', '/api/album?']
+        .map(endpoint =>
+          fetch(
+            endpoint + toParams({
+              name: term,
+              sortBy: SortBy.RATING,
+              numberOfResults: 3,
+              includeUnknown: true,
+            }).toString(),
+            { method: 'GET', },
+          ),
+      ));
     const [{ result: bands }, { result: albums }] = [
       await bandsRes.json() as IBandSearchResult,
       await albumsRes.json() as IAlbumSearchResult,
