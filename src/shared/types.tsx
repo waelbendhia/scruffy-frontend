@@ -1,19 +1,16 @@
 type Loadable<T> = DataLoading | DataError | DataLoaded<T>;
 
 class DataLoading {
-  readonly loading = true;
-  readonly failed = false;
+  readonly state = 'loading';
 }
 
 class DataError {
-  readonly loading = false;
-  readonly failed = true;
+  readonly state = 'error';
   constructor(public error: Error) { }
 }
 
 class DataLoaded<T>  {
-  readonly loading = false;
-  readonly failed = false;
+  readonly state = 'done';
   constructor(public data: T) { }
 }
 interface IAlbum {
@@ -44,11 +41,14 @@ function mapLoadable<T, T1, T2, T3>(
   loadingF: T2 | (() => T2),
   successF: T3 | ((_: T) => T3),
 ) {
-  return a.failed
-    ? callIfFunc(failedF, a.error)
-    : a.loading
-      ? callIfFunc(loadingF, undefined)
-      : callIfFunc(successF, a.data);
+  switch (a.state) {
+    case 'loading':
+      return callIfFunc(loadingF, undefined);
+    case 'error':
+      return callIfFunc(failedF, a.error);
+    default:
+      return callIfFunc(successF, a.data);
+  }
 }
 
 function flatMap<T>(fn: (_: T) => T[], arr: T[]) {

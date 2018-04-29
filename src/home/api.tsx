@@ -1,35 +1,12 @@
 import { IBandWithInfluence } from './types';
+import { get } from '../shared';
 
-const getInfluential = async () =>
-  (await
-    (await fetch(
-      '/api/band/influential',
-      { method: 'GET' },
-    )).json()
-  ) as IBandWithInfluence;
+const getInfluential = () => get<IBandWithInfluence>('/api/band/influential');
 
-const getDistribution = async () =>
-  (await
-    (await fetch(
-      '/api/album/distribution',
-      { method: 'GET' },
-    )).json()
-  ) as number[];
+const getDistribution = async () => get<number[]>('/api/album/distribution');
 
-const getBandCount = async () =>
-  (await
-    (await fetch(
-      '/api/band/total',
-      { method: 'GET' },
-    )).json()
-  ) as number;
+const getBandCount = async () => get<number>('/api/band/total');
 
-const getAlbumCount = async () =>
-  (await
-    (await fetch(
-      '/api/album/total',
-      { method: 'GET' },
-    )).json()
-  ) as number;
+const getAlbumCount = async () => get<number>('/api/album/total');
 
 export { getInfluential, getDistribution, getBandCount, getAlbumCount };

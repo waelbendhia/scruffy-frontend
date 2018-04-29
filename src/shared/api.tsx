@@ -9,4 +9,9 @@ const toParams = function <T extends {}>(o: T) {
   );
 };
 
-export { toParams };
+const get = async function <T>(url: string) {
+  const res = await fetch(url, { method: 'GET' });
+  return (await res.json()) as T;
+};
+
+export { toParams, get };

@@ -1,4 +1,4 @@
-import { IAlbum, toParams } from '../shared';
+import { IAlbum, toParams, get } from '../shared';
 import { ISearchRequest } from './types';
 
 interface ISearchResult {
@@ -6,9 +6,7 @@ interface ISearchResult {
   result: IAlbum[];
 }
 
-const searchAlbums = async (req: ISearchRequest) =>
-  await (
-    await fetch('/api/album?' + toParams(req).toString(), { method: 'GET' })
-  ).json() as ISearchResult;
+const searchAlbums = (req: ISearchRequest) =>
+  get<ISearchResult>('/api/album?' + toParams(req).toString());
 
 export { searchAlbums, ISearchResult };

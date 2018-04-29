@@ -3,6 +3,7 @@ import { State } from './types';
 import { css } from 'aphrodite/no-important';
 import styles from './styles';
 import RatingHistogram from './RatingHistogram';
+import { mapLoadable } from '../shared';
 
 const View = (props: State) => (
   <div className={css(styles.root)}>
@@ -14,28 +15,27 @@ const View = (props: State) => (
         <br />historian Scaruffi's knowledge base of film and music.
       </p>
     </div>
-    {
-      props.failed
-        // TODO: Display error message
-        ? props.error.message
-        // TODO: replace with loading indicator
-        : props.loading
-          ? 'Loading'
-          : [
-            <h1 key="stats">Statistics</h1>,
-            <div key="counts" className={css(styles.flexRow)}>
-              <div className={css(styles.counts)} >
-                <span className={css(styles.label)}>Bands reviewed:</span>
-                <span>{props.data.bandCount}</span>
-                <span className={css(styles.label)}>Albums reviewed:</span>
-                <span>{props.data.albumCount}</span>
-              </div>
-            </div>,
-            <div key="histo" className={css(styles.flexRow)}>
-              <RatingHistogram {...props.data.ratings} />
-            </div>,
-          ]
-    }
+    {mapLoadable(
+      props,
+      // TODO: Display error message
+      e => e.message,
+      // TODO: replace with loading indicator
+      'Loading',
+      data => [
+        <h1 key="stats">Statistics</h1>,
+        <div key="counts" className={css(styles.flexRow)}>
+          <div className={css(styles.counts)} >
+            <span className={css(styles.label)}>Bands reviewed:</span>
+            <span>{data.bandCount}</span>
+            <span className={css(styles.label)}>Albums reviewed:</span>
+            <span>{data.albumCount}</span>
+          </div>
+        </div>,
+        <div key="histo" className={css(styles.flexRow)}>
+          <RatingHistogram {...data.ratings} />
+        </div>,
+      ]
+    )}
   </div>
 );
 

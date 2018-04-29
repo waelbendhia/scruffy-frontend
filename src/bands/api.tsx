@@ -1,4 +1,4 @@
-import { IBand, toParams } from '../shared';
+import { IBand, toParams, get } from '../shared';
 import { ISearchRequest } from './types';
 
 interface ISearchResult {
@@ -7,8 +7,6 @@ interface ISearchResult {
 }
 
 const searchBands = async (req: ISearchRequest) =>
-  await (
-    await fetch('/api/band?' + toParams(req).toString(), { method: 'GET' })
-  ).json() as ISearchResult;
+  get<ISearchResult>('/api/band?' + toParams(req).toString());
 
 export { searchBands, ISearchResult };

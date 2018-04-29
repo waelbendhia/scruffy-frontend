@@ -132,7 +132,7 @@ const Band =
         </div>
         <div className={css(styles.body)}>
           <div className={css(styles.spacer)} />
-          <Bio bio={bio} fullUrl={fullUrl} albums={albums || []} />
+          <Bio bio={bio} fullUrl={fullUrl} />
           <Albums albums={albums || []} />
           <div className={css(styles.spacer)} />
         </div>
@@ -142,11 +142,10 @@ const Band =
   };
 
 const Bio = (
-  { bio, fullUrl, albums }
+  { bio, fullUrl }
     : {
       bio: string;
       fullUrl: string;
-      albums: IAlbum[];
     }
 ) => (
     <div className={css(styles.bio)}>
@@ -186,7 +185,13 @@ const Albums = ({ albums }:
     <div className={css(albumStyles.albums)}>
       {
         albums
-          .sort((a, b) => b.rating - a.rating)
+          .sort((a, b) =>
+            b.rating - a.rating === 0
+              ? b.year - a.year === 0
+                ? b.name.localeCompare(a.name)
+                : b.year - a.year
+              : b.rating - a.rating
+          )
           .map(a =>
             <AlbumView
               key={(a.band ? a.band.url : '') + a.name}
@@ -211,7 +216,7 @@ const Related = ({ bands }: { bands: IBand[] }) => {
     bandsContainer: {
       display: 'grid',
       width: '100%',
-      gridTemplateColumns: 'repeat(auto-fit, minmax(14vw,1fr))',
+      gridTemplateColumns: 'repeat(5, 20%)',
       gridAutoRows: '25vh'
     }
   });
