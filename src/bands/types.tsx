@@ -1,4 +1,9 @@
-import { IBand, Loadable } from '../shared';
+import {
+  IBand,
+  Loadable,
+  Failable,
+  makeFailableActionCreators,
+} from '../shared';
 
 interface ISearchRequest {
   name: string;
@@ -23,21 +28,18 @@ interface IGetBandsAction {
 const makeGetBandsAction =
   (req: Partial<ISearchRequest>) => ({ type: GET_BNDS, req });
 
-interface IGetBandsDone {
-  type: '[Bands] Get bands done';
-  bands: IBand[] | null;
-  error: Error | null;
+interface IGetBandsPayload {
+  bands: IBand[];
   count: number;
 }
 
-const makeGetBandsDone =
-  (bands: IBand[] | null, count: number | null, error: Error | null) =>
-    ({
-      type: DON_BNDS,
-      bands,
-      count,
-      error,
-    });
+interface IGetBandsDone {
+  type: '[Bands] Get bands done';
+  payload: Failable<IGetBandsPayload>;
+}
+
+const [makeGetBandsSuccess, makeGetBandsFailed] =
+  makeFailableActionCreators<IGetBandsPayload>(DON_BNDS);
 
 type Action = IGetBandsAction | IGetBandsDone;
 
@@ -49,5 +51,6 @@ export {
   IGetBandsAction,
   makeGetBandsAction,
   DON_BNDS,
-  makeGetBandsDone,
+  makeGetBandsSuccess,
+  makeGetBandsFailed,
 };

@@ -1,9 +1,11 @@
 import {
   State,
   Action,
-  GET_DATA, DON_DATA,
-  makeGetDataDone,
+  GET_DATA,
+  DON_DATA,
   makeGetDataAction,
+  makeGetDataSuccess,
+  makeGetDataFailed,
 } from './types';
 import { } from '../shared';
 import { call, put, takeEvery, all } from 'redux-saga/effects';
@@ -14,9 +16,9 @@ import {
   getAlbumCount,
 } from './api';
 import { LOCATION_CHANGE, LocationChangeAction } from 'react-router-redux';
-import { DataLoading, DataError, DataLoaded } from '../shared/types';
+import { Loading } from '../shared/types';
 
-const initialState: State = new DataLoading();
+const initialState: State = new Loading();
 
 function* fetchData() {
   try {
@@ -24,12 +26,11 @@ function* fetchData() {
       ratings = yield call(getDistribution),
       bandCount = yield call(getBandCount),
       albumCount = yield call(getAlbumCount);
-    yield put(makeGetDataDone(
-      { influential, ratings, bandCount, albumCount },
-      null,
+    yield put(makeGetDataSuccess(
+      { influential, ratings, bandCount, albumCount }
     ));
   } catch (e) {
-    yield put(makeGetDataDone(null, e));
+    yield put(makeGetDataFailed(e));
   }
 }
 
@@ -51,13 +52,9 @@ function* effects() {
 const reducer = (state = initialState, action: Action): State => {
   switch (action.type) {
     case GET_DATA:
-      return new DataLoading();
+      return new Loading();
     case DON_DATA:
-      return !!action.error
-        ? new DataError(action.error)
-        : !!action.data
-          ? new DataLoaded(action.data)
-          : state;
+      return action.payload;
     default:
       return state;
   }

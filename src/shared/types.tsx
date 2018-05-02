@@ -1,18 +1,65 @@
-type Loadable<T> = DataLoading | DataError | DataLoaded<T>;
 
-class DataLoading {
-  readonly state = 'loading';
+class Err {
+  readonly type = 'ERR';
+  constructor(public err: Error) { }
 }
 
-class DataError {
-  readonly state = 'error';
-  constructor(public error: Error) { }
-}
-
-class DataLoaded<T>  {
-  readonly state = 'done';
+class Ok<T> {
+  readonly type = 'OK';
   constructor(public data: T) { }
 }
+
+type Failable<T> = Ok<T> | Err;
+
+function makeFailableActionCreators<T>(actionType: string): [
+  (data: T) => {
+    type: string;
+    payload: Ok<T>;
+  },
+  (e: Error) => {
+    type: string;
+    payload: Ok<Error>;
+  }
+] {
+  return [
+    (data: T) => ({ type: actionType, payload: new Ok(data) }),
+    (e: Error) => ({ type: actionType, payload: new Ok(e) }),
+  ];
+}
+
+function mapFailable<TOk, T1, T2>(
+  x: Failable<TOk>,
+  fOk: T1 | ((_: TOk) => T1),
+  fErr: T2 | ((_: Error) => T2),
+) {
+  switch (x.type) {
+    case 'ERR':
+      return callIfFunc(fErr, x.err);
+    default:
+      return callIfFunc(fOk, x.data);
+  }
+}
+
+class Loading {
+  readonly type = 'LOADING';
+}
+
+type Loadable<T> = Loading | Failable<T>;
+
+function mapLoadable<T, TOk, TErr, TLoad>(
+  a: Loadable<T>,
+  fSuccess: TOk | ((_: T) => TOk),
+  fFailed: TErr | ((_: Error) => TErr),
+  fLoading: TLoad | (() => TLoad),
+) {
+  switch (a.type) {
+    case 'LOADING':
+      return callIfFunc(fLoading, undefined);
+    default:
+      return mapFailable(a, fSuccess, fFailed);
+  }
+}
+
 interface IAlbum {
   name: string;
   year: number;
@@ -35,22 +82,6 @@ function callIfFunc<T4, T5>(f: T4 | ((_: T5) => T4), arg: T5) {
   return typeof f === 'function' ? f(arg) : f;
 }
 
-function mapLoadable<T, T1, T2, T3>(
-  a: Loadable<T>,
-  failedF: T1 | ((_: Error) => T1),
-  loadingF: T2 | (() => T2),
-  successF: T3 | ((_: T) => T3),
-) {
-  switch (a.state) {
-    case 'loading':
-      return callIfFunc(loadingF, undefined);
-    case 'error':
-      return callIfFunc(failedF, a.error);
-    default:
-      return callIfFunc(successF, a.data);
-  }
-}
-
 function flatMap<T>(fn: (_: T) => T[], arr: T[]) {
   return arr.map(fn).reduce((p, c) => [...p, ...c], []);
 }
@@ -58,10 +89,13 @@ function flatMap<T>(fn: (_: T) => T[], arr: T[]) {
 export {
   IBand,
   IAlbum,
-  DataLoading,
-  Loadable,
-  DataLoaded,
-  DataError,
-  mapLoadable,
   flatMap,
+  Failable,
+  Ok,
+  Err,
+  mapFailable,
+  makeFailableActionCreators,
+  Loading,
+  Loadable,
+  mapLoadable,
 };

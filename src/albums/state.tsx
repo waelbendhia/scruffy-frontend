@@ -1,22 +1,23 @@
 import {
   IState,
   Action,
-  makeGetAlbumsDone,
   GET_ALBMS,
   IGetAlbumsAction,
   DON_ALBMS,
   makeGetAlbumsAction,
   SortBy,
+  makeGetAlbumsSuccess,
+  makeGetAlbumsFailed,
 } from './types';
 import { call, put, takeEvery, all } from 'redux-saga/effects';
 import { LocationChangeAction, LOCATION_CHANGE } from 'react-router-redux';
-import { DataLoading, DataError, DataLoaded } from '../shared/types';
+import { Loading, mapFailable, Ok, Err } from '../shared/types';
 import { searchAlbums } from './api';
 import { select, takeLatest } from 'redux-saga/effects';
 import { IState as AppState } from '../store';
 
 const initialState: IState = {
-  albums: new DataLoading(),
+  albums: new Loading(),
   count: 0,
   request: {
     ratingLower: 0,
@@ -38,9 +39,9 @@ function* fetchAlbums(action: IGetAlbumsAction) {
       res = yield call(
         searchAlbums.bind(null, { ...prevReq, ...action.req })
       );
-    yield put(makeGetAlbumsDone(res.result, res.count, null));
+    yield put(makeGetAlbumsSuccess({ albums: res.result, count: res.count }));
   } catch (e) {
-    yield put(makeGetAlbumsDone(null, null, e));
+    yield put(makeGetAlbumsFailed(e));
   }
 }
 
@@ -66,22 +67,18 @@ const reducer = (state = initialState, action: Action): IState => {
       return {
         ...state,
         request: { ...state.request, ...action.req },
-        albums: new DataLoading(),
+        albums: new Loading(),
       };
     case DON_ALBMS:
-      return !!action.error
-        ? {
-          ...state,
-          count: action.count,
-          albums: new DataError(action.error),
-        }
-        : !!action.albums
-          ? {
-            ...state,
-            count: action.count,
-            albums: new DataLoaded(action.albums),
-          }
-          : { ...state };
+      return {
+        ...state,
+        count: mapFailable(action.payload, d => d.count, 0),
+        albums: mapFailable(
+          action.payload,
+          d => new Ok(d.albums),
+          e => new Err(e),
+        ),
+      };
     default:
       return state;
   }

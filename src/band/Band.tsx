@@ -47,9 +47,9 @@ const View = (band: Loadable<IBand>) => (
       >
         {mapLoadable(
           band,
+          b => <BandView {...b} />,
           e => JSON.stringify(e),
-          <Loading className={css(styles.loading, styles.position)} />,
-          b => <BandView {...b} />
+          <Loading className={css(styles.loading, styles.position)} />
         )}
       </CSSTransition>
     }

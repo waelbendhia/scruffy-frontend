@@ -33,7 +33,7 @@ class App extends React.Component<{}, IState & { location: Location }> {
           default:
             if (router.location.pathname.indexOf('bands') !== -1) {
               document.title = `Scaruffi2.0: ${
-                mapLoadable(band, 'error', '', b => b.name)
+                mapLoadable(band, b => b.name, 'error', '')
                 }`;
             } else {
               document.title = 'Scaruffi2.0';

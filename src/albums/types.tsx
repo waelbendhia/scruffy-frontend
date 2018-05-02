@@ -1,4 +1,9 @@
-import { Loadable, IAlbum } from '../shared';
+import {
+  Loadable,
+  IAlbum,
+  Failable,
+  makeFailableActionCreators,
+} from '../shared';
 
 enum SortBy {
   RATING = 'rating',
@@ -37,16 +42,18 @@ interface IGetAlbumsAction {
 const makeGetAlbumsAction =
   (req: Partial<ISearchRequest>) => ({ type: GET_ALBMS, req });
 
-interface IGetAlbumsDone {
-  type: '[Albums] Get albums done';
-  albums: IAlbum[] | null;
-  error: Error | null;
+interface IGetAlbumsPayload {
+  albums: IAlbum[];
   count: number;
 }
 
-const makeGetAlbumsDone =
-  (albums: IAlbum[] | null, count: number | null, error: Error | null) =>
-    ({ type: DON_ALBMS, albums, count, error });
+interface IGetAlbumsDone {
+  type: '[Albums] Get albums done';
+  payload: Failable<IGetAlbumsPayload>;
+}
+
+const [makeGetAlbumsSuccess, makeGetAlbumsFailed] =
+  makeFailableActionCreators<IGetAlbumsPayload>(DON_ALBMS);
 
 type Action = IGetAlbumsAction | IGetAlbumsDone;
 
@@ -60,5 +67,6 @@ export {
   makeGetAlbumsAction,
   DON_ALBMS,
   IGetAlbumsDone,
-  makeGetAlbumsDone,
+  makeGetAlbumsSuccess,
+  makeGetAlbumsFailed,
 };

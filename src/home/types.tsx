@@ -1,4 +1,9 @@
-import { IBand, Loadable } from '../shared';
+import {
+  IBand,
+  Loadable,
+  Failable,
+  makeFailableActionCreators,
+} from '../shared';
 
 interface IHomeData {
   ratings: { [rating: string]: number };
@@ -18,15 +23,14 @@ interface IGetDataAction {
   readonly type: '[Home] Get data';
 }
 
-const makeGetDataAction = () => ({ type: GET_DATA }),
-  makeGetDataDone =
-    (data: IHomeData | null, error: Error | null) =>
-      ({ type: DON_DATA, data, error });
+const makeGetDataAction = () => ({ type: GET_DATA });
+
 interface IGetDataDone {
   readonly type: '[Home] Get data done';
-  data: IHomeData | null;
-  error: Error | null;
+  payload: Failable<IHomeData>;
 }
+const [makeGetDataSuccess, makeGetDataFailed] =
+  makeFailableActionCreators<IHomeData>(DON_DATA);
 
 type Action =
   IGetDataAction |
@@ -39,6 +43,7 @@ export {
   IGetDataAction,
   IGetDataDone,
   makeGetDataAction,
-  makeGetDataDone,
+  makeGetDataSuccess,
+  makeGetDataFailed,
   Action,
 };

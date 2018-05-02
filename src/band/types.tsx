@@ -1,4 +1,9 @@
-import { IBand, Loadable } from '../shared';
+import {
+  IBand,
+  Loadable,
+  Failable,
+  makeFailableActionCreators,
+} from '../shared';
 
 interface IBandRequest {
   vol: string;
@@ -26,13 +31,11 @@ const makeGetBandAction =
 
 interface IGetBandDone {
   type: '[Band] Get band done';
-  band: IBand | null;
-  error: Error | null;
+  payload: Failable<IBand>;
 }
 
-const makeGetBandDone =
-  (band: IBand | null, error: Error | null) =>
-    ({ type: DON_BND, band, error });
+const [makeGetBandSuccess, makeGetBandFailed] =
+  makeFailableActionCreators<IBand>(DON_BND);
 
 type Action = IGetBandAction | IGetBandDone;
 
@@ -44,5 +47,6 @@ export {
   IGetBandAction,
   makeGetBandAction,
   DON_BND,
-  makeGetBandDone,
+  makeGetBandSuccess,
+  makeGetBandFailed,
 };

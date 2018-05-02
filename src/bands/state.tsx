@@ -1,21 +1,22 @@
 import {
   IState,
   Action,
-  makeGetBandsDone,
   GET_BNDS,
   IGetBandsAction,
   DON_BNDS,
   makeGetBandsAction,
+  makeGetBandsSuccess,
+  makeGetBandsFailed,
 } from './types';
 import { call, put, takeEvery, all } from 'redux-saga/effects';
 import { LocationChangeAction, LOCATION_CHANGE } from 'react-router-redux';
-import { DataLoading, DataError, DataLoaded } from '../shared/types';
+import { Loading, mapFailable, Ok, Err } from '../shared/types';
 import { searchBands } from './api';
 import { select, takeLatest } from 'redux-saga/effects';
 import { IState as AppState } from '../store';
 
 const initialState: IState = {
-  bands: new DataLoading(),
+  bands: new Loading(),
   count: 0,
   request: {
     page: 0,
@@ -30,9 +31,9 @@ function* fetchBands(action: IGetBandsAction) {
       res = yield call(
         searchBands.bind(null, { ...prevReq, ...action.req })
       );
-    yield put(makeGetBandsDone(res.result, res.count, null));
+    yield put(makeGetBandsSuccess({ bands: res.result, count: res.count }));
   } catch (e) {
-    yield put(makeGetBandsDone(null, null, e));
+    yield put(makeGetBandsFailed(e));
   }
 }
 
@@ -58,22 +59,18 @@ const reducer = (state = initialState, action: Action): IState => {
       return {
         ...state,
         request: { ...state.request, ...action.req },
-        bands: new DataLoading(),
+        bands: new Loading(),
       };
     case DON_BNDS:
-      return !!action.error
-        ? {
-          ...state,
-          count: action.count,
-          bands: new DataError(action.error),
-        }
-        : !!action.bands
-          ? {
-            ...state,
-            count: action.count,
-            bands: new DataLoaded(action.bands),
-          }
-          : { ...state };
+      return {
+        ...state,
+        count: mapFailable(action.payload, x => x.count, 0),
+        bands: mapFailable(
+          action.payload,
+          x => new Ok(x.bands),
+          e => new Err(e)
+        ),
+      };
     default:
       return state;
   }

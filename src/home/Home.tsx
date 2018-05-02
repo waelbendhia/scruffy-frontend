@@ -17,10 +17,6 @@ const View = (props: State) => (
     </div>
     {mapLoadable(
       props,
-      // TODO: Display error message
-      e => e.message,
-      // TODO: replace with loading indicator
-      'Loading',
       data => [
         <h1 key="stats">Statistics</h1>,
         <div key="counts" className={css(styles.flexRow)}>
@@ -34,7 +30,11 @@ const View = (props: State) => (
         <div key="histo" className={css(styles.flexRow)}>
           <RatingHistogram {...data.ratings} />
         </div>,
-      ]
+      ],
+      // TODO: Display error message
+      e => e.message,
+      // TODO: replace with loading indicator
+      'Loading',
     )}
   </div>
 );

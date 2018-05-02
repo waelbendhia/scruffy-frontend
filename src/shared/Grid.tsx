@@ -86,12 +86,13 @@ function Grid<T>({
         >
           {mapLoadable(
             data,
-            displayError,
-            <Loading className={css(styles.loading, styles.position)} />,
-            xs =>
+            xs => (
               <div className={css(styles.grid, styles.position)}>
                 {xs.map(cell)}
               </div>
+            ),
+            displayError,
+            <Loading className={css(styles.loading, styles.position)} />,
           )}
         </CSSTransition>
       }
