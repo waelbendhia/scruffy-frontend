@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {
   SmallCard,
-  Loadable,
+  ILoadable,
   IAlbum,
   Grid,
 } from '../shared';
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 
 interface IGridProps {
   className?: string;
-  albums: Loadable<IAlbum[]>;
+  albums: ILoadable<IAlbum[]>;
   changePage: (_: number) => void;
 }
 

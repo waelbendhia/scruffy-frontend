@@ -1,7 +1,7 @@
 import {
-  Loadable,
+  ILoadable,
   IAlbum,
-  Failable,
+  IResult,
   makeFailableActionCreators,
 } from '../shared';
 
@@ -26,7 +26,7 @@ interface ISearchRequest {
 }
 
 interface IState {
-  albums: Loadable<IAlbum[]>;
+  albums: ILoadable<IAlbum[]>;
   count: number;
   request: ISearchRequest;
 }
@@ -49,7 +49,7 @@ interface IGetAlbumsPayload {
 
 interface IGetAlbumsDone {
   type: '[Albums] Get albums done';
-  payload: Failable<IGetAlbumsPayload>;
+  payload: IResult<IGetAlbumsPayload>;
 }
 
 const [makeGetAlbumsSuccess, makeGetAlbumsFailed] =

@@ -18,7 +18,7 @@ import {
 import { LOCATION_CHANGE, LocationChangeAction } from 'react-router-redux';
 import { Loading } from '../shared/types';
 
-const initialState: State = new Loading();
+const initialState: State = Loading();
 
 function* fetchData() {
   try {
@@ -52,7 +52,7 @@ function* effects() {
 const reducer = (state = initialState, action: Action): State => {
   switch (action.type) {
     case GET_DATA:
-      return new Loading();
+      return Loading();
     case DON_DATA:
       return action.payload;
     default:

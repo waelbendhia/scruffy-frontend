@@ -15,7 +15,7 @@ import { getBand } from './api';
 import { takeLatest } from 'redux-saga/effects';
 import { history } from '../store';
 
-const initialState: State = new Loading();
+const initialState: State = Loading();
 
 function* fetchBand(action: IGetBandAction) {
   try {
@@ -46,7 +46,7 @@ function* effects() {
 const reducer = (state = initialState, action: Action): State => {
   switch (action.type) {
     case GET_BND:
-      return new Loading();
+      return Loading();
     case DON_BND:
       return action.payload;
     default:

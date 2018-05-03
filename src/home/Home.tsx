@@ -3,7 +3,6 @@ import { State } from './types';
 import { css } from 'aphrodite/no-important';
 import styles from './styles';
 import RatingHistogram from './RatingHistogram';
-import { mapLoadable } from '../shared';
 
 const View = (props: State) => (
   <div className={css(styles.root)}>
@@ -15,9 +14,8 @@ const View = (props: State) => (
         <br />historian Scaruffi's knowledge base of film and music.
       </p>
     </div>
-    {mapLoadable(
-      props,
-      data => [
+    {props.caseOf({
+      ok: data => [
         <h1 key="stats">Statistics</h1>,
         <div key="counts" className={css(styles.flexRow)}>
           <div className={css(styles.counts)} >
@@ -32,10 +30,10 @@ const View = (props: State) => (
         </div>,
       ],
       // TODO: Display error message
-      e => e.message,
+      err: e => e.message,
       // TODO: replace with loading indicator
-      'Loading',
-    )}
+      loading: () => 'Loading',
+    })}
   </div>
 );
 

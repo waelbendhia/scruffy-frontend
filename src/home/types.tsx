@@ -1,8 +1,8 @@
 import {
   IBand,
-  Loadable,
-  Failable,
   makeFailableActionCreators,
+  ILoadable,
+  IResult,
 } from '../shared';
 
 interface IHomeData {
@@ -14,7 +14,7 @@ interface IHomeData {
 interface IBandWithInfluence extends IBand {
   influence: number;
 }
-type State = Loadable<IHomeData>;
+type State = ILoadable<IHomeData>;
 
 const GET_DATA = '[Home] Get data';
 const DON_DATA = '[Home] Get data done';
@@ -27,7 +27,7 @@ const makeGetDataAction = () => ({ type: GET_DATA });
 
 interface IGetDataDone {
   readonly type: '[Home] Get data done';
-  payload: Failable<IHomeData>;
+  payload: IResult<IHomeData>;
 }
 const [makeGetDataSuccess, makeGetDataFailed] =
   makeFailableActionCreators<IHomeData>(DON_DATA);

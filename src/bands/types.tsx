@@ -1,8 +1,8 @@
 import {
   IBand,
-  Loadable,
-  Failable,
   makeFailableActionCreators,
+  IResult,
+  ILoadable,
 } from '../shared';
 
 interface ISearchRequest {
@@ -12,7 +12,7 @@ interface ISearchRequest {
 }
 
 interface IState {
-  bands: Loadable<IBand[]>;
+  bands: ILoadable<IBand[]>;
   count: number;
   request: ISearchRequest;
 }
@@ -35,7 +35,7 @@ interface IGetBandsPayload {
 
 interface IGetBandsDone {
   type: '[Bands] Get bands done';
-  payload: Failable<IGetBandsPayload>;
+  payload: IResult<IGetBandsPayload>;
 }
 
 const [makeGetBandsSuccess, makeGetBandsFailed] =

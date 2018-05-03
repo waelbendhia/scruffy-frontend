@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
-import { Loadable, mapLoadable } from './types';
 import Loading from './Loading';
 import { definitions } from './style';
 import { StyleSheet, css } from 'aphrodite/no-important';
+import { ILoadable } from '.';
 
 interface IGridProps<T> {
-  data: Loadable<T[]>;
+  data: ILoadable<T[]>;
   changePage: (_: number) => void;
   className?: string;
   cell: (x: T) => React.ReactNode;
@@ -73,7 +73,11 @@ function Grid<T>({
     >
       {
         <CSSTransition
-          key={mapLoadable(data, 'error', 'loading', 'bands')}
+          key={data.caseOf({
+            err: () => 'error',
+            loading: () => 'loading',
+            ok: () => 'bands'
+          })}
           timeout={150}
           classNames={{
             appear: css(styles.in),
@@ -84,16 +88,16 @@ function Grid<T>({
             exitActive: css(styles.in),
           }}
         >
-          {mapLoadable(
-            data,
-            xs => (
+          {data.caseOf({
+            ok: xs => (
               <div className={css(styles.grid, styles.position)}>
                 {xs.map(cell)}
               </div>
             ),
-            displayError,
-            <Loading className={css(styles.loading, styles.position)} />,
-          )}
+            err: displayError,
+            loading: () =>
+              <Loading className={css(styles.loading, styles.position)} />,
+          })}
         </CSSTransition>
       }
     </TransitionGroup>

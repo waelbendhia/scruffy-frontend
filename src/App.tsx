@@ -6,7 +6,6 @@ import Footer from './footer';
 import store from './store';
 import { initialState, IState, history } from './store';
 import { Location } from 'history';
-import { mapLoadable } from './shared';
 
 class App extends React.Component<{}, IState & { location: Location }> {
   constructor(props: {}) {
@@ -32,9 +31,11 @@ class App extends React.Component<{}, IState & { location: Location }> {
             break;
           default:
             if (router.location.pathname.indexOf('bands') !== -1) {
-              document.title = `Scaruffi2.0: ${
-                mapLoadable(band, b => b.name, 'error', '')
-                }`;
+              document.title = `Scaruffi2.0: ${band.caseOf({
+                ok: b => b.name,
+                err: () => 'error',
+                loading: () => ''
+              })}`;
             } else {
               document.title = 'Scaruffi2.0';
             }

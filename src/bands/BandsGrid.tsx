@@ -2,7 +2,7 @@ import * as React from 'react';
 import {
   SmallCard,
   IBand,
-  Loadable,
+  ILoadable,
   Grid,
 } from '../shared';
 
@@ -10,7 +10,7 @@ const defaultImage = require('./bandDefault.svg') as string;
 
 interface IGridProps {
   className?: string;
-  bands: Loadable<IBand[]>;
+  bands: ILoadable<IBand[]>;
   changePage: (delta: number) => void;
 }
 

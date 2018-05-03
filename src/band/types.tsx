@@ -1,8 +1,8 @@
 import {
   IBand,
-  Loadable,
-  Failable,
   makeFailableActionCreators,
+  ILoadable,
+  IResult,
 } from '../shared';
 
 interface IBandRequest {
@@ -10,7 +10,7 @@ interface IBandRequest {
   url: string;
 }
 
-type State = Loadable<IBand>;
+type State = ILoadable<IBand>;
 
 const GET_BND = '[Band] Get band';
 const DON_BND = '[Band] Get band done';
@@ -31,7 +31,7 @@ const makeGetBandAction =
 
 interface IGetBandDone {
   type: '[Band] Get band done';
-  payload: Failable<IBand>;
+  payload: IResult<IBand>;
 }
 
 const [makeGetBandSuccess, makeGetBandFailed] =

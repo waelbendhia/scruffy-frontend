@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IBand, Loadable, Loading, mapLoadable, definitions } from '../shared';
+import { IBand, Loading, definitions, ILoadable } from '../shared';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { css, StyleSheet } from 'aphrodite/no-important';
 import BandView from './BandView';
@@ -30,11 +30,15 @@ const styles = StyleSheet.create({
   }
 });
 
-const View = (band: Loadable<IBand>) => (
+const View = (band: ILoadable<IBand>) => (
   <TransitionGroup className={css(styles.container)}>
     {
       <CSSTransition
-        key={mapLoadable(band, 'error', 'loading', 'bands')}
+        key={band.caseOf({
+          err: () => 'error',
+          loading: () => 'loading',
+          ok: () => 'bands',
+        })}
         timeout={150}
         classNames={{
           appear: css(styles.in),
@@ -45,12 +49,12 @@ const View = (band: Loadable<IBand>) => (
           exitActive: css(styles.in),
         }}
       >
-        {mapLoadable(
-          band,
-          b => <BandView {...b} />,
-          e => JSON.stringify(e),
-          <Loading className={css(styles.loading, styles.position)} />
-        )}
+        {band.caseOf({
+          ok: b => <BandView {...b} />,
+          err: e => JSON.stringify(e),
+          loading:
+            () => <Loading className={css(styles.loading, styles.position)} />
+        })}
       </CSSTransition>
     }
   </TransitionGroup>

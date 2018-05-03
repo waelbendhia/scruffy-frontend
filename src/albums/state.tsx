@@ -11,13 +11,13 @@ import {
 } from './types';
 import { call, put, takeEvery, all } from 'redux-saga/effects';
 import { LocationChangeAction, LOCATION_CHANGE } from 'react-router-redux';
-import { Loading, mapFailable, Ok, Err } from '../shared/types';
+import { Loading } from '../shared/types';
 import { searchAlbums } from './api';
 import { select, takeLatest } from 'redux-saga/effects';
 import { IState as AppState } from '../store';
 
 const initialState: IState = {
-  albums: new Loading(),
+  albums: Loading(),
   count: 0,
   request: {
     ratingLower: 0,
@@ -67,17 +67,13 @@ const reducer = (state = initialState, action: Action): IState => {
       return {
         ...state,
         request: { ...state.request, ...action.req },
-        albums: new Loading(),
+        albums: Loading(),
       };
     case DON_ALBMS:
       return {
         ...state,
-        count: mapFailable(action.payload, d => d.count, 0),
-        albums: mapFailable(
-          action.payload,
-          d => new Ok(d.albums),
-          e => new Err(e),
-        ),
+        count: action.payload.map(d => d.count).withDefault(0),
+        albums: action.payload.map(d => d.albums),
       };
     default:
       return state;
