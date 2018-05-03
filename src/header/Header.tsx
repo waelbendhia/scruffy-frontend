@@ -4,7 +4,7 @@ import { definitions } from '../shared';
 import { Link } from 'react-router-dom';
 import HeaderLink from './HeaderLink';
 import store from '../store';
-import { makeToggleSearchAction, IState } from './types';
+import { makeToggleSearchAction, IState, makeToggleMenuAction } from './types';
 import SearchBar from './SearchBar';
 
 interface IProps {
@@ -12,7 +12,7 @@ interface IProps {
 }
 
 const View = (props: IProps & IState) => {
-  const { location, open } = props;
+  const { location, open, menuOpen } = props;
   const styles = StyleSheet.create({
     header: {
       position: 'sticky',
@@ -26,6 +26,34 @@ const View = (props: IProps & IState) => {
       paddingLeft: `calc(${definitions.headerHeight} / 2)`,
       paddingRight: `calc(${definitions.headerHeight} / 2)`,
       zIndex: 5,
+    },
+    search: {
+      '@media (max-width: 860px)': { order: 2 }
+    },
+    links: {
+      overflow: 'hidden',
+      display: 'flex',
+      flexDirection: 'row',
+      '@media (max-width: 860px)': {
+        position: 'absolute',
+        flexDirection: 'column',
+        backgroundColor: definitions.colors.superDarkGrey,
+        left: 0,
+        top: definitions.headerHeight,
+        height: '100vh',
+      }
+    },
+    linksOpen: {
+      '@media (max-width: 860px)': {
+        transition: `left ${definitions.transitions.fast} ease`,
+        left: 0,
+      }
+    },
+    linksClosed: {
+      '@media (max-width: 860px)': {
+        transition: `left ${definitions.transitions.fast} ease`,
+        left: '-136px',
+      }
     },
     icon: {
       color: definitions.colors.white,
@@ -43,13 +71,32 @@ const View = (props: IProps & IState) => {
       fontWeight: 'bold',
       color: definitions.colors.white,
       fontSize: '3em',
-      transform: 'translateX(-50%)'
+      transform: 'translateX(-50%)',
+      '@media (max-width: 860px)': {
+        left: 'unset',
+        right: '16px',
+        transform: 'unset',
+        fontSize: '1.5em',
+      }
     },
     show: {
       transition: `opacity ease-in-out ${definitions.transitions.fast}`,
     },
     hide: { pointerEvents: 'none', opacity: 0 },
-    spacer: { flex: 1 },
+    spacer: {
+      flex: 1,
+      '@media (max-width: 860px)': { order: 3 }
+    },
+    burger: {
+      width: 0,
+      marginRight: '8px',
+      display: 'none',
+      '@media (max-width: 860px)': {
+        order: 0,
+        width: 'initial',
+        display: 'initial',
+      }
+    },
   });
 
   return (
@@ -62,37 +109,58 @@ const View = (props: IProps & IState) => {
       >
         Scaruffi2.0
       </Link>
-      <a onClick={() => store.dispatch(makeToggleSearchAction())}>
+      <a
+        className={css(styles.burger)}
+        onClick={() => store.dispatch(makeToggleMenuAction())}
+      >
+        <i className={css(styles.icon) + ' material-icons'}>
+          {menuOpen ? 'close' : 'menu'}
+        </i>
+      </a>
+      <a
+        className={css(styles.search)}
+        onClick={() => store.dispatch(makeToggleSearchAction())}
+      >
         <i className={css(styles.icon) + ' material-icons'}>
           {open ? 'close' : 'search'}
         </i>
       </a>
       <div className={css(styles.spacer)} />
-      {
-        [
-          {
-            text: 'Music',
-            link: '/bands',
-            options: [
-              { text: 'Bands', link: '/bands' },
-              { text: 'Albums', link: '/albums' },
-            ],
-          },
-          {
-            text: 'Film',
-            link: '/films',
-            options: [
-              { text: 'Directors', link: '/directors' },
-              { text: 'Films', link: '/films' },
-            ],
-          },
-        ]
-          .map(x =>
-            <div className={css(styles.show, open && styles.hide)} key={x.text}>
-              <HeaderLink {...x} location={location.substr(1)} />
-            </div>
-          )
-      }
+      <div
+        className={css(
+          styles.links,
+          menuOpen ? styles.linksOpen : styles.linksClosed
+        )}
+      >
+        {
+          [
+            {
+              text: 'Music',
+              link: '/bands',
+              options: [
+                { text: 'Bands', link: '/bands' },
+                { text: 'Albums', link: '/albums' },
+              ],
+            },
+            {
+              text: 'Film',
+              link: '/films',
+              options: [
+                { text: 'Directors', link: '/directors' },
+                { text: 'Films', link: '/films' },
+              ],
+            },
+          ]
+            .map(x =>
+              <div
+                className={css(styles.show, open && styles.hide)}
+                key={x.text}
+              >
+                <HeaderLink {...x} location={location.substr(1)} />
+              </div>
+            )
+        }
+      </div>
       <SearchBar {...props} />
     </div>
   );

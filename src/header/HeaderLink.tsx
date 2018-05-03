@@ -9,6 +9,11 @@ const styles = StyleSheet.create({
     height: definitions.headerHeight,
     width: '120px',
     marginRight: '16px',
+    '@media (max-width: 860px)': {
+      display: 'flex',
+      flexDirection: 'column',
+      height: 'auto',
+    }
   },
   expandChild: {
     ':hover > div': {
@@ -24,6 +29,7 @@ const styles = StyleSheet.create({
     fontWeight: 'lighter',
     color: definitions.colors.white,
     lineHeight: `calc(${definitions.headerHeight} * 1.2)`,
+    '@media (max-width: 860px)': { textAlign: 'right' }
   },
   expanderChild: {
     fontSize: '1.4em',
@@ -38,6 +44,10 @@ const styles = StyleSheet.create({
     zIndex: 5,
     overflow: 'hidden',
     transition: `height ease-in-out ${definitions.transitions.fast}`,
+    '@media (max-width: 860px)': {
+      position: 'initial',
+      height: 'auto',
+    }
   },
   highlight: {
     position: 'absolute',

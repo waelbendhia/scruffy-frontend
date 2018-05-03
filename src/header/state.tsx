@@ -6,11 +6,13 @@ import {
   ISearch,
   makeSearchResultAction,
   SEARCH_RESULT,
+  TOGGLE_MENU,
 } from './types';
 import { call, put, all, takeLatest } from 'redux-saga/effects';
 import { searchBandsAndAlbums } from './api';
 
 const initialState: IState = {
+  menuOpen: false,
   open: false,
   search: '',
   bands: [],
@@ -37,6 +39,8 @@ const reducer = (state = initialState, action: Action): IState => {
   switch (action.type) {
     case TOGGLE_SEARCH:
       return { ...state, open: !state.open };
+    case TOGGLE_MENU:
+      return { ...state, menuOpen: !state.menuOpen };
     case SEARCH:
       return { ...state, search: action.term };
     case SEARCH_RESULT:
