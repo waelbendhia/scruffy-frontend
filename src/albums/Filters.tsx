@@ -64,7 +64,7 @@ const Filters = ({
   updateIncludeUnknown,
 }: IFiltersProps) => (
     <div
-      className={css(styles.filters) + ' ' + className}
+      className={`${css(styles.filters)} ${className}`}
     >
       <h1>Search:</h1>
       <Input

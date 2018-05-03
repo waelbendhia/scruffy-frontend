@@ -9,6 +9,9 @@ const styles = StyleSheet.create({
     height: definitions.headerHeight,
     width: '120px',
     marginRight: '16px',
+    ':hover > span': {
+      width: '100%',
+    },
     '@media (max-width: 860px)': {
       display: 'flex',
       flexDirection: 'column',
@@ -42,8 +45,8 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: definitions.colors.superDarkGrey,
     zIndex: 5,
-    overflow: 'hidden',
     transition: `height ease-in-out ${definitions.transitions.fast}`,
+    overflow: 'hidden',
     '@media (max-width: 860px)': {
       position: 'initial',
       height: 'auto',
@@ -55,14 +58,11 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: 0,
     height: '2px',
+    transform: 'translateX(-50%)',
     backgroundColor: definitions.colors.primary,
-    transition: `width ease-out ${definitions.transitions.fast}, 
-               left ease-out ${definitions.transitions.fast}`,
+    transition: `width ease-out ${definitions.transitions.fast}`,
   },
-  selected: {
-    left: 0,
-    width: '100%',
-  }
+  selected: { width: '100%' }
 });
 
 interface IHeaderLink {
@@ -80,9 +80,11 @@ const View =
       <Link className={css(styles.linkChildStyle)} to={link}>{text}</Link>
       <span
         className={css(
-          styles.highlight,
-          [link, ...options.map(o => o.link)].some(l => l === location) &&
-          styles.selected,
+          (console.log(location, options.map(o => o.link)), styles.highlight),
+          [link, ...options.map(o => o.link)]
+            .some(l => l === `/${location}`)
+            ? styles.selected
+            : null,
         )}
       />
       <div className={css(styles.expander)}>

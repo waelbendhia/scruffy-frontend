@@ -31,7 +31,7 @@ const View = (props: IProps & IState) => {
       '@media (max-width: 860px)': { order: 2 }
     },
     links: {
-      overflow: 'hidden',
+      overflow: 'visible',
       display: 'flex',
       flexDirection: 'row',
       '@media (max-width: 860px)': {
