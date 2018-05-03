@@ -11,9 +11,16 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: definitions.colors.darkGrey,
     color: definitions.colors.darkWhite,
+    '@media (max-width: 700px)': { flexDirection: 'column' },
   },
   container: {
     margin: '40px',
+  },
+  credit: { flex: 1 },
+  credits: {
+    display: 'flex',
+    flexDirection: 'column',
+    '@media (max-width: 700px)': { flexDirection: 'row' },
   },
   first: { flex: 2 },
   second: { flex: 1 },
@@ -65,32 +72,41 @@ export default () => (
     </div>
     <div className={css(styles.container, styles.second)}>
       <h1>Contact:</h1>
-      <p className={css(styles.paragraph)}>Wael Ben Dhia</p>
-      <ul className={css(styles.ul)}>
-        <li>
-          <a className={css(styles.link)} href="http://waelbendhia.github.io/">
-            Website
-          </a>
-        </li>
-        <li>
-          <a className={css(styles.link)} href="mailto:">
-            Email
-          </a>
-        </li>
-      </ul>
-      <p className={css(styles.paragraph)}>Piero Scaruffi</p>
-      <ul className={css(styles.ul)}>
-        <li>
-          <a className={css(styles.link)} href="http://scaruffi.com/">
-            Website
-          </a>
-        </li>
-        <li>
-          <a className={css(styles.link)} href="mailto:p@scaruffi.com">
-            Email
-          </a>
-        </li>
-      </ul>
+      <div className={css(styles.credits)}>
+        <div className={css(styles.credit)}>
+          <p className={css(styles.paragraph)}>Wael Ben Dhia</p>
+          <ul className={css(styles.ul)}>
+            <li>
+              <a
+                className={css(styles.link)}
+                href="http://waelbendhia.github.io/"
+              >
+                Website
+              </a>
+            </li>
+            <li>
+              <a className={css(styles.link)} href="mailto:">
+                Email
+            </a>
+            </li>
+          </ul>
+        </div>
+        <div className={css(styles.credit)}>
+          <p className={css(styles.paragraph)}>Piero Scaruffi</p>
+          <ul className={css(styles.ul)}>
+            <li>
+              <a className={css(styles.link)} href="http://scaruffi.com/">
+                Website
+            </a>
+            </li>
+            <li>
+              <a className={css(styles.link)} href="mailto:p@scaruffi.com">
+                Email
+            </a>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 );

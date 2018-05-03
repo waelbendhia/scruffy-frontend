@@ -31,7 +31,10 @@ function Grid<T>({
       display: 'grid',
       gridTemplateColumns: 'repeat(5, minmax(1px, 1fr))',
       gridAutoRows: `minmax(1px, ${100 / minRows}%)`,
-      ':focus': { outline: 'none' }
+      ':focus': { outline: 'none' },
+      '@media (max-width: 860px)': {
+        gridTemplateColumns: 'repeat(3, minmax(1px, 1fr))',
+      }
     },
     loading: {
       height: '100%',

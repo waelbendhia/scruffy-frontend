@@ -25,6 +25,10 @@ const styles = StyleSheet.create({
     fontWeight: 'lighter',
     textAlign: 'center',
     padding: '0px 128px',
+    '@media (max-width: 800px)': {
+      padding: 0,
+      fontSize: '4vw',
+    },
   },
   counts: {
     display: 'grid',

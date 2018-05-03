@@ -80,9 +80,8 @@ const View =
       <Link className={css(styles.linkChildStyle)} to={link}>{text}</Link>
       <span
         className={css(
-          (console.log(location, options.map(o => o.link)), styles.highlight),
-          [link, ...options.map(o => o.link)]
-            .some(l => l === `/${location}`)
+          styles.highlight,
+          [link, ...options.map(o => o.link)].some(l => l === `/${location}`)
             ? styles.selected
             : null,
         )}

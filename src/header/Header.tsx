@@ -38,21 +38,10 @@ const View = (props: IProps & IState) => {
         position: 'absolute',
         flexDirection: 'column',
         backgroundColor: definitions.colors.superDarkGrey,
-        left: 0,
+        transition: `left ${definitions.transitions.fast} ease`,
+        left: menuOpen ? 0 : '-136px',
         top: definitions.headerHeight,
         height: '100vh',
-      }
-    },
-    linksOpen: {
-      '@media (max-width: 860px)': {
-        transition: `left ${definitions.transitions.fast} ease`,
-        left: 0,
-      }
-    },
-    linksClosed: {
-      '@media (max-width: 860px)': {
-        transition: `left ${definitions.transitions.fast} ease`,
-        left: '-136px',
       }
     },
     icon: {
@@ -79,9 +68,7 @@ const View = (props: IProps & IState) => {
         fontSize: '1.5em',
       }
     },
-    show: {
-      transition: `opacity ease-in-out ${definitions.transitions.fast}`,
-    },
+    show: { transition: `opacity ease-in-out ${definitions.transitions.fast}` },
     hide: { pointerEvents: 'none', opacity: 0 },
     spacer: {
       flex: 1,
@@ -105,7 +92,8 @@ const View = (props: IProps & IState) => {
         to="/"
         className={css(
           styles.siteTitle,
-          (location === '/' || open) && styles.hide)}
+          (location === '/' || open) && styles.hide
+        )}
       >
         Scaruffi2.0
       </Link>
@@ -127,10 +115,7 @@ const View = (props: IProps & IState) => {
       </a>
       <div className={css(styles.spacer)} />
       <div
-        className={css(
-          styles.links,
-          menuOpen ? styles.linksOpen : styles.linksClosed
-        )}
+        className={css(styles.links)}
       >
         {
           [
@@ -149,7 +134,7 @@ const View = (props: IProps & IState) => {
                 { text: 'Directors', link: '/directors' },
                 { text: 'Films', link: '/films' },
               ],
-            },
+            }
           ]
             .map(x =>
               <div

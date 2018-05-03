@@ -2,7 +2,6 @@ import * as React from 'react';
 import { State } from './types';
 import { css } from 'aphrodite/no-important';
 import styles from './styles';
-import RatingHistogram from './RatingHistogram';
 
 const View = (props: State) => (
   <div className={css(styles.root)}>
@@ -14,7 +13,7 @@ const View = (props: State) => (
         <br />historian Scaruffi's knowledge base of film and music.
       </p>
     </div>
-    {props.caseOf({
+    {/* {props.caseOf({
       ok: data => [
         <h1 key="stats">Statistics</h1>,
         <div key="counts" className={css(styles.flexRow)}>
@@ -33,7 +32,7 @@ const View = (props: State) => (
       err: e => e.message,
       // TODO: replace with loading indicator
       loading: () => 'Loading',
-    })}
+    })} */}
   </div>
 );
 
