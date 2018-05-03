@@ -51,7 +51,7 @@ const View = (band: ILoadable<IBand>) => (
       >
         {band.caseOf({
           ok: b => <BandView {...b} />,
-          err: e => JSON.stringify(e),
+          err: e => <div>JSON.stringify(e)</div>,
           loading:
             () => <Loading className={css(styles.loading, styles.position)} />
         })}

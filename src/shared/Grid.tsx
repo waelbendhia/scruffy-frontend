@@ -10,7 +10,6 @@ interface IGridProps<T> {
   changePage: (_: number) => void;
   className?: string;
   cell: (x: T) => React.ReactNode;
-  displayError: (e: Error) => React.ReactNode;
   minRows: number;
 }
 
@@ -19,7 +18,6 @@ function Grid<T>({
   changePage,
   className,
   cell,
-  displayError,
   minRows,
 }: IGridProps<T>) {
   const styles = StyleSheet.create({
@@ -97,7 +95,7 @@ function Grid<T>({
                 {xs.map(cell)}
               </div>
             ),
-            err: displayError,
+            err: () => <h1>Damn...</h1>,
             loading: () =>
               <Loading className={css(styles.loading, styles.position)} />,
           })}

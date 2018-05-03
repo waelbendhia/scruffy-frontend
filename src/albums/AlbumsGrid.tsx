@@ -49,7 +49,6 @@ const AlbumsGrid = (props: IGridProps) => (
         <div>{a.rating}/10</div>
       </SmallCard>
     )}
-    displayError={JSON.stringify}
     minRows={2}
   />
 );

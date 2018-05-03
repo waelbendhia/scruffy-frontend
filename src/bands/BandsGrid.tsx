@@ -19,7 +19,6 @@ const BandsGrid = (props: IGridProps) => (
     {...props}
     data={props.bands}
     minRows={2}
-    displayError={JSON.stringify}
     cell={b =>
       <SmallCard
         key={b.url}
