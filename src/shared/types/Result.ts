@@ -32,13 +32,13 @@ const Err = <T>(e: Error): IResult<T> => ({
   caseOf: <TOk, TErr>(fn: IResultMatch<T, TOk, TErr>) => fn.err(e),
 });
 
-const makeFailableActionCreators = <T>(actionType: string): [
-  (data: T) => { type: string, payload: IResult<T> },
-  (e: Error) => { type: string, payload: IResult<T> }
+const makeFailableActionCreators = <AT>(actionType: AT): [
+  <PT>(data: PT) => { type: AT, payload: IResult<PT> },
+  <PT>(e: Error) => { type: AT, payload: IResult<PT> }
 ] =>
   [
-    (data: T) => ({ type: actionType, payload: Ok(data) }),
-    (e: Error) => ({ type: actionType, payload: Err(e) }),
+    <PT>(data: PT) => ({ type: actionType, payload: Ok(data) }),
+    <PT>(e: Error) => ({ type: actionType, payload: Err(e) }),
   ];
 
 export {

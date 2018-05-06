@@ -3,7 +3,7 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import Loading from './Loading';
 import { definitions } from './style';
 import { StyleSheet, css } from 'aphrodite/no-important';
-import { ILoadable } from '.';
+import { ILoadable } from './types';
 
 interface IGridProps<T> {
   data: ILoadable<T[]>;
@@ -90,11 +90,10 @@ function Grid<T>({
           }}
         >
           {data.caseOf({
-            ok: xs => (
+            ok: xs =>
               <div className={css(styles.grid, styles.position)}>
                 {xs.map(cell)}
-              </div>
-            ),
+              </div>,
             err: () => <h1>Damn...</h1>,
             loading: () =>
               <Loading className={css(styles.loading, styles.position)} />,

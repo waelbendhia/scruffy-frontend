@@ -4,7 +4,8 @@ import {
   TOGGLE_SEARCH,
   SEARCH,
   ISearch,
-  makeSearchResultAction,
+  makeSearchResultSuccess,
+  makeSearchResultFailed,
   SEARCH_RESULT,
   TOGGLE_MENU,
 } from './types';
@@ -22,10 +23,10 @@ const initialState: IState = {
 function* fetchBands(action: ISearch) {
   try {
     const [bands, albums] =
-      yield call(searchBandsAndAlbums.bind(null, action.term));
-    yield put(makeSearchResultAction(bands, albums));
+      yield call(searchBandsAndAlbums.bind(null, action.payload));
+    yield put(makeSearchResultSuccess({ bands, albums }));
   } catch (e) {
-    yield put(makeSearchResultAction([], [], e));
+    yield put(makeSearchResultFailed(e));
   }
 }
 
@@ -42,9 +43,13 @@ const reducer = (state = initialState, action: Action): IState => {
     case TOGGLE_MENU:
       return { ...state, menuOpen: !state.menuOpen };
     case SEARCH:
-      return { ...state, search: action.term };
+      return { ...state, search: action.payload };
     case SEARCH_RESULT:
-      return { ...state, bands: action.bands, albums: action.albums };
+      return {
+        ...state,
+        bands: action.payload.map(p => p.bands).withDefault([]),
+        albums: action.payload.map(p => p.albums).withDefault([]),
+      };
     default:
       return { ...state, open: false };
   }

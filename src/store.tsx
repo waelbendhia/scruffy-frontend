@@ -7,44 +7,42 @@ import { Store } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 
 import {
-  initialState as homeInitialState,
-  State as HomeState,
-  reducer as homeReducer,
-  effects as homeEffects,
+  homeInitialState,
+  HomeState,
+  homeReducer,
+  homeEffects,
 } from './home';
 
 import {
-  initialState as bandsInitialState,
-  reducer as bandsReducer,
-  effects as bandsEffects,
-} from './bands/state';
-import { IState as BandsState } from './bands/types';
+  BandsState,
+  bandsInitialState,
+  bandsReducer,
+  bandsEffects,
+} from './bands';
 
 import {
-  initialState as albumsInitialState,
-  reducer as albumsReducer,
-  effects as albumsEffects,
-  IState as AlbumsState,
+  albumsInitialState,
+  albumsReducer,
+  albumsEffects,
+  AlbumsState,
 } from './albums';
 
 import {
-  initialState as bandInitialState,
-  reducer as bandReducer,
-  effects as bandEffects,
-  State as BandState,
+  bandInitialState,
+  bandReducer,
+  bandEffects,
+  BandState,
 } from './band';
 
-import {
-  IState as HeaderState,
-} from './header/types';
 import {
   initialState as headerInitialState,
   reducer as headerReducer,
   effects as headerEffects,
 } from './header/state';
+import { IState as HeaderState } from './header/types';
 
-const sagaMiddleware = createSagaMiddleware(),
-  history = createHistory();
+const sagaMiddleware = createSagaMiddleware();
+const history = createHistory();
 
 interface IState {
   router: RouterState;

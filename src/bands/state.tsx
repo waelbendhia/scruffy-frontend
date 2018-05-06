@@ -27,10 +27,10 @@ const initialState: IState = {
 
 function* fetchBands(action: IGetBandsAction) {
   try {
-    const prevReq = yield select((s: AppState) => s.bands.request),
-      res = yield call(
-        searchBands.bind(null, { ...prevReq, ...action.req })
-      );
+    const prevReq = yield select((s: AppState) => s.bands.request);
+    const res = yield call(
+      searchBands.bind(null, { ...prevReq, ...action.payload })
+    );
     yield put(makeGetBandsSuccess({ bands: res.result, count: res.count }));
   } catch (e) {
     yield put(makeGetBandsFailed(e));
@@ -58,7 +58,7 @@ const reducer = (state = initialState, action: Action): IState => {
     case GET_BNDS:
       return {
         ...state,
-        request: { ...state.request, ...action.req },
+        request: { ...state.request, ...action.payload },
         bands: Loading(),
       };
     case DON_BNDS:

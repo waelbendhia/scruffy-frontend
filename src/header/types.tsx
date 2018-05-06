@@ -1,4 +1,4 @@
-import { IAlbum, IBand } from '../shared';
+import { IAlbum, IBand, IResult, makeFailableActionCreators } from '../shared';
 
 const TOGGLE_SEARCH = '[Header] Toggle search bar';
 const TOGGLE_MENU = '[Header] Toggle menu';
@@ -9,37 +9,33 @@ interface IToggleSearch {
   type: '[Header] Toggle search bar';
 }
 
-const makeToggleSearchAction = (): IToggleSearch => ({ type: TOGGLE_SEARCH });
+const makeToggleSearchAction = () => ({ type: TOGGLE_SEARCH });
 
 interface IToggleMenu {
   type: '[Header] Toggle menu';
 }
 
-const makeToggleMenuAction = (): IToggleMenu => ({ type: TOGGLE_MENU });
+const makeToggleMenuAction = () => ({ type: TOGGLE_MENU });
 
 interface ISearch {
   type: '[Header] Search';
-  term: string;
+  payload: string;
 }
 
-const makeSearchAction = (term: string): ISearch =>
-  ({ type: SEARCH, term });
+const makeSearchAction = (payload: string) => ({ type: SEARCH, payload });
+
+interface ISearchResultPayload {
+  bands: IBand[];
+  albums: IAlbum[];
+}
 
 interface ISearchResult {
   type: '[Header] Search result';
-  bands: IBand[];
-  albums: IAlbum[];
-  error: Error | null;
+  payload: IResult<ISearchResultPayload>;
 }
 
-const makeSearchResultAction =
-  (bands?: IBand[], albums?: IAlbum[], error?: Error): ISearchResult =>
-    ({
-      type: SEARCH_RESULT,
-      bands: bands || [],
-      albums: albums || [],
-      error: error || null,
-    });
+const [makeSearchResultSuccess, makeSearchResultFailed] =
+  makeFailableActionCreators(SEARCH_RESULT);
 
 type Action
   = IToggleSearch
@@ -68,6 +64,7 @@ export {
   makeSearchAction,
   SEARCH_RESULT,
   ISearchResult,
-  makeSearchResultAction,
+  makeSearchResultSuccess,
+  makeSearchResultFailed,
   IState,
 };

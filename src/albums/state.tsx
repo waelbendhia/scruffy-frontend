@@ -37,7 +37,7 @@ function* fetchAlbums(action: IGetAlbumsAction) {
   try {
     const prevReq = yield select((s: AppState) => s.albums.request),
       res = yield call(
-        searchAlbums.bind(null, { ...prevReq, ...action.req })
+        searchAlbums.bind(null, { ...prevReq, ...action.payload })
       );
     yield put(makeGetAlbumsSuccess({ albums: res.result, count: res.count }));
   } catch (e) {
@@ -66,7 +66,7 @@ const reducer = (state = initialState, action: Action): IState => {
     case GET_ALBMS:
       return {
         ...state,
-        request: { ...state.request, ...action.req },
+        request: { ...state.request, ...action.payload },
         albums: Loading(),
       };
     case DON_ALBMS:

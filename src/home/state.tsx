@@ -7,7 +7,6 @@ import {
   makeGetDataSuccess,
   makeGetDataFailed,
 } from './types';
-import { } from '../shared';
 import { call, put, takeEvery, all } from 'redux-saga/effects';
 import {
   getInfluential,

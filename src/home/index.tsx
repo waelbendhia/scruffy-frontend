@@ -1,3 +1,7 @@
 export { default } from './Home';
-export * from './state';
-export * from './types';
+export {
+  effects as homeEffects,
+  initialState as homeInitialState,
+  reducer as homeReducer,
+} from './state';
+export { State as HomeState } from './types';

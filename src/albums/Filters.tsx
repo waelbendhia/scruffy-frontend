@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StyleSheet, css } from 'aphrodite/no-important';
 import { definitions, Input } from '../shared';
-import { SortBy } from './types';
+import { SortBy, ISearchRequest } from './types';
 
 const styles = StyleSheet.create({
   filters: {
@@ -24,22 +24,14 @@ const styles = StyleSheet.create({
   }
 });
 
-interface IFiltersProps {
+interface IFiltersProps extends ISearchRequest {
   className?: string;
   updateName: (_: string) => void;
-  value: string;
-  ratingLower: number;
-  ratingHigher: number;
   updateRatingLower: (_: number) => void;
   updateRatingHigher: (_: number) => void;
   updateSortBy: (_: SortBy) => void;
-  yearLower: number;
-  yearHigher: number;
   updateYearLower: (_: number) => void;
   updateYearHigher: (_: number) => void;
-  includeUnknown: boolean;
-  sortBy: SortBy;
-  sortOrderAsc: boolean;
   updateSortOrderAsc: (_: boolean) => void;
   updateIncludeUnknown: (_: boolean) => void;
 }
@@ -47,7 +39,7 @@ interface IFiltersProps {
 const Filters = ({
   updateName,
   className,
-  value,
+  name,
   ratingLower,
   ratingHigher,
   updateRatingLower,
@@ -70,7 +62,7 @@ const Filters = ({
       <Input
         type="text"
         onChange={updateName}
-        value={value}
+        value={name}
         placeHolder="name"
       />
       <div className={css(styles.subHeading)}>

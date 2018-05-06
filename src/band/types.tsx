@@ -17,17 +17,16 @@ const DON_BND = '[Band] Get band done';
 
 interface IGetBandAction {
   type: '[Band] Get band';
-  req: IBandRequest;
+  payload: IBandRequest;
 }
 
-const makeGetBandAction =
-  (partialUrl: string) => ({
-    type: GET_BND,
-    req: {
-      vol: partialUrl.split('/')[2],
-      url: partialUrl.split('/')[3].split('.')[0],
-    }
-  });
+const makeGetBandAction = (partialUrl: string) => ({
+  type: GET_BND,
+  payload: {
+    vol: partialUrl.split('/')[2],
+    url: partialUrl.split('/')[3].split('.')[0],
+  }
+});
 
 interface IGetBandDone {
   type: '[Band] Get band done';
@@ -35,9 +34,11 @@ interface IGetBandDone {
 }
 
 const [makeGetBandSuccess, makeGetBandFailed] =
-  makeFailableActionCreators<IBand>(DON_BND);
+  makeFailableActionCreators(DON_BND);
 
-type Action = IGetBandAction | IGetBandDone;
+type Action
+  = IGetBandAction
+  | IGetBandDone;
 
 export {
   IBandRequest,

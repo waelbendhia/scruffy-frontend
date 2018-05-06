@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "skipLibCheck": true,
     "outDir": "build/dist",
     "esModuleInterop": true,
     "module": "es6",

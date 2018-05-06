@@ -1,10 +1,5 @@
 import * as React from 'react';
-import {
-  SmallCard,
-  ILoadable,
-  IAlbum,
-  Grid,
-} from '../shared';
+import { SmallCard, ILoadable, IAlbum, Grid } from '../shared';
 import { StyleSheet, css } from 'aphrodite/no-important';
 
 const defaultImage = require('./albumDefault.svg') as string;

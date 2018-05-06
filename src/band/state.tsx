@@ -19,7 +19,7 @@ const initialState: State = Loading();
 
 function* fetchBand(action: IGetBandAction) {
   try {
-    const res = (yield call(getBand.bind(null, action.req)));
+    const res = (yield call(getBand.bind(null, action.payload)));
     yield put(makeGetBandSuccess(res));
   } catch (e) {
     yield put(makeGetBandFailed(e));

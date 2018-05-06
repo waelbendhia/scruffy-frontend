@@ -31,16 +31,18 @@ const styles = StyleSheet.create({
 function wrap<T>(f: (_: T) => Partial<ISearchRequest>) {
   return (x: T) => store.dispatch(makeGetAlbumsAction(f(x)));
 }
+
 const bound = (min: number, max: number, val: number) =>
   Math.max(Math.min(val, max), min);
 
 const View = ({ count, albums, request }: IState) => {
   const maxPage = Math.ceil(count / request.numberOfResults);
+  const bindPage = (d: number) => bound(0, maxPage - 1, request.page + d);
+
   return (
     <div className={css(styles.layoutGrid)}>
       <Filters
         className={css(styles.filters)}
-        value={request.name}
         updateName={wrap(s => ({ name: s, page: 0 }))}
         updateRatingLower={wrap(
           r => ({ ratingLower: bound(0, request.ratingHigher, r) })
@@ -54,9 +56,7 @@ const View = ({ count, albums, request }: IState) => {
         {...request}
       />
       <AlbumsGrid
-        changePage={wrap(
-          d => ({ page: bound(0, maxPage - 1, request.page + d) })
-        )}
+        changePage={wrap(d => ({ page: bindPage(d) }))}
         className={css(styles.grid)}
         albums={albums}
       />
@@ -64,9 +64,7 @@ const View = ({ count, albums, request }: IState) => {
         className={css(styles.paginator)}
         page={Math.min(request.page, maxPage - 1)}
         maxPage={maxPage}
-        changePage={wrap(
-          d => ({ page: bound(0, maxPage - 1, request.page + d) })
-        )}
+        changePage={wrap(d => ({ page: bindPage(d) }))}
       />
     </div>
   );

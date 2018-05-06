@@ -22,11 +22,11 @@ const DON_BNDS = '[Bands] Get bands done';
 
 interface IGetBandsAction {
   type: '[Bands] Get bands';
-  req: Partial<ISearchRequest>;
+  payload: Partial<ISearchRequest>;
 }
 
-const makeGetBandsAction =
-  (req: Partial<ISearchRequest>) => ({ type: GET_BNDS, req });
+const makeGetBandsAction = (payload: Partial<ISearchRequest>) =>
+  ({ type: GET_BNDS, payload });
 
 interface IGetBandsPayload {
   bands: IBand[];
@@ -39,9 +39,11 @@ interface IGetBandsDone {
 }
 
 const [makeGetBandsSuccess, makeGetBandsFailed] =
-  makeFailableActionCreators<IGetBandsPayload>(DON_BNDS);
+  makeFailableActionCreators(DON_BNDS);
 
-type Action = IGetBandsAction | IGetBandsDone;
+type Action
+  = IGetBandsAction
+  | IGetBandsDone;
 
 export {
   ISearchRequest,

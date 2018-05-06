@@ -36,11 +36,11 @@ const DON_ALBMS = '[Albums] Get albums done';
 
 interface IGetAlbumsAction {
   type: '[Albums] Get albums';
-  req: Partial<ISearchRequest>;
+  payload: Partial<ISearchRequest>;
 }
 
 const makeGetAlbumsAction =
-  (req: Partial<ISearchRequest>) => ({ type: GET_ALBMS, req });
+  (payload: Partial<ISearchRequest>) => ({ type: GET_ALBMS, payload });
 
 interface IGetAlbumsPayload {
   albums: IAlbum[];
@@ -53,9 +53,11 @@ interface IGetAlbumsDone {
 }
 
 const [makeGetAlbumsSuccess, makeGetAlbumsFailed] =
-  makeFailableActionCreators<IGetAlbumsPayload>(DON_ALBMS);
+  makeFailableActionCreators(DON_ALBMS);
 
-type Action = IGetAlbumsAction | IGetAlbumsDone;
+type Action
+  = IGetAlbumsAction
+  | IGetAlbumsDone;
 
 export {
   SortBy,

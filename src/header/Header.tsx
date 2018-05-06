@@ -114,37 +114,32 @@ const View = (props: IProps & IState) => {
         </i>
       </a>
       <div className={css(styles.spacer)} />
-      <div
-        className={css(styles.links)}
-      >
-        {
-          [
-            {
-              text: 'Music',
-              link: '/bands',
-              options: [
-                { text: 'Bands', link: '/bands' },
-                { text: 'Albums', link: '/albums' },
-              ],
-            },
-            {
-              text: 'Film',
-              link: '/films',
-              options: [
-                { text: 'Directors', link: '/directors' },
-                { text: 'Films', link: '/films' },
-              ],
-            }
-          ]
-            .map(x =>
-              <div
-                className={css(styles.show, open && styles.hide)}
-                key={x.text}
-              >
-                <HeaderLink {...x} location={location.substr(1)} />
-              </div>
-            )
-        }
+      <div className={css(styles.links)}>
+        {[
+          {
+            text: 'Music',
+            link: '/bands',
+            options: [
+              { text: 'Bands', link: '/bands' },
+              { text: 'Albums', link: '/albums' },
+            ],
+          },
+          {
+            text: 'Film',
+            link: '/films',
+            options: [
+              { text: 'Directors', link: '/directors' },
+              { text: 'Films', link: '/films' },
+            ],
+          }
+        ].map(x =>
+          <div
+            className={css(styles.show, open && styles.hide)}
+            key={x.text}
+          >
+            <HeaderLink {...x} location={location.substr(1)} />
+          </div>
+        )}
       </div>
       <SearchBar {...props} />
     </div>

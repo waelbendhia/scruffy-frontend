@@ -30,11 +30,11 @@ interface IGetDataDone {
   payload: IResult<IHomeData>;
 }
 const [makeGetDataSuccess, makeGetDataFailed] =
-  makeFailableActionCreators<IHomeData>(DON_DATA);
+  makeFailableActionCreators(DON_DATA);
 
-type Action =
-  IGetDataAction |
-  IGetDataDone;
+type Action
+  = IGetDataAction
+  | IGetDataDone;
 
 export {
   IBandWithInfluence,
