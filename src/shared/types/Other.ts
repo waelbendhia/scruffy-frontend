@@ -20,8 +20,12 @@ interface IBand {
 const flatMap = <T>(fn: (_: T) => T[], arr: T[]) =>
   arr.map(fn).reduce((p, c) => [...p, ...c], []);
 
+const bound = (min: number, max: number, val: number) =>
+  Math.max(Math.min(val, max), min);
+
 export {
   IBand,
   IAlbum,
   flatMap,
+  bound,
 };

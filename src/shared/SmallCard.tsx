@@ -19,6 +19,9 @@ const SmallCard = ({ bgUrl, url, children }: IProps) => {
       flexDirection: 'column',
       backgroundColor: definitions.colors.white,
       color: definitions.colors.black,
+      noHover: {
+        pointerEvents: !url ? 'none' : 'auto',
+      },
       ':hover > span': {
         left: 0,
         width: '100%',
@@ -74,23 +77,14 @@ const SmallCard = ({ bgUrl, url, children }: IProps) => {
       transition: `width ease-out ${definitions.transitions.fast}, 
                  left ease-out ${definitions.transitions.fast}`,
     },
-    noHover: {
-      pointerEvents: 'none',
-    },
-  }),
-    Elem = (props: Partial<LinkProps>) =>
-      !!url
-        ? <Link {...props} to={`/bands/${url.split('.')[0]}`} />
-        : <span {...props} />;
+  });
+  const Elem = (props: Partial<LinkProps>) =>
+    !!url
+      ? <Link {...props} to={`/bands/${url.split('.')[0]}`} />
+      : <span {...props} />;
 
   return (
-    <Elem
-      className={css(
-        styles.card,
-        // sharedStyles.elevate,
-        !url && styles.noHover,
-      )}
-    >
+    <Elem className={css(styles.card)}>
       <div className={css(styles.image)} />
       <div className={css(styles.border)} />
       <div className={css(styles.label)}>{children}</div>

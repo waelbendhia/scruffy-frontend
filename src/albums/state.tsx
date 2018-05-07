@@ -8,6 +8,7 @@ import {
   SortBy,
   makeGetAlbumsSuccess,
   makeGetAlbumsFailed,
+  TOGGLE_FILTERS,
 } from './types';
 import { call, put, takeEvery, all } from 'redux-saga/effects';
 import { LocationChangeAction, LOCATION_CHANGE } from 'react-router-redux';
@@ -30,7 +31,8 @@ const initialState: IState = {
     sortOrderAsc: false,
     page: 0,
     numberOfResults: 10,
-  }
+  },
+  filtersOpen: false,
 };
 
 function* fetchAlbums(action: IGetAlbumsAction) {
@@ -75,6 +77,8 @@ const reducer = (state = initialState, action: Action): IState => {
         count: action.payload.map(d => d.count).withDefault(0),
         albums: action.payload.map(d => d.albums),
       };
+    case TOGGLE_FILTERS:
+      return { ...state, filtersOpen: !state.filtersOpen };
     default:
       return state;
   }

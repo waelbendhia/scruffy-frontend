@@ -41,18 +41,13 @@ const Paginator = ({
     <a
       className={css(
         styles.clickers,
-        (
-          value < 0 && page === 0 ||
-          value > 0 && page + 1 === maxPage
-        ) && styles.inactive,
+        (value < 0 && page === 0 || value > 0 && page + 1 === maxPage)
+          ? styles.inactive
+          : null,
       )}
       onClick={() => changePage(value)}
     >
-      {
-        value < 0
-          ? `${Math.abs(value)}<`
-          : `>${value}`
-      }
+      {value < 0 ? `${Math.abs(value)}<` : `>${value}`}
     </a>
   );
   return (

@@ -20,11 +20,7 @@ const BandsGrid = (props: IGridProps) => (
     data={props.bands}
     minRows={2}
     cell={b =>
-      <SmallCard
-        key={b.url}
-        bgUrl={b.imageUrl || defaultImage}
-        {...b}
-      >
+      <SmallCard key={b.url} bgUrl={b.imageUrl || defaultImage} {...b}>
         {b.name}
       </SmallCard>}
   />

@@ -6,44 +6,59 @@ import store from '../store';
 import Filters from './Filters';
 import BandsGrid from './BandsGrid';
 
-const styles = StyleSheet.create({
-  layoutGrid: {
-    height: `calc(100vh - ${definitions.headerHeight})`,
-    display: 'grid',
-    gridTemplateColumns: 'minmax(20%, 200px) 1fr',
-    gridTemplateRows: '1fr 60px',
-    gridTemplateAreas: `
+const View = ({ bands, count, request, filtersOpen }: IState) => {
+  const maxPage = Math.ceil(count / request.numberOfResults);
+
+  const styles = StyleSheet.create({
+    layoutGrid: {
+      height: `calc(100vh - ${definitions.headerHeight})`,
+      display: 'grid',
+      gridTemplateColumns: 'minmax(20%, 200px) 1fr',
+      gridTemplateRows: '1fr 60px',
+      gridTemplateAreas: `
       "filter grid"
       "filter paginator"
     `,
-  },
-  filters: {
-    gridArea: 'filter',
-    zIndex: 1,
-  },
-  grid: {
-    gridArea: 'grid',
-    position: 'relative',
-  },
-  paginator: { gridArea: 'paginator' }
-});
+      '@media (max-width: 860px)': {
+        position: 'relative',
+        overflow: 'hidden',
+        gridTemplateAreas: `
+        "grid"
+        "paginator"
+      `,
+        gridTemplateColumns: '100%',
+      },
+    },
+    filters: {
+      gridArea: 'filter',
+      zIndex: 1,
+      '@media (max-width: 860px)': {
+        position: 'absolute',
+        height: '100%',
+        transform: `translateX(${filtersOpen ? '0' : '100%'})`,
+        width: `calc(100% - 112px)`,
+        right: 0,
+        transition: `transform ease-in ${definitions.transitions.fast}`,
+      },
+    },
+    grid: {
+      gridArea: 'grid',
+      position: 'relative',
+    },
+    paginator: { gridArea: 'paginator' }
+  });
 
-const View = ({ bands, count, request }: IState) => {
-  const maxPage = Math.ceil(count / request.numberOfResults);
   return (
     <div className={css(styles.layoutGrid)}    >
       <Filters
         className={css(styles.filters)}
-        value={request.name}
-        updateName={s => store.dispatch(makeGetBandsAction({
-          name: s,
-          page: 0,
-        }))}
+        {...request}
+        filtersOpen={filtersOpen}
       />
       <BandsGrid
         className={css(styles.grid)}
         bands={bands}
-        changePage={(delta) =>
+        changePage={delta =>
           store.dispatch(makeGetBandsAction({
             page: Math.max(
               Math.min(request.page + delta, maxPage - 1),

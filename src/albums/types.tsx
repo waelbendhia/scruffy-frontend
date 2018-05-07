@@ -29,10 +29,12 @@ interface IState {
   albums: ILoadable<IAlbum[]>;
   count: number;
   request: ISearchRequest;
+  filtersOpen: boolean;
 }
 
 const GET_ALBMS = '[Albums] Get albums';
 const DON_ALBMS = '[Albums] Get albums done';
+const TOGGLE_FILTERS = '[Albums] Toggle filters';
 
 interface IGetAlbumsAction {
   type: '[Albums] Get albums';
@@ -55,9 +57,16 @@ interface IGetAlbumsDone {
 const [makeGetAlbumsSuccess, makeGetAlbumsFailed] =
   makeFailableActionCreators(DON_ALBMS);
 
+interface IToggleFilters {
+  type: '[Albums] Toggle filters';
+}
+
+const makeToggleFiltersAction = () => ({ type: TOGGLE_FILTERS });
+
 type Action
   = IGetAlbumsAction
-  | IGetAlbumsDone;
+  | IGetAlbumsDone
+  | IToggleFilters;
 
 export {
   SortBy,
@@ -71,4 +80,7 @@ export {
   IGetAlbumsDone,
   makeGetAlbumsSuccess,
   makeGetAlbumsFailed,
+  TOGGLE_FILTERS,
+  IToggleFilters,
+  makeToggleFiltersAction,
 };

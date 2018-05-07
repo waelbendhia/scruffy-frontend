@@ -1,7 +1,14 @@
 import * as React from 'react';
 import { StyleSheet, css } from 'aphrodite/no-important';
 import { definitions, Input } from '../shared';
-import { SortBy, ISearchRequest } from './types';
+import {
+  SortBy,
+  ISearchRequest,
+  makeGetAlbumsAction,
+  makeToggleFiltersAction,
+} from './types';
+import store from '../store';
+import { bound } from '../shared/types/Other';
 
 const styles = StyleSheet.create({
   filters: {
@@ -21,47 +28,62 @@ const styles = StyleSheet.create({
   label: {
     fontSize: '24px',
     color: '#747474',
-  }
+  },
+  icon: {
+    fontSize: '30px !important',
+    transition: `color ease-in ${definitions.transitions.fast}`,
+    ':hover': { color: definitions.colors.primary }
+  },
+  toggle: {
+    height: '30px',
+    position: 'absolute',
+    left: '-46px',
+    padding: '8px',
+    top: '8px',
+    background: 'inherit',
+    borderTopLeftRadius: '8px',
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: 0,
+    borderBottomLeftRadius: '8px',
+  },
 });
-
 interface IFiltersProps extends ISearchRequest {
   className?: string;
-  updateName: (_: string) => void;
-  updateRatingLower: (_: number) => void;
-  updateRatingHigher: (_: number) => void;
-  updateSortBy: (_: SortBy) => void;
-  updateYearLower: (_: number) => void;
-  updateYearHigher: (_: number) => void;
-  updateSortOrderAsc: (_: boolean) => void;
-  updateIncludeUnknown: (_: boolean) => void;
+  filtersOpen: boolean;
+}
+
+function wrap<T>(f: (_: T) => Partial<ISearchRequest>) {
+  return (x: T) => store.dispatch(makeGetAlbumsAction(f(x)));
 }
 
 const Filters = ({
-  updateName,
   className,
   name,
   ratingLower,
   ratingHigher,
-  updateRatingLower,
-  updateRatingHigher,
-  updateSortBy,
   yearLower,
   yearHigher,
-  updateYearLower,
-  updateYearHigher,
   includeUnknown,
   sortBy,
   sortOrderAsc,
-  updateSortOrderAsc,
-  updateIncludeUnknown,
-}: IFiltersProps) => (
+  filtersOpen,
+}: IFiltersProps) =>
+  (
     <div
       className={`${css(styles.filters)} ${className}`}
     >
+      <a
+        className={css(styles.toggle)}
+        onClick={() => store.dispatch(makeToggleFiltersAction())}
+      >
+        <i className={css(styles.icon) + ' material-icons'}>
+          {filtersOpen ? 'close' : 'filter_list'}
+        </i>
+      </a>
       <h1>Search:</h1>
       <Input
         type="text"
-        onChange={updateName}
+        onChange={wrap((s: string) => ({ name: s, page: 0 }))}
         value={name}
         placeHolder="name"
       />
@@ -71,7 +93,9 @@ const Filters = ({
       <div className={css(styles.ratingYearContainer)}>
         <Input
           type="number"
-          onChange={updateRatingLower}
+          onChange={wrap(
+            (r: number) => ({ ratingLower: bound(0, ratingHigher, r) })
+          )}
           value={ratingLower}
           placeHolder="min"
           minValue={0}
@@ -79,7 +103,7 @@ const Filters = ({
         />
         <Input
           type="number"
-          onChange={updateRatingHigher}
+          onChange={wrap((s: number) => ({ ratingHigher: s, page: 0 }))}
           value={ratingHigher}
           placeHolder="max"
           minValue={ratingLower}
@@ -92,7 +116,7 @@ const Filters = ({
       <div className={css(styles.ratingYearContainer)}>
         <Input
           type="number"
-          onChange={updateYearLower}
+          onChange={wrap((r: number) => ({ yearLower: r, page: 0 }))}
           value={yearLower}
           placeHolder="min"
           minValue={0}
@@ -100,7 +124,7 @@ const Filters = ({
         />
         <Input
           type="number"
-          onChange={updateYearHigher}
+          onChange={wrap((s: number) => ({ yearHigher: s, page: 0 }))}
           value={yearHigher}
           placeHolder="max"
           minValue={yearLower}
@@ -110,7 +134,7 @@ const Filters = ({
       <div>
         <input
           type="checkbox"
-          onChange={e => updateIncludeUnknown(e.target.checked)}
+          onChange={wrap(e => ({ includeUnknown: e.target.checked, page: 0 }))}
           checked={includeUnknown}
         />
         <label className={css(styles.label)}>Include unknown date?</label>
@@ -120,7 +144,7 @@ const Filters = ({
       </div>
       <select
         value={SortBy[sortBy]}
-        onChange={e => updateSortBy(SortBy[e.target.value])}
+        onChange={wrap(e => ({ sortBy: SortBy[e.target.value] }))}
       >
         {
           Object.keys(SortBy)
@@ -139,7 +163,7 @@ const Filters = ({
       <div>
         <input
           type="checkbox"
-          onChange={e => updateSortOrderAsc(e.target.checked)}
+          onChange={wrap(e => ({ sortOrderAsc: e.target.checked }))}
           checked={sortOrderAsc}
         />
         <label className={css(styles.label)}>Sort ascending</label>

@@ -20,6 +20,7 @@ const HLabeledImage = ({ url, imageUrl, children, whiteText }: IProps) => {
       alignItems: 'center',
       position: 'relative',
       width: '100%',
+      pointerEvents: !url ? 'none' : 'auto',
       ':hover > span': {
         left: 0,
         width: '100%',
@@ -101,17 +102,14 @@ const HLabeledImage = ({ url, imageUrl, children, whiteText }: IProps) => {
       transition: `width ease-out ${definitions.transitions.fast}, 
                  left ease-out ${definitions.transitions.fast}`,
     },
-    noHover: {
-      pointerEvents: 'none',
-    },
-  }),
-    Elem = (props: Partial<LinkProps>) =>
-      !!url
-        ? <Link {...props} to={`/bands/${url.split('.')[0]}`} />
-        : <span {...props} />;
+  });
+  const Elem = (props: Partial<LinkProps>) =>
+    !!url
+      ? <Link {...props} to={`/bands/${url.split('.')[0]}`} />
+      : <span {...props} />;
 
   return (
-    <Elem className={css(styles.container, !url && styles.noHover)}>
+    <Elem className={css(styles.container)}>
       <div className={css(styles.image)} />
       <div className={css(styles.label)}>
         <div className={css(styles.border)} />

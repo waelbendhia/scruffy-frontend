@@ -7,6 +7,7 @@ import {
   makeGetBandsAction,
   makeGetBandsSuccess,
   makeGetBandsFailed,
+  TOGGLE_FILTERS,
 } from './types';
 import { call, put, takeEvery, all } from 'redux-saga/effects';
 import { LocationChangeAction, LOCATION_CHANGE } from 'react-router-redux';
@@ -22,7 +23,8 @@ const initialState: IState = {
     page: 0,
     numberOfResults: 10,
     name: '',
-  }
+  },
+  filtersOpen: false,
 };
 
 function* fetchBands(action: IGetBandsAction) {
@@ -67,6 +69,8 @@ const reducer = (state = initialState, action: Action): IState => {
         count: action.payload.map(x => x.count).withDefault(0),
         bands: action.payload.map(x => x.bands),
       };
+    case TOGGLE_FILTERS:
+      return { ...state, filtersOpen: !state.filtersOpen };
     default:
       return state;
   }

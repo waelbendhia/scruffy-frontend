@@ -32,31 +32,29 @@ const styles = StyleSheet.create({
 
 const View = (band: ILoadable<IBand>) => (
   <TransitionGroup className={css(styles.container)}>
-    {
-      <CSSTransition
-        key={band.caseOf({
-          err: () => 'error',
-          loading: () => 'loading',
-          ok: () => 'bands',
-        })}
-        timeout={150}
-        classNames={{
-          appear: css(styles.in),
-          appearActive: css(styles.out),
-          enter: css(styles.out),
-          enterActive: css(styles.in),
-          exit: css(styles.out),
-          exitActive: css(styles.in),
-        }}
-      >
-        {band.caseOf({
-          ok: b => <BandView {...b} />,
-          err: e => <div>JSON.stringify(e)</div>,
-          loading:
-            () => <Loading className={css(styles.loading, styles.position)} />
-        })}
-      </CSSTransition>
-    }
+    <CSSTransition
+      key={band.caseOf({
+        err: () => 'error',
+        loading: () => 'loading',
+        ok: () => 'bands',
+      })}
+      timeout={150}
+      classNames={{
+        appear: css(styles.in),
+        appearActive: css(styles.out),
+        enter: css(styles.out),
+        enterActive: css(styles.in),
+        exit: css(styles.out),
+        exitActive: css(styles.in),
+      }}
+    >
+      {band.caseOf({
+        ok: b => <BandView {...b} />,
+        err: e => <div>JSON.stringify(e)</div>,
+        loading:
+          () => <Loading className={css(styles.loading, styles.position)} />
+      })}
+    </CSSTransition>
   </TransitionGroup>
 );
 

@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
   },
   container: {
     margin: '40px',
+    '@media (max-width: 700px)': { margin: '20px' },
   },
   credit: { flex: 1 },
   credits: {
@@ -32,11 +33,13 @@ const styles = StyleSheet.create({
     fontSize: '1.4em',
     marginTop: '8px',
     marginBottom: '8px',
+    '@media (max-width: 700px)': { fontSize: '1.1em' },
   },
   ul: {
     listStyle: 'none',
     marginLeft: '15px',
     fontSize: '1.3em',
+    '@media (max-width: 700px)': { fontSize: '1em' },
   }
 });
 

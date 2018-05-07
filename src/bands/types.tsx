@@ -15,10 +15,18 @@ interface IState {
   bands: ILoadable<IBand[]>;
   count: number;
   request: ISearchRequest;
+  filtersOpen: boolean;
 }
 
 const GET_BNDS = '[Bands] Get bands';
 const DON_BNDS = '[Bands] Get bands done';
+const TOGGLE_FILTERS = '[Bands] Toggle filters';
+
+interface IToggleFilters {
+  type: '[Bands] Toggle filters';
+}
+
+const makeToggleFiltersAction = () => ({ type: TOGGLE_FILTERS });
 
 interface IGetBandsAction {
   type: '[Bands] Get bands';
@@ -43,7 +51,8 @@ const [makeGetBandsSuccess, makeGetBandsFailed] =
 
 type Action
   = IGetBandsAction
-  | IGetBandsDone;
+  | IGetBandsDone
+  | IToggleFilters;
 
 export {
   ISearchRequest,
@@ -55,4 +64,7 @@ export {
   DON_BNDS,
   makeGetBandsSuccess,
   makeGetBandsFailed,
+  TOGGLE_FILTERS,
+  IToggleFilters,
+  makeToggleFiltersAction,
 };

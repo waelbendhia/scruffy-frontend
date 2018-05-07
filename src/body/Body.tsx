@@ -16,9 +16,7 @@ import { definitions } from '../shared';
 import { Location } from 'history';
 
 const styles = StyleSheet.create({
-  body: {
-    minHeight: `calc(100vh - ${definitions.headerHeight})`,
-  },
+  body: { minHeight: `calc(100vh - ${definitions.headerHeight})` },
   enter: {
     opacity: 0,
     transform: 'translateY(10px)',

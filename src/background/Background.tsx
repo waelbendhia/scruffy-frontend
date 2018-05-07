@@ -19,9 +19,7 @@ const styles = StyleSheet.create({
 });
 
 const View = () => (
-  <div
-    className={css(styles.background)}
-  >
+  <div className={css(styles.background)}>
     The fact that so many books still name the Beatles as "the greatest
     or most significant or most influential" rock band ever only tells
     you how far rock music still is from becoming a serious art. Jazz

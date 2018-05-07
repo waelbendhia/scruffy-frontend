@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
 const View = ({ className }: { className?: string }) => (
   <div className={css(styles.container) + ' ' + className}>
     <img src={loadingImage} className={css(styles.spinner)} />
-    <div className="loading-text">Loading...</div>
+    <div>Loading...</div>
   </div>
 );
 
