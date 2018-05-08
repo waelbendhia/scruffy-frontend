@@ -68,8 +68,8 @@ const SearchBar = ({ open, search, bands, albums }: IProps) => {
         <Input
           whiteText={true}
           className={css(styles.searchInput, styles.show, !open && styles.hide)}
-          icon="search"
-          type="text"
+          icon='search'
+          type='text'
           value={search}
           onChange={(v: string) => store.dispatch(makeSearchAction(v))}
         />

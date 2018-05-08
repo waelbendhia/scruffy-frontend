@@ -82,30 +82,30 @@ const Filters = ({
       </a>
       <h1>Search:</h1>
       <Input
-        type="text"
+        type='text'
         onChange={wrap((s: string) => ({ name: s, page: 0 }))}
         value={name}
-        placeHolder="name"
+        placeHolder='name'
       />
       <div className={css(styles.subHeading)}>
         Rating
       </div>
       <div className={css(styles.ratingYearContainer)}>
         <Input
-          type="number"
+          type='number'
           onChange={wrap(
             (r: number) => ({ ratingLower: bound(0, ratingHigher, r) })
           )}
           value={ratingLower}
-          placeHolder="min"
+          placeHolder='min'
           minValue={0}
           maxValue={ratingHigher}
         />
         <Input
-          type="number"
+          type='number'
           onChange={wrap((s: number) => ({ ratingHigher: s, page: 0 }))}
           value={ratingHigher}
-          placeHolder="max"
+          placeHolder='max'
           minValue={ratingLower}
           maxValue={10}
         />
@@ -115,25 +115,25 @@ const Filters = ({
       </div>
       <div className={css(styles.ratingYearContainer)}>
         <Input
-          type="number"
+          type='number'
           onChange={wrap((r: number) => ({ yearLower: r, page: 0 }))}
           value={yearLower}
-          placeHolder="min"
+          placeHolder='min'
           minValue={0}
           maxValue={yearHigher}
         />
         <Input
-          type="number"
+          type='number'
           onChange={wrap((s: number) => ({ yearHigher: s, page: 0 }))}
           value={yearHigher}
-          placeHolder="max"
+          placeHolder='max'
           minValue={yearLower}
           maxValue={new Date().getFullYear()}
         />
       </div>
       <div>
         <input
-          type="checkbox"
+          type='checkbox'
           onChange={wrap(e => ({ includeUnknown: e.target.checked, page: 0 }))}
           checked={includeUnknown}
         />
@@ -162,7 +162,7 @@ const Filters = ({
       </select>
       <div>
         <input
-          type="checkbox"
+          type='checkbox'
           onChange={wrap(e => ({ sortOrderAsc: e.target.checked }))}
           checked={sortOrderAsc}
         />

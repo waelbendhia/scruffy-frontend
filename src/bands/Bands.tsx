@@ -8,7 +8,6 @@ import BandsGrid from './BandsGrid';
 
 const View = ({ bands, count, request, filtersOpen }: IState) => {
   const maxPage = Math.ceil(count / request.numberOfResults);
-
   const styles = StyleSheet.create({
     layoutGrid: {
       height: `calc(100vh - ${definitions.headerHeight})`,

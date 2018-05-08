@@ -65,31 +65,31 @@ const View = ({ location, home, bands, albums, band }: IBodyProps) => (
       <Switch location={location}>
         <Route
           exact={true}
-          path="/"
+          path='/'
           render={() => <Home {...home} />}
         />
         <Route
           exact={true}
-          path="/bands"
+          path='/bands'
           render={() => <Bands {...bands} />}
         />
         <Route
-          path="/bands/:vol/:band"
+          path='/bands/:vol/:band'
           render={() => <Band {...band} />}
         />
         <Route
           exact={true}
-          path="/albums"
+          path='/albums'
           render={() => <Albums {...albums} />}
         />
         <Route
           exact={true}
-          path="/directors"
+          path='/directors'
           render={() => <Directors />}
         />
         <Route
           exact={true}
-          path="/films"
+          path='/films'
           render={() => <Films />}
         />
       </Switch>

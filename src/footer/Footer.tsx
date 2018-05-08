@@ -54,13 +54,13 @@ export default () => (
         </p>
       <p className={css(styles.paragraph)}>
         App built and designed by&nbsp;
-        <a className={css(styles.link)} href="http://waelbendhia.github.io/">
+        <a className={css(styles.link)} href='http://waelbendhia.github.io/'>
           Wael Ben Dhia
         </a>.
         </p>
       <p className={css(styles.paragraph)}>
         Content from&nbsp;
-        <a className={css(styles.link)} href="http://scaruffi.com/">
+        <a className={css(styles.link)} href='http://scaruffi.com/'>
           Piero Scaruffi's website
         </a>&nbsp;
         and formatted as best as possible.
@@ -70,7 +70,7 @@ export default () => (
       </p>
       <p className={css(styles.paragraph)}>
         Powered by&nbsp;
-        <a className={css(styles.link)} href="https://www.last.fm">last.fm</a>
+        <a className={css(styles.link)} href='https://www.last.fm'>last.fm</a>
       </p>
     </div>
     <div className={css(styles.container, styles.second)}>
@@ -82,13 +82,13 @@ export default () => (
             <li>
               <a
                 className={css(styles.link)}
-                href="http://waelbendhia.github.io/"
+                href='http://waelbendhia.github.io/'
               >
                 Website
               </a>
             </li>
             <li>
-              <a className={css(styles.link)} href="mailto:">
+              <a className={css(styles.link)} href='mailto:'>
                 Email
             </a>
             </li>
@@ -98,12 +98,12 @@ export default () => (
           <p className={css(styles.paragraph)}>Piero Scaruffi</p>
           <ul className={css(styles.ul)}>
             <li>
-              <a className={css(styles.link)} href="http://scaruffi.com/">
+              <a className={css(styles.link)} href='http://scaruffi.com/'>
                 Website
             </a>
             </li>
             <li>
-              <a className={css(styles.link)} href="mailto:p@scaruffi.com">
+              <a className={css(styles.link)} href='mailto:p@scaruffi.com'>
                 Email
             </a>
             </li>

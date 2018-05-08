@@ -124,7 +124,7 @@ const Band =
             <a
               className={css(styles.bottomLink)}
               href={fullUrl}
-              target="_blank"
+              target='_blank'
             >
               Read on Scaruffi.com
             </a>

@@ -61,6 +61,8 @@ const View = (props: IProps & IState) => {
       color: definitions.colors.white,
       fontSize: '3em',
       transform: 'translateX(-50%)',
+      pointerEvents: location === '/' || open ? 'none' : 'auto',
+      opacity: location === '/' || open ? 0 : 1,
       '@media (max-width: 860px)': {
         left: 'unset',
         right: '16px',
@@ -68,8 +70,11 @@ const View = (props: IProps & IState) => {
         fontSize: '1.5em',
       }
     },
-    show: { transition: `opacity ease-in-out ${definitions.transitions.fast}` },
-    hide: { pointerEvents: 'none', opacity: 0 },
+    show: {
+      pointerEvents: open ? 'none' : 'auto',
+      opacity: open ? 0 : 1,
+      transition: `opacity ease-in-out ${definitions.transitions.fast}`,
+    },
     spacer: {
       flex: 1,
       '@media (max-width: 860px)': { order: 3 }
@@ -88,13 +93,7 @@ const View = (props: IProps & IState) => {
 
   return (
     <div className={css(styles.header)}>
-      <Link
-        to="/"
-        className={css(
-          styles.siteTitle,
-          (location === '/' || open) && styles.hide
-        )}
-      >
+      <Link to='/' className={css(styles.siteTitle)}>
         Scaruffi2.0
       </Link>
       <a
@@ -133,10 +132,7 @@ const View = (props: IProps & IState) => {
             ],
           }
         ].map(x =>
-          <div
-            className={css(styles.show, open && styles.hide)}
-            key={x.text}
-          >
+          <div className={css(styles.show)} key={x.text}>
             <HeaderLink {...x} location={location.substr(1)} />
           </div>
         )}

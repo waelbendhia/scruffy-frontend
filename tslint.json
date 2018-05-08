@@ -28,6 +28,7 @@
             true,
             "spaces"
         ],
+        "no-redundant-jsdoc": true,
         "jsdoc-format": true,
         "jsx-no-lambda": false,
         "jsx-no-multiline-js": false,
@@ -60,7 +61,7 @@
         "quotemark": [
             true,
             "single",
-            "jsx-double"
+            "jsx-single"
         ],
         "radix": true,
         "semicolon": [

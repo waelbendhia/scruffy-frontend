@@ -53,8 +53,8 @@ class App extends React.Component<{}, IState & { location: Location }> {
     return (
       <div>
         <link
-          href="https://fonts.googleapis.com/icon?family=Material+Icons"
-          rel="stylesheet"
+          href='https://fonts.googleapis.com/icon?family=Material+Icons'
+          rel='stylesheet'
         />
         <Header
           {...this.state.header}

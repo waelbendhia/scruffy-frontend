@@ -49,13 +49,13 @@ const Filters = ({ className, name, filtersOpen }: IFiltersProps) => (
     </a>
     <h1>Search:</h1>
     <Input
-      type="text"
+      type='text'
       onChange={(s: string) => store.dispatch(makeGetBandsAction({
         name: s,
         page: 0,
       }))}
       value={name}
-      placeHolder="name"
+      placeHolder='name'
     />
   </div>
 );
