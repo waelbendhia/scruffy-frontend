@@ -49,10 +49,7 @@ interface IGetBandsDone {
 const [makeGetBandsSuccess, makeGetBandsFailed] =
   makeFailableActionCreators(DON_BNDS);
 
-type Action
-  = IGetBandsAction
-  | IGetBandsDone
-  | IToggleFilters;
+type Action = IGetBandsAction | IGetBandsDone | IToggleFilters;
 
 export {
   ISearchRequest,

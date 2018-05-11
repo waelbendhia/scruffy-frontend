@@ -1,11 +1,13 @@
+import { callIfFunc } from './Other';
+
 const ResultTypes = {
   ok: Symbol(':ok'),
   err: Symbol(':err')
 };
 
 interface IResultMatch<T, TOk, TErr> {
-  ok: (_: T) => TOk;
-  err: (_: Error) => TErr;
+  ok: TOk | ((_: T) => TOk);
+  err: TErr | ((_: Error) => TErr);
 }
 
 interface IResult<T> {
@@ -21,7 +23,7 @@ const Ok = <T>(v: T): IResult<T> => ({
   bind: <T2>(f: (_: T) => IResult<T2>) => f(v),
   map: <T2>(f: (_: T) => T2) => Ok(f(v)),
   withDefault: <T2>(_: T2) => v,
-  caseOf: <T2, T3>(fn: IResultMatch<T, T2, T3>) => fn.ok(v),
+  caseOf: <T2, T3>(fn: IResultMatch<T, T2, T3>) => callIfFunc(fn.ok, v),
 });
 
 const Err = <T>(e: Error): IResult<T> => ({
@@ -29,7 +31,7 @@ const Err = <T>(e: Error): IResult<T> => ({
   bind: <T2>(f: (_: T) => IResult<T2>) => Err<T2>(e),
   map: <T2>(f: (_: T) => T2) => Err<T2>(e),
   withDefault: <TDef>(d: TDef) => d,
-  caseOf: <TOk, TErr>(fn: IResultMatch<T, TOk, TErr>) => fn.err(e),
+  caseOf: <TOk, TErr>(fn: IResultMatch<T, TOk, TErr>) => callIfFunc(fn.err, e),
 });
 
 const makeFailableActionCreators = <AT>(actionType: AT): [

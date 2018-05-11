@@ -69,9 +69,7 @@ const Filters = ({
   filtersOpen,
 }: IFiltersProps) =>
   (
-    <div
-      className={`${css(styles.filters)} ${className}`}
-    >
+    <div className={`${css(styles.filters)} ${className}`}>
       <a
         className={css(styles.toggle)}
         onClick={() => store.dispatch(makeToggleFiltersAction())}

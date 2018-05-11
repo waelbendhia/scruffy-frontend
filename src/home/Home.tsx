@@ -31,7 +31,7 @@ const View = (props: State) => (
       // TODO: Display error message
       err: e => e.message,
       // TODO: replace with loading indicator
-      loading: () => 'Loading',
+      loading: 'Loading',
     })} */}
   </div>
 );

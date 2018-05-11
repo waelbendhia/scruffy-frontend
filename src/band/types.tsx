@@ -36,9 +36,7 @@ interface IGetBandDone {
 const [makeGetBandSuccess, makeGetBandFailed] =
   makeFailableActionCreators(DON_BND);
 
-type Action
-  = IGetBandAction
-  | IGetBandDone;
+type Action = IGetBandAction | IGetBandDone;
 
 export {
   IBandRequest,

@@ -63,10 +63,7 @@ interface IToggleFilters {
 
 const makeToggleFiltersAction = () => ({ type: TOGGLE_FILTERS });
 
-type Action
-  = IGetAlbumsAction
-  | IGetAlbumsDone
-  | IToggleFilters;
+type Action = IGetAlbumsAction | IGetAlbumsDone | IToggleFilters;
 
 export {
   SortBy,

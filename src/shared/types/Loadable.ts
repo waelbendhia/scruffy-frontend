@@ -1,4 +1,5 @@
 import { ResultTypes, IResultMatch } from './Result';
+import { callIfFunc } from './Other';
 
 const LoadableTypes = {
   ...ResultTypes,
@@ -7,7 +8,7 @@ const LoadableTypes = {
 
 interface ILoadableMatch<T, TOk, TErr, TLoad>
   extends IResultMatch<T, TOk, TErr> {
-  loading: () => TLoad;
+  loading: TLoad | (() => TLoad);
 }
 
 interface ILoadable<T> {
@@ -27,7 +28,7 @@ const Loading = <T>(): ILoadable<T> => ({
   withDefault: <T2>(d: T2) => d,
   caseOf: <TOk, TErr, TLoad>(
     fn: ILoadableMatch<T, TOk, TErr, TLoad>
-  ) => fn.loading(),
+  ) => callIfFunc(fn.loading, undefined),
 });
 
 export {

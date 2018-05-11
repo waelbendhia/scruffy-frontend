@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { StyleSheet, css } from 'aphrodite/no-important';
 import { definitions } from '.';
+import { bound } from './types/Other';
 
 const styles = StyleSheet.create({
   container: {
@@ -84,16 +85,14 @@ const Input = (props: InputProps & { whiteText?: boolean, icon?: string }) => (
           props.whiteText ? styles.white : styles.black,
         )}
         type={props.type}
-        onChange={
-          e =>
-            props.type === 'number'
-              ? props.onChange(
-                Math.max(
-                  Math.min(parseFloat(e.target.value) || 0, props.maxValue),
-                  props.minValue,
-                )
-              )
-              : props.onChange(e.target.value)
+        onChange={e =>
+          props.type === 'number'
+            ? props.onChange(bound(
+              props.minValue,
+              props.maxValue,
+              parseFloat(e.target.value) || 0,
+            ))
+            : props.onChange(e.target.value)
         }
         value={props.value}
         placeholder={props.placeHolder}

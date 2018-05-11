@@ -63,35 +63,24 @@ const View = ({ location, home, bands, albums, band }: IBodyProps) => (
       }}
     >
       <Switch location={location}>
-        <Route
-          exact={true}
-          path='/'
-          render={() => <Home {...home} />}
-        />
-        <Route
-          exact={true}
-          path='/bands'
-          render={() => <Bands {...bands} />}
-        />
-        <Route
-          path='/bands/:vol/:band'
-          render={() => <Band {...band} />}
-        />
-        <Route
-          exact={true}
-          path='/albums'
-          render={() => <Albums {...albums} />}
-        />
-        <Route
-          exact={true}
-          path='/directors'
-          render={() => <Directors />}
-        />
-        <Route
-          exact={true}
-          path='/films'
-          render={() => <Films />}
-        />
+        <Route exact={true} path='/' >
+          <Home {...home} />
+        </Route>
+        <Route exact={true} path='/bands' >
+          <Bands {...bands} />
+        </Route>
+        <Route path='/bands/:vol/:band' >
+          <Band {...band} />
+        </ Route>
+        <Route exact={true} path='/albums' >
+          <Albums {...albums} />
+        </Route>
+        <Route exact={true} path='/directors'>
+          <Directors />}
+        </Route>
+        <Route exact={true} path='/films' >
+          <Films />
+        </Route>
       </Switch>
     </CSSTransition>
   </TransitionGroup>

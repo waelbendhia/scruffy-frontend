@@ -5,6 +5,7 @@ import { definitions, Paginator } from '../shared';
 import store from '../store';
 import Filters from './Filters';
 import BandsGrid from './BandsGrid';
+import { bound } from '../shared/types/Other';
 
 const View = ({ bands, count, request, filtersOpen }: IState) => {
   const maxPage = Math.ceil(count / request.numberOfResults);
@@ -15,16 +16,16 @@ const View = ({ bands, count, request, filtersOpen }: IState) => {
       gridTemplateColumns: 'minmax(20%, 200px) 1fr',
       gridTemplateRows: '1fr 60px',
       gridTemplateAreas: `
-      "filter grid"
-      "filter paginator"
-    `,
+        "filter grid"
+        "filter paginator"
+      `,
       '@media (max-width: 860px)': {
         position: 'relative',
         overflow: 'hidden',
         gridTemplateAreas: `
-        "grid"
-        "paginator"
-      `,
+          "grid"
+          "paginator"
+        `,
         gridTemplateColumns: '100%',
       },
     },
@@ -59,10 +60,7 @@ const View = ({ bands, count, request, filtersOpen }: IState) => {
         bands={bands}
         changePage={delta =>
           store.dispatch(makeGetBandsAction({
-            page: Math.max(
-              Math.min(request.page + delta, maxPage - 1),
-              0,
-            ),
+            page: bound(0, maxPage - 1, request.page + delta)
           }))
         }
       />
@@ -72,10 +70,7 @@ const View = ({ bands, count, request, filtersOpen }: IState) => {
         maxPage={Math.ceil(count / request.numberOfResults)}
         changePage={(delta) =>
           store.dispatch(makeGetBandsAction({
-            page: Math.max(
-              Math.min(request.page + delta, maxPage - 1),
-              0,
-            ),
+            page: bound(0, maxPage - 1, request.page + delta),
           }))
         }
       />

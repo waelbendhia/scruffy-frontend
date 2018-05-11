@@ -1,7 +1,5 @@
 import * as React from 'react';
 
-const View = () => (
-  <div>Films</div>
-);
+const View = () => <div>Films</div>;
 
 export default View;

@@ -19,16 +19,12 @@ const SmallCard = ({ bgUrl, url, children }: IProps) => {
       flexDirection: 'column',
       backgroundColor: definitions.colors.white,
       color: definitions.colors.black,
-      noHover: {
-        pointerEvents: !url ? 'none' : 'auto',
-      },
+      noHover: { pointerEvents: !url ? 'none' : 'auto' },
       ':hover > span': {
         left: 0,
         width: '100%',
       },
-      ':hover > div::after': {
-        opacity: 1,
-      }
+      ':hover > div::after': { opacity: 1 }
     },
     label: {
       width: '100%',

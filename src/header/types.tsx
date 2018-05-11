@@ -37,11 +37,7 @@ interface ISearchResult {
 const [makeSearchResultSuccess, makeSearchResultFailed] =
   makeFailableActionCreators(SEARCH_RESULT);
 
-type Action
-  = IToggleSearch
-  | IToggleMenu
-  | ISearch
-  | ISearchResult;
+type Action = IToggleSearch | IToggleMenu | ISearch | ISearchResult;
 
 interface IState {
   menuOpen: boolean;

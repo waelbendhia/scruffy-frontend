@@ -29,12 +29,11 @@ interface IGetDataDone {
   readonly type: '[Home] Get data done';
   payload: IResult<IHomeData>;
 }
+
 const [makeGetDataSuccess, makeGetDataFailed] =
   makeFailableActionCreators(DON_DATA);
 
-type Action
-  = IGetDataAction
-  | IGetDataDone;
+type Action = IGetDataAction | IGetDataDone;
 
 export {
   IBandWithInfluence,

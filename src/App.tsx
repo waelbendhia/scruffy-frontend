@@ -33,8 +33,8 @@ class App extends React.Component<{}, IState & { location: Location }> {
             if (router.location.pathname.indexOf('bands') !== -1) {
               document.title = `Scaruffi2.0: ${band.caseOf({
                 ok: b => b.name,
-                err: () => 'error',
-                loading: () => ''
+                err: 'error',
+                loading: '',
               })}`;
             } else {
               document.title = 'Scaruffi2.0';

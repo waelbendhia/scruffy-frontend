@@ -74,11 +74,7 @@ function Grid<T>({
     >
       {
         <CSSTransition
-          key={data.caseOf({
-            err: () => 'error',
-            loading: () => 'loading',
-            ok: () => 'bands'
-          })}
+          key={data.caseOf({ err: 'error', loading: 'loading', ok: 'bands' })}
           timeout={150}
           classNames={{
             appear: css(styles.in),
@@ -94,8 +90,8 @@ function Grid<T>({
               <div className={css(styles.grid, styles.position)}>
                 {xs.map(cell)}
               </div>,
-            err: () => <h1>Damn...</h1>,
-            loading: () =>
+            err: <h1>Damn...</h1>,
+            loading:
               <Loading className={css(styles.loading, styles.position)} />,
           })}
         </CSSTransition>
