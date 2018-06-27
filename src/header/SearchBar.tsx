@@ -70,6 +70,7 @@ const SearchBar = ({ open, search, bands, albums }: IProps) => {
     spacer: { flex: 1 },
     text: { overflow: 'hidden' },
   });
+
   return (
     <div className={css(styles.searchView)}>
       <div className={css(styles.searchBar)} >

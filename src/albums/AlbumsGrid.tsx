@@ -20,7 +20,11 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     textOverflow: 'ellipsis',
   },
-  date: { fontSize: '0.8em' }
+  date: { fontSize: '0.8em' },
+  grid: {
+    gridArea: 'grid',
+    position: 'relative',
+  },
 });
 
 interface IStateProps {
@@ -52,6 +56,7 @@ interface IMergedProps extends IStateProps {
 
 const View = (props: IMergedProps) => (
   <Grid
+    className={css(styles.grid)}
     {...props}
     data={props.albums}
     cell={a => (
