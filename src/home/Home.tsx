@@ -2,6 +2,10 @@ import * as React from 'react';
 import { State } from './types';
 import { css } from 'aphrodite/no-important';
 import styles from './styles';
+import { IState } from '../store';
+import { connect } from 'react-redux';
+
+const mapStateToProps = (state: IState) => state.home;
 
 const View = (props: State) => (
   <div className={css(styles.root)}>
@@ -36,4 +40,4 @@ const View = (props: State) => (
   </div>
 );
 
-export default View;
+export default connect(mapStateToProps)(View);

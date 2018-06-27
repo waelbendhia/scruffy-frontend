@@ -2,18 +2,16 @@ import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Home from '../home';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { HomeState } from '../home';
 import Bands from '../bands';
-import { BandsState } from '../bands';
 import Albums from '../albums';
-import { AlbumsState } from '../albums';
 import Directors from '../directors';
 import Films from '../films';
 import Band from '../band';
-import { BandState } from '../band';
 import { StyleSheet, css } from 'aphrodite/no-important';
 import { definitions } from '../shared';
 import { Location } from 'history';
+import { IState, history } from '../store';
+import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
   body: { minHeight: `calc(100vh - ${definitions.headerHeight})` },
@@ -41,14 +39,15 @@ const styles = StyleSheet.create({
   },
 });
 
-interface IBodyProps {
+interface IStateProps {
   location: Location;
-  home: HomeState;
-  bands: BandsState;
-  albums: AlbumsState;
-  band: BandState;
 }
-const View = ({ location, home, bands, albums, band }: IBodyProps) => (
+
+const mapStateToProps = (state: IState): IStateProps => ({
+  location: (state.router.location || history.location),
+});
+
+const View = ({ location }: IStateProps) => (
   <TransitionGroup className={css(styles.body)}>
     <CSSTransition
       key={location.pathname}
@@ -64,16 +63,16 @@ const View = ({ location, home, bands, albums, band }: IBodyProps) => (
     >
       <Switch location={location}>
         <Route exact={true} path='/' >
-          <Home {...home} />
+          <Home />
         </Route>
         <Route exact={true} path='/bands' >
-          <Bands {...bands} />
+          <Bands />
         </Route>
         <Route path='/bands/:vol/:band' >
-          <Band {...band} />
+          <Band />
         </ Route>
         <Route exact={true} path='/albums' >
-          <Albums {...albums} />
+          <Albums />
         </Route>
         <Route exact={true} path='/directors'>
           <Directors />}
@@ -86,4 +85,4 @@ const View = ({ location, home, bands, albums, band }: IBodyProps) => (
   </TransitionGroup>
 );
 
-export default View;
+export default connect(mapStateToProps)(View);

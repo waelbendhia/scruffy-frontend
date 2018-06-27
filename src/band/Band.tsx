@@ -3,6 +3,8 @@ import { IBand, Loading, definitions, ILoadable } from '../shared';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { css, StyleSheet } from 'aphrodite/no-important';
 import BandView from './BandView';
+import { IState } from '../store';
+import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
   container: {
@@ -30,6 +32,8 @@ const styles = StyleSheet.create({
   }
 });
 
+const mapStateToProps = (state: IState) => state.band;
+
 const View = (band: ILoadable<IBand>) => (
   <TransitionGroup className={css(styles.container)}>
     <CSSTransition
@@ -53,4 +57,4 @@ const View = (band: ILoadable<IBand>) => (
   </TransitionGroup>
 );
 
-export default View;
+export default connect(mapStateToProps)(View);

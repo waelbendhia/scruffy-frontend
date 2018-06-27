@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { StyleSheet, css } from 'aphrodite/no-important';
 import { definitions, Input, IBand, IAlbum } from '../shared';
-import store from '../store';
+import store, { IState } from '../store';
 import { makeSearchAction, makeToggleSearchAction } from './types';
 import HLabeledImage from '../shared/LabeledImage';
+import { connect } from 'react-redux';
 
 const defaultBandImage = require('../bands/bandDefault.svg') as string;
 interface IProps {
@@ -12,6 +13,13 @@ interface IProps {
   bands: IBand[];
   albums: IAlbum[];
 }
+
+const mapStateToProps = ({ header }: IState): IProps => ({
+  open: header.open,
+  search: header.search,
+  bands: header.bands,
+  albums: header.albums,
+});
 
 const SearchBar = ({ open, search, bands, albums }: IProps) => {
   const styles = StyleSheet.create({
@@ -111,4 +119,4 @@ const SearchBar = ({ open, search, bands, albums }: IProps) => {
   );
 };
 
-export default SearchBar;
+export default connect(mapStateToProps)(SearchBar);

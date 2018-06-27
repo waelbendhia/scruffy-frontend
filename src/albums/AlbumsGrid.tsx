@@ -1,6 +1,11 @@
 import * as React from 'react';
 import { SmallCard, ILoadable, IAlbum, Grid } from '../shared';
 import { StyleSheet, css } from 'aphrodite/no-important';
+import { IState } from '../store';
+import { Dispatch } from 'redux';
+import { Action, makeGetAlbumsAction } from './types';
+import { bound } from '../shared/types/Other';
+import { connect } from 'react-redux';
 
 const defaultImage = require('./albumDefault.svg') as string;
 
@@ -18,13 +23,34 @@ const styles = StyleSheet.create({
   date: { fontSize: '0.8em' }
 });
 
-interface IGridProps {
-  className?: string;
+interface IStateProps {
   albums: ILoadable<IAlbum[]>;
-  changePage: (_: number) => void;
+  maxPage: number;
+  page: number;
 }
 
-const AlbumsGrid = (props: IGridProps) => (
+const mapStateToProps = ({ albums }: IState): IStateProps => ({
+  albums: albums.albums,
+  maxPage: Math.ceil(albums.count / albums.request.numberOfResults),
+  page: albums.request.page,
+});
+
+interface IDispatchProps {
+  changePage: (maxPage: number, page: number) => (delta: number) => void;
+}
+
+const mapDispatchToProps = (dispatch: Dispatch<Action>): IDispatchProps => ({
+  changePage: (maxPage: number, page: number) =>
+    (delta: number) => dispatch(makeGetAlbumsAction({
+      page: bound(0, maxPage - 1, page + delta)
+    }))
+});
+
+interface IMergedProps extends IStateProps {
+  changePage: (delta: number) => void;
+}
+
+const View = (props: IMergedProps) => (
   <Grid
     {...props}
     data={props.albums}
@@ -48,4 +74,12 @@ const AlbumsGrid = (props: IGridProps) => (
   />
 );
 
-export default AlbumsGrid;
+export default connect<IStateProps, IDispatchProps, {}, IMergedProps>(
+  mapStateToProps,
+  mapDispatchToProps,
+  (stateProps, dispatchProps) => ({
+    ...stateProps,
+    ...dispatchProps,
+    changePage: dispatchProps.changePage(stateProps.maxPage, stateProps.page),
+  })
+)(View);

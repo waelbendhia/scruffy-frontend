@@ -3,15 +3,24 @@ import { StyleSheet, css } from 'aphrodite/no-important';
 import { definitions } from '../shared';
 import { Link } from 'react-router-dom';
 import HeaderLink from './HeaderLink';
-import store from '../store';
-import { makeToggleSearchAction, IState, makeToggleMenuAction } from './types';
+import store, { IState, history } from '../store';
+import { makeToggleSearchAction, makeToggleMenuAction } from './types';
 import SearchBar from './SearchBar';
+import { connect } from 'react-redux';
 
 interface IProps {
+  open: boolean;
+  menuOpen: boolean;
   location: string;
 }
 
-const View = (props: IProps & IState) => {
+const mapStateToProps = (state: IState): IProps => ({
+  open: state.header.open,
+  menuOpen: state.header.menuOpen,
+  location: (state.router.location || history.location).pathname,
+});
+
+const View = (props: IProps) => {
   const { location, open, menuOpen } = props;
   const styles = StyleSheet.create({
     header: {
@@ -137,9 +146,9 @@ const View = (props: IProps & IState) => {
           </div>
         )}
       </div>
-      <SearchBar {...props} />
+      <SearchBar />
     </div>
   );
 };
 
-export default View;
+export default connect(mapStateToProps)(View);
