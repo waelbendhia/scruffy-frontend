@@ -10,21 +10,10 @@ import { connect } from 'react-redux';
 const defaultImage = require('./albumDefault.svg') as string;
 
 const styles = StyleSheet.create({
-  band: {
-    fontSize: '0.8em',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-  },
-  album: {
-    fontSize: '0.9em',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-  },
+  band: { fontSize: '0.8em', overflow: 'hidden', textOverflow: 'ellipsis' },
+  album: { fontSize: '0.9em', overflow: 'hidden', textOverflow: 'ellipsis' },
   date: { fontSize: '0.8em' },
-  grid: {
-    gridArea: 'grid',
-    position: 'relative',
-  },
+  grid: { gridArea: 'grid', position: 'relative' },
 });
 
 interface IStateProps {
@@ -84,7 +73,6 @@ export default connect<IStateProps, IDispatchProps, {}, IMergedProps>(
   mapDispatchToProps,
   (stateProps, dispatchProps) => ({
     ...stateProps,
-    ...dispatchProps,
     changePage: dispatchProps.changePage(stateProps.maxPage, stateProps.page),
   })
 )(View);

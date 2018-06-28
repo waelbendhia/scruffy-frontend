@@ -34,10 +34,7 @@ function Grid<T>({
         gridTemplateColumns: 'repeat(3, minmax(1px, 1fr))',
       }
     },
-    loading: {
-      height: '100%',
-      width: '100%',
-    },
+    loading: { height: '100%', width: '100%' },
     out: {
       opacity: 0,
       transitionDuration: definitions.transitions.fast,
@@ -48,11 +45,7 @@ function Grid<T>({
       transitionDuration: definitions.transitions.fast,
       transitionProperty: 'transform opacity',
     },
-    position: {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-    },
+    position: { position: 'absolute', top: 0, left: 0 },
   });
 
   return (

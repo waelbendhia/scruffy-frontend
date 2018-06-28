@@ -13,10 +13,7 @@ import { bound } from '../shared/types/Other';
 import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
-  grid: {
-    gridArea: 'grid',
-    position: 'relative',
-  },
+  grid: { gridArea: 'grid', position: 'relative' },
 });
 
 const defaultImage = require('./bandDefault.svg') as string;
@@ -67,7 +64,6 @@ export default connect<IStateProps, IDispatchProps, {}, IMergedProps>(
   mapDispatchToProps,
   (stateProps, dispatchProps) => ({
     ...stateProps,
-    ...dispatchProps,
     changePage: dispatchProps.changePage(stateProps.maxPage, stateProps.page),
   })
 )(View);

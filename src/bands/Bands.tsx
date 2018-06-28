@@ -3,6 +3,7 @@ import { StyleSheet, css } from 'aphrodite/no-important';
 import { definitions, Paginator } from '../shared';
 import Filters from './Filters';
 import BandsGrid from './BandsGrid';
+import DocumentTitle from 'react-document-title';
 
 const styles = StyleSheet.create({
   layoutGrid: {
@@ -27,11 +28,13 @@ const styles = StyleSheet.create({
 });
 
 const View = () => (
-  <div className={css(styles.layoutGrid)}    >
-    <Filters />
-    <BandsGrid />
-    <Paginator selector='bands' />
-  </div>
+  <DocumentTitle title='Scaruffi2.0: Bands'>
+    <div className={css(styles.layoutGrid)}    >
+      <Filters />
+      <BandsGrid />
+      <Paginator selector='bands' />
+    </div>
+  </DocumentTitle>
 );
 
 export default View;

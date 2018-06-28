@@ -21,10 +21,12 @@ const initialState: State = Loading();
 
 function* fetchData() {
   try {
-    const influential = yield call(getInfluential),
-      ratings = yield call(getDistribution),
-      bandCount = yield call(getBandCount),
-      albumCount = yield call(getAlbumCount);
+    const [influential, ratings, bandCount, albumCount] =
+      yield Promise.all(
+        [getInfluential, getDistribution, getBandCount, getAlbumCount]
+          .map(call)
+      );
+
     yield put(makeGetDataSuccess(
       { influential, ratings, bandCount, albumCount }
     ));

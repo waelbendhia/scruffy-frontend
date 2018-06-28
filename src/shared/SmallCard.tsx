@@ -24,7 +24,7 @@ const SmallCard = ({ bgUrl, url, children }: IProps) => {
         left: 0,
         width: '100%',
       },
-      ':hover > div::after': { opacity: 1 }
+      ':hover > div::after': { opacity: 1 },
     },
     label: {
       width: '100%',
