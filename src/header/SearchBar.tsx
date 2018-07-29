@@ -1,27 +1,33 @@
 import * as React from 'react';
 import { StyleSheet, css } from 'aphrodite/no-important';
-import { definitions, Input, IBand, IAlbum } from '../shared';
-import store, { IState } from '../store';
-import { makeSearchAction, makeToggleSearchAction } from './types';
+import { definitions, Input } from '../shared';
+import { IState } from '../store';
+import { makeSearchAction, makeToggleSearchAction, Action } from './types';
 import HLabeledImage from '../shared/LabeledImage';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 const defaultBandImage = require('../bands/bandDefault.svg') as string;
-interface IProps {
-  open: boolean;
-  search: string;
-  bands: IBand[];
-  albums: IAlbum[];
-}
 
-const mapStateToProps = ({ header }: IState): IProps => ({
+const mapStateToProps = ({ header }: IState) => ({
   open: header.open,
-  search: header.search,
+  searchValue: header.search,
   bands: header.bands,
   albums: header.albums,
 });
 
-const SearchBar = ({ open, search, bands, albums }: IProps) => {
+type StateProps = ReturnType<typeof mapStateToProps>;
+
+const mapDispatchToProps = (dispatch: Dispatch<Action>) => ({
+  search: (v: string) => dispatch(makeSearchAction(v)),
+  toggleSearch: () => dispatch(makeToggleSearchAction()),
+});
+
+type DispatchProps = ReturnType<typeof mapDispatchToProps>;
+
+type MergedProps = StateProps & DispatchProps;
+
+const SearchBar = (props: MergedProps) => {
   const styles = StyleSheet.create({
     searchView: {
       display: 'flex',
@@ -79,11 +85,11 @@ const SearchBar = ({ open, search, bands, albums }: IProps) => {
           className={css(styles.searchInput, styles.show, !open && styles.hide)}
           icon='search'
           type='text'
-          value={search}
-          onChange={(v: string) => store.dispatch(makeSearchAction(v))}
+          value={props.searchValue}
+          onChange={props.search}
         />
         <div className={css(styles.resultGrid)}>
-          {bands.map(b =>
+          {props.bands.map(b =>
             <HLabeledImage
               key={b.name}
               url={b.url}
@@ -97,7 +103,7 @@ const SearchBar = ({ open, search, bands, albums }: IProps) => {
           )}
         </div>
         <div className={css(styles.resultGrid)}>
-          {albums.map(a =>
+          {props.albums.map(a =>
             <HLabeledImage
               key={a.name}
               url={a.band ? a.band.url : ''}
@@ -114,10 +120,10 @@ const SearchBar = ({ open, search, bands, albums }: IProps) => {
       </div>
       <div
         className={css(styles.spacer)}
-        onClick={() => store.dispatch(makeToggleSearchAction())}
+        onClick={props.toggleSearch}
       />
     </div>
   );
 };
 
-export default connect(mapStateToProps)(SearchBar);
+export default connect(mapStateToProps, mapDispatchToProps, )(SearchBar);

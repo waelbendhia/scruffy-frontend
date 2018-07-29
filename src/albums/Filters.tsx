@@ -3,7 +3,6 @@ import { StyleSheet, css } from 'aphrodite/no-important';
 import { definitions, Input } from '../shared';
 import {
   SortBy,
-  ISearchRequest,
   makeGetAlbumsAction,
   makeToggleFiltersAction,
   Action,
@@ -13,28 +12,14 @@ import { bound } from '../shared/types/Other';
 import { Dispatch, connect } from 'react-redux';
 import { Omit } from 'react-router';
 
-interface IStateProps extends ISearchRequest {
-  filtersOpen: boolean;
-}
-
-const mapStateToProps = ({ albums }: IState): IStateProps => ({
+const mapStateToProps = ({ albums }: IState) => ({
   filtersOpen: albums.filtersOpen,
   ...albums.request,
 });
 
-interface IDispatchProps {
-  toggleFilters: () => void;
-  setName: (_: string) => void;
-  setRatingLower: (_: number) => (r: number) => void;
-  setRatingHigher: (_: number) => void;
-  setYearLower: (_: number) => void;
-  setYearHigher: (_: number) => void;
-  setIncludeUnknown: (_: boolean) => void;
-  setSortBy: (_: SortBy) => void;
-  setSortOrderAsc: (_: boolean) => void;
-}
+type StateProps = ReturnType<typeof mapStateToProps>;
 
-const mapDispatchToProps = (dispatch: Dispatch<Action>): IDispatchProps => ({
+const mapDispatchToProps = (dispatch: Dispatch<Action>) => ({
   toggleFilters: () => dispatch(makeToggleFiltersAction()),
   setName: (name: string) => dispatch(makeGetAlbumsAction({ name, page: 0 })),
   setRatingLower: (ratingHigher: number) => (r: number) =>
@@ -56,12 +41,14 @@ const mapDispatchToProps = (dispatch: Dispatch<Action>): IDispatchProps => ({
     dispatch(makeGetAlbumsAction({ sortOrderAsc: asc, page: 0 })),
 });
 
-interface IMergedProps extends
-  IStateProps, Omit<IDispatchProps, 'setRatingLower'> {
-  setRatingLower: (r: number) => void;
-}
+type DispatchProps = ReturnType<typeof mapDispatchToProps>;
 
-const View = (props: IMergedProps) => {
+type MergedProps =
+  StateProps & Omit<DispatchProps, 'setRatingLower'> & {
+    setRatingLower: (r: number) => void;
+  };
+
+const View = (props: MergedProps) => {
   const styles = StyleSheet.create({
     filters: {
       padding: '24px',
@@ -207,7 +194,7 @@ const View = (props: IMergedProps) => {
   );
 };
 
-export default connect<IStateProps, IDispatchProps, {}, IMergedProps>(
+export default connect(
   mapStateToProps,
   mapDispatchToProps,
   (stateProps, dispatchProps) => ({

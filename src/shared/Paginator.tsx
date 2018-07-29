@@ -34,12 +34,7 @@ interface IOwnProps {
   selector: 'bands' | 'albums';
 }
 
-interface IStateProps {
-  page: number;
-  maxPage: number;
-}
-
-const mapStateToProps = (state: IState, ownProps: IOwnProps): IStateProps => {
+const mapStateToProps = (state: IState, ownProps: IOwnProps) => {
   const selected = state[ownProps.selector];
   const maxPage = Math.ceil(selected.count / selected.request.numberOfResults);
 
@@ -49,9 +44,7 @@ const mapStateToProps = (state: IState, ownProps: IOwnProps): IStateProps => {
   };
 };
 
-interface IDispatchProps {
-  changePage: (maxPage: number, page: number) => (delta: number) => void;
-}
+type StateProps = ReturnType<typeof mapStateToProps>;
 
 const mapDispatchToProps = (dispath: Dispatch<Action>, ownProps: IOwnProps) => {
   const creator = ownProps.selector === 'albums'
@@ -66,12 +59,14 @@ const mapDispatchToProps = (dispath: Dispatch<Action>, ownProps: IOwnProps) => {
   };
 };
 
-interface IMergedProps extends IStateProps, Omit<IDispatchProps, 'changePage'> {
+type DispatchProps = ReturnType<typeof mapDispatchToProps>;
+
+type MergedProps = StateProps & Omit<DispatchProps, 'changePage'> & {
   changePage: (delta: number) => void;
-}
+};
 
 const View =
-  ({ page, maxPage, changePage }: IMergedProps & IOwnProps) => {
+  ({ page, maxPage, changePage }: MergedProps & IOwnProps) => {
     const Clicker = ({ value }: { value: number }) => (
       <a
         className={css(
@@ -96,7 +91,7 @@ const View =
     );
   };
 
-export default connect<IStateProps, IDispatchProps, IOwnProps, IMergedProps>(
+export default connect<StateProps, DispatchProps, IOwnProps, MergedProps>(
   mapStateToProps,
   mapDispatchToProps,
   (stateProps, dispatchProps, ownProps) => {

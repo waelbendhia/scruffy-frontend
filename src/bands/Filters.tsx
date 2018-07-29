@@ -1,21 +1,28 @@
 import * as React from 'react';
 import { StyleSheet, css } from 'aphrodite/no-important';
 import { definitions, Input } from '../shared';
-import store, { IState } from '../store';
-import { makeGetBandsAction, makeToggleFiltersAction } from './types';
+import { IState } from '../store';
+import { makeGetBandsAction, makeToggleFiltersAction, Action } from './types';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
-interface IStateProps {
-  filtersOpen: boolean;
-  name: string;
-}
-
-const mapStateToProps = ({ bands }: IState): IStateProps => ({
+const mapStateToProps = ({ bands }: IState) => ({
   filtersOpen: bands.filtersOpen,
   name: bands.request.name,
 });
 
-const View = ({ name, filtersOpen }: IStateProps) => {
+type StateProps = ReturnType<typeof mapStateToProps>;
+
+const mapDispatchToProps = (dispatch: Dispatch<Action>) => ({
+  toggleFilters: () => dispatch(makeToggleFiltersAction()),
+  getBands: (name: string) => dispatch(makeGetBandsAction({ name, page: 0 })),
+});
+
+type DispatchProps = ReturnType<typeof mapDispatchToProps>;
+
+type MergedProps = StateProps & DispatchProps;
+
+const View = (props: MergedProps) => {
   const styles = StyleSheet.create({
     filters: {
       padding: '24px',
@@ -25,7 +32,7 @@ const View = ({ name, filtersOpen }: IStateProps) => {
       '@media (max-width: 860px)': {
         position: 'absolute',
         height: '100%',
-        transform: `translateX(${filtersOpen ? '0' : '100%'})`,
+        transform: `translateX(${props.filtersOpen ? '0' : '100%'})`,
         width: `calc(100% - 112px)`,
         right: 0,
         transition: `transform ease-in ${definitions.transitions.fast}`,
@@ -54,19 +61,16 @@ const View = ({ name, filtersOpen }: IStateProps) => {
     <div className={css(styles.filters)}>
       <a
         className={css(styles.toggle)}
-        onClick={() => store.dispatch(makeToggleFiltersAction())}
+        onClick={props.toggleFilters}
       >
         <i className={css(styles.icon) + ' material-icons'}>
-          {filtersOpen ? 'close' : 'filter_list'}
+          {props.filtersOpen ? 'close' : 'filter_list'}
         </i>
       </a>
       <h1>Search:</h1>
       <Input
         type='text'
-        onChange={(s: string) => store.dispatch(makeGetBandsAction({
-          name: s,
-          page: 0,
-        }))}
+        onChange={props.getBands}
         value={name}
         placeHolder='name'
       />
@@ -74,4 +78,4 @@ const View = ({ name, filtersOpen }: IStateProps) => {
   );
 };
 
-export default connect(mapStateToProps)(View);
+export default connect(mapStateToProps, mapDispatchToProps)(View);

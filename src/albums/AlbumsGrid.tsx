@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SmallCard, ILoadable, IAlbum, Grid } from '../shared';
+import { SmallCard, Grid } from '../shared';
 import { StyleSheet, css } from 'aphrodite/no-important';
 import { IState } from '../store';
 import { Dispatch } from 'redux';
@@ -16,34 +16,24 @@ const styles = StyleSheet.create({
   grid: { gridArea: 'grid', position: 'relative' },
 });
 
-interface IStateProps {
-  albums: ILoadable<IAlbum[]>;
-  maxPage: number;
-  page: number;
-}
-
-const mapStateToProps = ({ albums }: IState): IStateProps => ({
+const mapStateToProps = ({ albums }: IState) => ({
   albums: albums.albums,
   maxPage: Math.ceil(albums.count / albums.request.numberOfResults),
   page: albums.request.page,
 });
 
-interface IDispatchProps {
-  changePage: (maxPage: number, page: number) => (delta: number) => void;
-}
+type StateProps = ReturnType<typeof mapStateToProps>;
 
-const mapDispatchToProps = (dispatch: Dispatch<Action>): IDispatchProps => ({
+const mapDispatchToProps = (dispatch: Dispatch<Action>) => ({
   changePage: (maxPage: number, page: number) =>
     (delta: number) => dispatch(makeGetAlbumsAction({
       page: bound(0, maxPage - 1, page + delta)
     }))
 });
 
-interface IMergedProps extends IStateProps {
-  changePage: (delta: number) => void;
-}
+type MergedProps = StateProps & { changePage: (delta: number) => void };
 
-const View = (props: IMergedProps) => (
+const View = (props: MergedProps) => (
   <Grid
     className={css(styles.grid)}
     {...props}
@@ -68,7 +58,7 @@ const View = (props: IMergedProps) => (
   />
 );
 
-export default connect<IStateProps, IDispatchProps, {}, IMergedProps>(
+export default connect(
   mapStateToProps,
   mapDispatchToProps,
   (stateProps, dispatchProps) => ({

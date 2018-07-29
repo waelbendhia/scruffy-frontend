@@ -1,10 +1,5 @@
 import * as React from 'react';
-import {
-  SmallCard,
-  IBand,
-  ILoadable,
-  Grid,
-} from '../shared';
+import { SmallCard, Grid } from '../shared';
 import { StyleSheet, css } from 'aphrodite/no-important';
 import { IState } from '../store';
 import { Dispatch } from 'redux';
@@ -18,21 +13,13 @@ const styles = StyleSheet.create({
 
 const defaultImage = require('./bandDefault.svg') as string;
 
-interface IStateProps {
-  bands: ILoadable<IBand[]>;
-  maxPage: number;
-  page: number;
-}
-
-const mapStateToProps = ({ bands }: IState): IStateProps => ({
+const mapStateToProps = ({ bands }: IState) => ({
   bands: bands.bands,
   maxPage: Math.ceil(bands.count / bands.request.numberOfResults),
   page: bands.request.page,
 });
 
-interface IDispatchProps {
-  changePage: (maxPage: number, page: number) => (delta: number) => void;
-}
+type StateProps = ReturnType<typeof mapStateToProps>;
 
 const mapDispatchToProps =
   (dispath: Dispatch<Action>) => ({
@@ -42,11 +29,11 @@ const mapDispatchToProps =
       }))
   });
 
-interface IMergedProps extends IStateProps {
+type MergedProps = StateProps & {
   changePage: (delta: number) => void;
-}
+};
 
-const View = (props: IMergedProps) => (
+const View = (props: MergedProps) => (
   <Grid
     className={css(styles.grid)}
     {...props}
@@ -59,7 +46,7 @@ const View = (props: IMergedProps) => (
   />
 );
 
-export default connect<IStateProps, IDispatchProps, {}, IMergedProps>(
+export default connect(
   mapStateToProps,
   mapDispatchToProps,
   (stateProps, dispatchProps) => ({

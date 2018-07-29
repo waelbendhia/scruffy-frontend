@@ -3,24 +3,30 @@ import { StyleSheet, css } from 'aphrodite/no-important';
 import { definitions } from '../shared';
 import { Link } from 'react-router-dom';
 import HeaderLink from './HeaderLink';
-import store, { IState, history } from '../store';
-import { makeToggleSearchAction, makeToggleMenuAction } from './types';
+import { IState, history } from '../store';
+import { makeToggleSearchAction, makeToggleMenuAction, Action } from './types';
 import SearchBar from './SearchBar';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
-interface IProps {
-  open: boolean;
-  menuOpen: boolean;
-  location: string;
-}
-
-const mapStateToProps = (state: IState): IProps => ({
+const mapStateToProps = (state: IState) => ({
   open: state.header.open,
   menuOpen: state.header.menuOpen,
   location: (state.router.location || history.location).pathname,
 });
 
-const View = (props: IProps) => {
+type StateProps = ReturnType<typeof mapStateToProps>;
+
+const mapDispatchToProps = (dispatch: Dispatch<Action>) => ({
+  toggleMenu: () => dispatch(makeToggleMenuAction()),
+  toggleSearch: () => dispatch(makeToggleSearchAction()),
+});
+
+type DispatchProps = ReturnType<typeof mapDispatchToProps>;
+
+type MergedProps = StateProps & DispatchProps;
+
+const View = (props: MergedProps) => {
   const { location, open, menuOpen } = props;
   const styles = StyleSheet.create({
     header: {
@@ -107,7 +113,7 @@ const View = (props: IProps) => {
       </Link>
       <a
         className={css(styles.burger)}
-        onClick={() => store.dispatch(makeToggleMenuAction())}
+        onClick={props.toggleMenu}
       >
         <i className={css(styles.icon) + ' material-icons'}>
           {menuOpen ? 'close' : 'menu'}
@@ -115,7 +121,7 @@ const View = (props: IProps) => {
       </a>
       <a
         className={css(styles.search)}
-        onClick={() => store.dispatch(makeToggleSearchAction())}
+        onClick={props.toggleSearch}
       >
         <i className={css(styles.icon) + ' material-icons'}>
           {open ? 'close' : 'search'}
@@ -151,4 +157,4 @@ const View = (props: IProps) => {
   );
 };
 
-export default connect(mapStateToProps)(View);
+export default connect(mapStateToProps, mapDispatchToProps)(View);
