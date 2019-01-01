@@ -132,7 +132,7 @@ const Band =
         </div>
         <div className={css(styles.body)}>
           <div className={css(styles.spacer)} />
-          <Bio bio={bio} fullUrl={fullUrl} />
+          <Bio bio={bio} />
           <Albums albums={albums || []} />
           <div className={css(styles.spacer)} />
         </div>
@@ -141,32 +141,25 @@ const Band =
     );
   };
 
-const Bio = (
-  { bio, fullUrl }
-    : {
-      bio: string;
-      fullUrl: string;
-    }
-) => (
-    <div className={css(styles.bio)}>
-      {
-        bio
-          .split('\n')
-          .filter(t => t.trim() !== '')
-          .map(
-            (text, i) => (
-              <p key={i} className={css(styles.bioParagraph)}>
-                {text}
-              </p>
-            )
+const Bio = ({ bio }: { bio: string }) => (
+  <div className={css(styles.bio)}>
+    {
+      bio
+        .split('\n')
+        .filter(t => t.trim() !== '')
+        .map(
+          (text, i) => (
+            <p key={i} className={css(styles.bioParagraph)}>
+              {text}
+            </p>
           )
-      }
-      <div className={css(styles.borderBottom, styles.bioBorder)} />
-    </div>
-  );
+        )
+    }
+    <div className={css(styles.borderBottom, styles.bioBorder)} />
+  </div>
+);
 
-const Albums = ({ albums }:
-  { albums: IAlbum[] }) => {
+const Albums = ({ albums }: { albums: IAlbum[] }) => {
   const albumStyles = StyleSheet.create({
     albums: {
       paddingBottom: '2em',

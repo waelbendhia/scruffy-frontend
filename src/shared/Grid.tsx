@@ -13,13 +13,8 @@ interface IGridProps<T> {
   minRows: number;
 }
 
-function Grid<T>({
-  data,
-  changePage,
-  className,
-  cell,
-  minRows,
-}: IGridProps<T>) {
+function Grid<T>(props: IGridProps<T>) {
+  const { data, changePage, className, cell, minRows } = props;
   const styles = StyleSheet.create({
     grid: {
       height: 'calc(100% - 32px)',
@@ -51,15 +46,10 @@ function Grid<T>({
   return (
     <TransitionGroup
       onKeyUpCapture={e => {
-        switch (e.key) {
-          case 'ArrowRight':
-            changePage(1);
-            return;
-          case 'ArrowLeft':
-            changePage(-1);
-            return;
-          default:
-            return;
+        if (e.key === 'ArrowRight') {
+          changePage(1);
+        } else if (e.key === 'ArrowLeft') {
+          changePage(-1);
         }
       }}
       tabIndex={0}

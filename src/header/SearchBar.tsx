@@ -28,6 +28,7 @@ type DispatchProps = ReturnType<typeof mapDispatchToProps>;
 type MergedProps = StateProps & DispatchProps;
 
 const SearchBar = (props: MergedProps) => {
+  const { albums, bands, open, search, searchValue, toggleSearch } = props;
   const styles = StyleSheet.create({
     searchView: {
       display: 'flex',
@@ -85,11 +86,11 @@ const SearchBar = (props: MergedProps) => {
           className={css(styles.searchInput, styles.show, !open && styles.hide)}
           icon='search'
           type='text'
-          value={props.searchValue}
-          onChange={props.search}
+          value={searchValue}
+          onChange={search}
         />
         <div className={css(styles.resultGrid)}>
-          {props.bands.map(b =>
+          {bands.map(b =>
             <HLabeledImage
               key={b.name}
               url={b.url}
@@ -103,7 +104,7 @@ const SearchBar = (props: MergedProps) => {
           )}
         </div>
         <div className={css(styles.resultGrid)}>
-          {props.albums.map(a =>
+          {albums.map(a =>
             <HLabeledImage
               key={a.name}
               url={a.band ? a.band.url : ''}
@@ -118,12 +119,9 @@ const SearchBar = (props: MergedProps) => {
           )}
         </div>
       </div>
-      <div
-        className={css(styles.spacer)}
-        onClick={props.toggleSearch}
-      />
+      <div className={css(styles.spacer)} onClick={toggleSearch} />
     </div>
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps, )(SearchBar);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);

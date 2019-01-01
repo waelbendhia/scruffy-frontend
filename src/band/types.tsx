@@ -1,8 +1,10 @@
 import {
   IBand,
-  makeFailableActionCreators,
   ILoadable,
-  IResult,
+  IAction,
+  IActionFailable,
+  failableActionCreator,
+  actionCreator,
 } from '../shared';
 
 interface IBandRequest {
@@ -15,37 +17,29 @@ type State = ILoadable<IBand>;
 const GET_BND = '[Band] Get band';
 const DON_BND = '[Band] Get band done';
 
-interface IGetBandAction {
-  type: '[Band] Get band';
-  payload: IBandRequest;
-}
+type GetBandAction = IAction<typeof GET_BND, IBandRequest>;
 
-const makeGetBandAction = (partialUrl: string) => ({
-  type: GET_BND,
-  payload: {
+const makeGetBandAction = (partialUrl: string) =>
+  actionCreator<GetBandAction>('[Band] Get band')({
     vol: partialUrl.split('/')[2],
     url: partialUrl.split('/')[3].split('.')[0],
-  }
-});
+  });
 
-interface IGetBandDone {
-  type: '[Band] Get band done';
-  payload: IResult<IBand>;
-}
-
+type GetBandDone = IActionFailable<typeof DON_BND, IBand>;
 const [makeGetBandSuccess, makeGetBandFailed] =
-  makeFailableActionCreators(DON_BND);
+  failableActionCreator<GetBandDone>(DON_BND);
 
-type Action = IGetBandAction | IGetBandDone;
+type Action = GetBandAction | GetBandDone;
 
 export {
   IBandRequest,
   State,
   Action,
   GET_BND,
-  IGetBandAction,
+  GetBandAction,
   makeGetBandAction,
   DON_BND,
+  GetBandDone,
   makeGetBandSuccess,
   makeGetBandFailed,
 };

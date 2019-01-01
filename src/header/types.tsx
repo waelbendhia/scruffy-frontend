@@ -1,43 +1,40 @@
-import { IAlbum, IBand, IResult, makeFailableActionCreators } from '../shared';
+import {
+  IAlbum,
+  IBand,
+  failableActionCreator,
+  IActionNoPayload,
+  noPayloadActionCreator,
+  IAction,
+  actionCreator,
+  IActionFailable,
+} from '../shared';
 
 const TOGGLE_SEARCH = '[Header] Toggle search bar';
 const TOGGLE_MENU = '[Header] Toggle menu';
 const SEARCH = '[Header] Search';
 const SEARCH_RESULT = '[Header] Search result';
 
-interface IToggleSearch {
-  type: '[Header] Toggle search bar';
-}
+type ToggleSearch = IActionNoPayload<typeof TOGGLE_SEARCH>;
+const makeToggleSearchAction =
+  noPayloadActionCreator<ToggleSearch>(TOGGLE_SEARCH);
 
-const makeToggleSearchAction = () => ({ type: TOGGLE_SEARCH });
+type ToggleMenu = IActionNoPayload<typeof TOGGLE_MENU>;
+const makeToggleMenuAction = noPayloadActionCreator<ToggleMenu>(TOGGLE_MENU);
 
-interface IToggleMenu {
-  type: '[Header] Toggle menu';
-}
+type Search = IAction<typeof SEARCH, string>;
 
-const makeToggleMenuAction = () => ({ type: TOGGLE_MENU });
-
-interface ISearch {
-  type: '[Header] Search';
-  payload: string;
-}
-
-const makeSearchAction = (payload: string) => ({ type: SEARCH, payload });
+const makeSearchAction = actionCreator<Search>(SEARCH);
 
 interface ISearchResultPayload {
   bands: IBand[];
   albums: IAlbum[];
 }
 
-interface ISearchResult {
-  type: '[Header] Search result';
-  payload: IResult<ISearchResultPayload>;
-}
-
+type SearchResult = IActionFailable<typeof SEARCH_RESULT, ISearchResultPayload>;
 const [makeSearchResultSuccess, makeSearchResultFailed] =
-  makeFailableActionCreators(SEARCH_RESULT);
+  failableActionCreator<SearchResult>(SEARCH_RESULT);
 
-type Action = IToggleSearch | IToggleMenu | ISearch | ISearchResult;
+type Action = ToggleSearch | ToggleMenu | Search | SearchResult;
 
 interface IState {
   menuOpen: boolean;
@@ -49,17 +46,17 @@ interface IState {
 
 export {
   Action,
-  IToggleSearch,
+  ToggleSearch,
   TOGGLE_SEARCH,
   makeToggleSearchAction,
-  IToggleMenu,
+  ToggleMenu,
   TOGGLE_MENU,
   makeToggleMenuAction,
   SEARCH,
-  ISearch,
+  Search,
   makeSearchAction,
   SEARCH_RESULT,
-  ISearchResult,
+  SearchResult,
   makeSearchResultSuccess,
   makeSearchResultFailed,
   IState,

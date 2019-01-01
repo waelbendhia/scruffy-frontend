@@ -1,8 +1,12 @@
 import {
   ILoadable,
   IAlbum,
-  IResult,
-  makeFailableActionCreators,
+  IAction,
+  actionCreator,
+  IActionFailable,
+  failableActionCreator,
+  IActionNoPayload,
+  noPayloadActionCreator
 } from '../shared';
 
 enum SortBy {
@@ -36,34 +40,25 @@ const GET_ALBMS = '[Albums] Get albums';
 const DON_ALBMS = '[Albums] Get albums done';
 const TOGGLE_FILTERS = '[Albums] Toggle filters';
 
-interface IGetAlbumsAction {
-  type: '[Albums] Get albums';
-  payload: Partial<ISearchRequest>;
-}
+type GetAlbumsAction = IAction<typeof GET_ALBMS, Partial<ISearchRequest>>;
 
-const makeGetAlbumsAction =
-  (payload: Partial<ISearchRequest>) => ({ type: GET_ALBMS, payload });
+const makeGetAlbumsAction = actionCreator<GetAlbumsAction>(GET_ALBMS);
 
 interface IGetAlbumsPayload {
   albums: IAlbum[];
   count: number;
 }
 
-interface IGetAlbumsDone {
-  type: '[Albums] Get albums done';
-  payload: IResult<IGetAlbumsPayload>;
-}
+type GetAlbumsDone = IActionFailable<typeof DON_ALBMS, IGetAlbumsPayload>;
 
 const [makeGetAlbumsSuccess, makeGetAlbumsFailed] =
-  makeFailableActionCreators(DON_ALBMS);
+  failableActionCreator<GetAlbumsDone>(DON_ALBMS);
 
-interface IToggleFilters {
-  type: '[Albums] Toggle filters';
-}
+type ToggleFilters = IActionNoPayload<typeof TOGGLE_FILTERS>;
+const makeToggleFiltersAction =
+  noPayloadActionCreator<ToggleFilters>(TOGGLE_FILTERS);
 
-const makeToggleFiltersAction = () => ({ type: TOGGLE_FILTERS });
-
-type Action = IGetAlbumsAction | IGetAlbumsDone | IToggleFilters;
+type Action = GetAlbumsAction | GetAlbumsDone | ToggleFilters;
 
 export {
   SortBy,
@@ -71,13 +66,13 @@ export {
   IState,
   Action,
   GET_ALBMS,
-  IGetAlbumsAction,
+  GetAlbumsAction,
   makeGetAlbumsAction,
   DON_ALBMS,
-  IGetAlbumsDone,
+  GetAlbumsDone,
   makeGetAlbumsSuccess,
   makeGetAlbumsFailed,
   TOGGLE_FILTERS,
-  IToggleFilters,
+  ToggleFilters,
   makeToggleFiltersAction,
 };

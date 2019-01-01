@@ -34,20 +34,10 @@ const Err = <T>(e: Error): IResult<T> => ({
   caseOf: <TOk, TErr>(fn: IResultMatch<T, TOk, TErr>) => callIfFunc(fn.err, e),
 });
 
-const makeFailableActionCreators = <AT>(actionType: AT): [
-  <PT>(data: PT) => { type: AT, payload: IResult<PT> },
-  <PT>(e: Error) => { type: AT, payload: IResult<PT> }
-] =>
-  [
-    <PT>(data: PT) => ({ type: actionType, payload: Ok(data) }),
-    <PT>(e: Error) => ({ type: actionType, payload: Err(e) }),
-  ];
-
 export {
   ResultTypes,
   IResult,
   Err,
   Ok,
   IResultMatch,
-  makeFailableActionCreators,
 };

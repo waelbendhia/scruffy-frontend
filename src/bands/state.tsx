@@ -2,12 +2,10 @@ import {
   IState,
   Action,
   GET_BNDS,
-  IGetBandsAction,
-  DON_BNDS,
+  GetBandsAction,
   makeGetBandsAction,
   makeGetBandsSuccess,
   makeGetBandsFailed,
-  TOGGLE_FILTERS,
 } from './types';
 import { call, put, takeEvery, all } from 'redux-saga/effects';
 import { LocationChangeAction, LOCATION_CHANGE } from 'react-router-redux';
@@ -15,6 +13,7 @@ import { Loading } from '../shared/types';
 import { searchBands } from './api';
 import { select, takeLatest } from 'redux-saga/effects';
 import { IState as AppState } from '../store';
+import { nextState } from '../shared/types/actions';
 
 const initialState: IState = {
   bands: Loading(),
@@ -27,11 +26,11 @@ const initialState: IState = {
   filtersOpen: false,
 };
 
-function* fetchBands(action: IGetBandsAction) {
+function* fetchBands(action: GetBandsAction) {
   try {
     const prevReq = yield select((s: AppState) => s.bands.request);
     const res = yield call(
-      searchBands.bind(null, { ...prevReq, ...action.payload })
+      () => searchBands({ ...prevReq, ...action.payload })
     );
     yield put(makeGetBandsSuccess({ bands: res.result, count: res.count }));
   } catch (e) {
@@ -55,25 +54,18 @@ function* effects() {
   ]);
 }
 
-const reducer = (state = initialState, action: Action): IState => {
-  switch (action.type) {
-    case GET_BNDS:
-      return {
-        ...state,
-        request: { ...state.request, ...action.payload },
-        bands: Loading(),
-      };
-    case DON_BNDS:
-      return {
-        ...state,
-        count: action.payload.map(x => x.count).withDefault(0),
-        bands: action.payload.map(x => x.bands),
-      };
-    case TOGGLE_FILTERS:
-      return { ...state, filtersOpen: !state.filtersOpen };
-    default:
-      return state;
-  }
-};
+const reducer = nextState<Action, IState>(initialState, {
+  '[Bands] Get bands': (a, s) => ({
+    ...s,
+    request: { ...s.request, ...a.payload },
+    bands: Loading(),
+  }),
+  '[Bands] Get bands done': (a, s) => ({
+    ...s,
+    count: a.payload.map(x => x.count).withDefault(0),
+    bands: a.payload.map(x => x.bands),
+  }),
+  '[Bands] Toggle filters': (_, s) => ({ ...s, filtersOpen: !s.filtersOpen }),
+});
 
 export { reducer, initialState, effects };

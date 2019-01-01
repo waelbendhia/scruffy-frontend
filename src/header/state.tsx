@@ -1,16 +1,15 @@
 import {
   IState,
   Action,
-  TOGGLE_SEARCH,
   SEARCH,
-  ISearch,
+  Search,
   makeSearchResultSuccess,
   makeSearchResultFailed,
-  SEARCH_RESULT,
-  TOGGLE_MENU,
 } from './types';
 import { call, put, all, takeLatest } from 'redux-saga/effects';
 import { searchBandsAndAlbums } from './api';
+import { IBand, IAlbum } from '../shared';
+import { nextState } from '../shared/types/actions';
 
 const initialState: IState = {
   menuOpen: false,
@@ -20,10 +19,10 @@ const initialState: IState = {
   albums: [],
 };
 
-function* fetchBands(action: ISearch) {
+function* fetchBands(action: Search) {
   try {
-    const [bands, albums] =
-      yield call(searchBandsAndAlbums.bind(null, action.payload));
+    const [bands, albums]: [IBand[], IAlbum[]] =
+      yield call(searchBandsAndAlbums, action.payload);
     yield put(makeSearchResultSuccess({ bands, albums }));
   } catch (e) {
     yield put(makeSearchResultFailed(e));
@@ -36,23 +35,15 @@ function* effects() {
   ]);
 }
 
-const reducer = (state = initialState, action: Action): IState => {
-  switch (action.type) {
-    case TOGGLE_SEARCH:
-      return { ...state, open: !state.open };
-    case TOGGLE_MENU:
-      return { ...state, menuOpen: !state.menuOpen };
-    case SEARCH:
-      return { ...state, search: action.payload };
-    case SEARCH_RESULT:
-      return {
-        ...state,
-        bands: action.payload.map(p => p.bands).withDefault([]),
-        albums: action.payload.map(p => p.albums).withDefault([]),
-      };
-    default:
-      return { ...state, open: false };
-  }
-};
+const reducer = nextState<Action, IState>(initialState, {
+  '[Header] Toggle search bar': (_, s) => ({ ...s, open: !s.open }),
+  '[Header] Toggle menu': (_, s) => ({ ...s, menuOpen: !s.menuOpen }),
+  '[Header] Search': (a, s) => ({ ...s, search: a.payload }),
+  '[Header] Search result': (a, s) => ({
+    ...s,
+    bands: a.payload.map(p => p.bands).withDefault([]),
+    albums: a.payload.map(p => p.albums).withDefault([]),
+  }),
+});
 
 export { reducer, initialState, effects };

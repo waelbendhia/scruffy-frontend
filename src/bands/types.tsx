@@ -1,8 +1,12 @@
 import {
   IBand,
-  makeFailableActionCreators,
-  IResult,
   ILoadable,
+  IAction,
+  IActionFailable,
+  IActionNoPayload,
+  noPayloadActionCreator,
+  actionCreator,
+  failableActionCreator,
 } from '../shared';
 
 interface ISearchRequest {
@@ -22,46 +26,36 @@ const GET_BNDS = '[Bands] Get bands';
 const DON_BNDS = '[Bands] Get bands done';
 const TOGGLE_FILTERS = '[Bands] Toggle filters';
 
-interface IToggleFilters {
-  type: '[Bands] Toggle filters';
-}
+type ToggleFilters = IActionNoPayload<typeof TOGGLE_FILTERS>;
+const makeToggleFiltersAction =
+  noPayloadActionCreator<ToggleFilters>(TOGGLE_FILTERS);
 
-const makeToggleFiltersAction = () => ({ type: TOGGLE_FILTERS });
-
-interface IGetBandsAction {
-  type: '[Bands] Get bands';
-  payload: Partial<ISearchRequest>;
-}
-
-const makeGetBandsAction = (payload: Partial<ISearchRequest>) =>
-  ({ type: GET_BNDS, payload });
+type GetBandsAction = IAction<typeof GET_BNDS, Partial<ISearchRequest>>;
+const makeGetBandsAction = actionCreator<GetBandsAction>(GET_BNDS);
 
 interface IGetBandsPayload {
   bands: IBand[];
   count: number;
 }
 
-interface IGetBandsDone {
-  type: '[Bands] Get bands done';
-  payload: IResult<IGetBandsPayload>;
-}
+type GetBandsDone = IActionFailable<typeof DON_BNDS, IGetBandsPayload>;
 
 const [makeGetBandsSuccess, makeGetBandsFailed] =
-  makeFailableActionCreators(DON_BNDS);
+  failableActionCreator<GetBandsDone>(DON_BNDS);
 
-type Action = IGetBandsAction | IGetBandsDone | IToggleFilters;
+type Action = GetBandsAction | GetBandsDone | ToggleFilters;
 
 export {
   ISearchRequest,
   IState,
   Action,
   GET_BNDS,
-  IGetBandsAction,
+  GetBandsAction,
   makeGetBandsAction,
   DON_BNDS,
   makeGetBandsSuccess,
   makeGetBandsFailed,
   TOGGLE_FILTERS,
-  IToggleFilters,
+  ToggleFilters,
   makeToggleFiltersAction,
 };

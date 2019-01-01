@@ -2,7 +2,6 @@ import {
   State,
   Action,
   GET_DATA,
-  DON_DATA,
   makeGetDataAction,
   makeGetDataSuccess,
   makeGetDataFailed,
@@ -16,6 +15,7 @@ import {
 } from './api';
 import { LOCATION_CHANGE, LocationChangeAction } from 'react-router-redux';
 import { Loading } from '../shared/types';
+import { nextState } from '../shared/types/actions';
 
 const initialState: State = Loading();
 
@@ -50,15 +50,9 @@ function* effects() {
   ]);
 }
 
-const reducer = (state = initialState, action: Action): State => {
-  switch (action.type) {
-    case GET_DATA:
-      return Loading();
-    case DON_DATA:
-      return action.payload;
-    default:
-      return state;
-  }
-};
+const reducer = nextState<Action, State>(initialState, {
+  '[Home] Get data': (_a, _s) => Loading(),
+  '[Home] Get data done': (a, _) => a.payload,
+});
 
 export { reducer, initialState, effects };

@@ -1,9 +1,8 @@
-import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import {
   RouterState, routerMiddleware, routerReducer,
 } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
-import { Store } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 
 import {
@@ -40,6 +39,7 @@ import {
   effects as headerEffects,
 } from './header/state';
 import { IState as HeaderState } from './header/types';
+import { IActionNoPayload } from './shared';
 
 const sagaMiddleware = createSagaMiddleware();
 const history = createHistory();
@@ -62,7 +62,12 @@ const initialState: IState = {
   header: headerInitialState,
 };
 
-const store: Store<IState> = createStore(
+const composeEnhancers =
+  // @ts-ignore
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+  || compose;
+
+const store = createStore<IState, IActionNoPayload<string>, unknown, unknown>(
   combineReducers({
     bands: bandsReducer,
     router: routerReducer,
@@ -72,10 +77,10 @@ const store: Store<IState> = createStore(
     header: headerReducer,
   }),
   initialState,
-  applyMiddleware(
+  composeEnhancers(applyMiddleware(
     routerMiddleware(history),
     sagaMiddleware,
-  ),
+  )),
 );
 
 sagaMiddleware.run(homeEffects);

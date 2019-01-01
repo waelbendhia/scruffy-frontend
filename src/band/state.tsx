@@ -4,22 +4,23 @@ import {
   makeGetBandSuccess,
   makeGetBandFailed,
   GET_BND,
-  IGetBandAction,
-  DON_BND,
+  GetBandAction,
   makeGetBandAction,
+  GetBandDone,
 } from './types';
 import { call, put, takeEvery, all } from 'redux-saga/effects';
 import { LocationChangeAction, LOCATION_CHANGE } from 'react-router-redux';
-import { Loading } from '../shared/types';
+import { Loading, IBand } from '../shared/types';
 import { getBand } from './api';
 import { takeLatest } from 'redux-saga/effects';
 import { history } from '../store';
+import { nextState } from '../shared/types/actions';
 
 const initialState: State = Loading();
 
-function* fetchBand(action: IGetBandAction) {
+function* fetchBand(action: GetBandAction) {
   try {
-    const res = (yield call(getBand.bind(null, action.payload)));
+    const res = (yield call(() => getBand(action.payload)));
     yield put(makeGetBandSuccess(res));
   } catch (e) {
     yield put(makeGetBandFailed(e));
@@ -43,15 +44,9 @@ function* effects() {
   ]);
 }
 
-const reducer = (state = initialState, action: Action): State => {
-  switch (action.type) {
-    case GET_BND:
-      return Loading();
-    case DON_BND:
-      return action.payload;
-    default:
-      return state;
-  }
-};
+const reducer = nextState<Action, State>(initialState, {
+  '[Band] Get band done': (a: GetBandDone, _: State) => a.payload,
+  '[Band] Get band': (_a: GetBandAction, _s: State) => Loading<IBand>(),
+});
 
 export { reducer, initialState, effects };

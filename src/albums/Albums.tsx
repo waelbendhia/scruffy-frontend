@@ -4,6 +4,12 @@ import { Paginator, definitions } from '../shared';
 import Filters from './Filters';
 import AlbumsGrid from './AlbumsGrid';
 import DocumentTitle from 'react-document-title';
+import { IState } from '../store';
+import { Dispatch } from 'redux';
+import { Action, makeGetAlbumsAction } from './types';
+import { bound } from '../shared/types/Other';
+import { Omit } from 'react-router';
+import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
   layoutGrid: {
@@ -27,14 +33,45 @@ const styles = StyleSheet.create({
   },
 });
 
-const View = () => (
+const mapStateToProps = ({ albums: { count, request } }: IState) => {
+  const maxPage = Math.ceil(count / request.numberOfResults);
+
+  return {
+    page: Math.min(request.page, maxPage - 1),
+    maxPage: maxPage,
+  };
+};
+
+type StateProps = ReturnType<typeof mapStateToProps>;
+
+const mapDispatchToProps = (dispath: Dispatch<Action>) => ({
+  changePage: (maxPage: number, page: number) => (delta: number) =>
+    dispath(makeGetAlbumsAction({
+      page: bound(0, maxPage - 1, page + delta),
+    })),
+});
+
+type DispatchProps = ReturnType<typeof mapDispatchToProps>;
+
+type MergedProps = StateProps & Omit<DispatchProps, 'changePage'> & {
+  changePage: (delta: number) => void;
+};
+
+const View = (props: MergedProps) => (
   <DocumentTitle title='Scaruffi2.0: Albums'>
     <div className={css(styles.layoutGrid)}>
       <Filters />
       <AlbumsGrid />
-      <Paginator selector='albums' />
+      <Paginator {...props} />
     </div>
   </DocumentTitle>
 );
 
-export default View;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  (stateProps, dispatchProps) => ({
+    ...stateProps,
+    changePage: dispatchProps.changePage(stateProps.maxPage, stateProps.page),
+  })
+)(View);
