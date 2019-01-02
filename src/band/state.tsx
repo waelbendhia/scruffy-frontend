@@ -6,11 +6,10 @@ import {
   GET_BND,
   GetBandAction,
   makeGetBandAction,
-  GetBandDone,
 } from './types';
 import { call, put, takeEvery, all } from 'redux-saga/effects';
 import { LocationChangeAction, LOCATION_CHANGE } from 'react-router-redux';
-import { Loading, IBand } from '../shared/types';
+import { Loading } from '../shared/types';
 import { getBand } from './api';
 import { takeLatest } from 'redux-saga/effects';
 import { history } from '../store';
@@ -45,8 +44,8 @@ function* effects() {
 }
 
 const reducer = nextState<Action, State>(initialState, {
-  '[Band] Get band done': (a: GetBandDone, _: State) => a.payload,
-  '[Band] Get band': (_a: GetBandAction, _s: State) => Loading<IBand>(),
+  '[Band] Get band done': (a, _) => a.payload,
+  '[Band] Get band': (_a, _s) => Loading(),
 });
 
 export { reducer, initialState, effects };

@@ -39,7 +39,6 @@ import {
   effects as headerEffects,
 } from './header/state';
 import { IState as HeaderState } from './header/types';
-import { IActionNoPayload } from './shared';
 
 const sagaMiddleware = createSagaMiddleware();
 const history = createHistory();
@@ -67,7 +66,7 @@ const composeEnhancers =
   window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
   || compose;
 
-const store = createStore<IState, IActionNoPayload<string>, unknown, unknown>(
+const store = createStore<IState>(
   combineReducers({
     bands: bandsReducer,
     router: routerReducer,

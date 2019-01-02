@@ -75,7 +75,7 @@ const View = ({ location }: IStateProps) => (
           <Albums />
         </Route>
         <Route exact={true} path='/directors'>
-          <Directors />}
+          <Directors />
         </Route>
         <Route exact={true} path='/films' >
           <Films />

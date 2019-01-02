@@ -45,7 +45,7 @@ function Grid<T>(props: IGridProps<T>) {
 
   return (
     <TransitionGroup
-      onKeyUpCapture={e => {
+      onKeyUpCapture={(e: KeyboardEvent) => {
         if (e.key === 'ArrowRight') {
           changePage(1);
         } else if (e.key === 'ArrowLeft') {
@@ -54,6 +54,7 @@ function Grid<T>(props: IGridProps<T>) {
       }}
       tabIndex={0}
       className={className}
+      component={null}
     >
       {
         <CSSTransition
@@ -69,10 +70,11 @@ function Grid<T>(props: IGridProps<T>) {
           }}
         >
           {data.caseOf({
-            ok: xs =>
+            ok: xs => (
               <div className={css(styles.grid, styles.position)}>
                 {xs.map(cell)}
-              </div>,
+              </div>
+            ),
             err: <h1>Damn...</h1>,
             loading:
               <Loading className={css(styles.loading, styles.position)} />,

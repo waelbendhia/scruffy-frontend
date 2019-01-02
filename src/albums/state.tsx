@@ -10,7 +10,7 @@ import {
 } from './types';
 import { call, put, takeEvery, all } from 'redux-saga/effects';
 import { LocationChangeAction, LOCATION_CHANGE } from 'react-router-redux';
-import { Loading, IAlbum } from '../shared/types';
+import { Loading } from '../shared/types';
 import { searchAlbums, ISearchResult } from './api';
 import { select, takeLatest } from 'redux-saga/effects';
 import { IState as AppState } from '../store';
@@ -70,7 +70,7 @@ const reducer = nextState<Action, IState>(initialState, {
   '[Albums] Get albums': (a, s) => ({
     ...s,
     request: { ...s.request, ...a.payload },
-    albums: Loading<IAlbum[]>(),
+    albums: Loading(),
   }),
   '[Albums] Get albums done': (a, s) => ({
     ...s,

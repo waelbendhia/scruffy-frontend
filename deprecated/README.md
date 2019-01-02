@@ -1,2 +1,0 @@
-AngularJS app that utilizes the Scruffy Scrape application to display Scaruffi's bioes and reviews in a slightly more palatable and convenient way.
-Note that this does require the ScruffyScrape app to be deployed to the same host.
