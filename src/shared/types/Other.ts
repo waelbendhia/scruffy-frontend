@@ -1,63 +1,59 @@
-interface IAlbum {
+import * as t from 'io-ts';
+
+export type Album = {
   name: string;
-  year: number;
+  year: null | number;
   rating: number;
-  imageUrl: string;
-  band?: IBand;
-}
-
-const isAlbum = (x: unknown): x is IAlbum => {
-  if (!(x instanceof Object)) { return false; }
-  let a = x as Partial<IAlbum>;
-  console.log(a);
-  return !!a &&
-    !!a.name && typeof a.name === 'string' &&
-    (!a.year || typeof a.year === 'number') &&
-    !!a.rating && typeof a.rating === 'number' &&
-    (!a.imageUrl || typeof a.imageUrl === 'string') &&
-    (!a.band || isBand(a.band));
+  imageUrl: null | string;
+  band: null | Band;
 };
 
-interface IBand {
+export const Album: t.Type<Album> = t.recursion('Album', () =>
+  t.type({
+    name: t.string,
+    year: t.union([t.null, t.number]),
+    rating: t.number,
+    imageUrl: t.union([t.null, t.string]),
+    band: t.union([t.null, Band]),
+  }),
+);
+
+export type Band = {
   url: string;
-  fullUrl: string;
   name: string;
-  bio: string;
-  imageUrl?: string;
-  relatedBands?: IBand[];
-  albums?: IAlbum[];
-}
-
-const isBand = (x: unknown): x is IBand => {
-  if (!(x instanceof Object)) { return false; }
-  let b = x as Partial<IBand>;
-  return !!b &&
-    !!b.url && typeof b.url === 'string' &&
-    !!b.name && typeof b.name === 'string' &&
-    !!b.fullUrl && typeof b.fullUrl === 'string' &&
-    (!b.bio || typeof b.bio === 'string') &&
-    (!b.imageUrl || typeof b.imageUrl === 'string') &&
-    (!b.relatedBands || assertArray(b.relatedBands, isBand)) &&
-    (!b.albums || assertArray(b.albums, isAlbum));
+  bio: null | string;
+  relatedBands: Band[];
+  albums: Album[];
+  imageUrl: string | null;
 };
 
-const callIfFunc = <T1, T2>(f: (T2 | ((_: T1) => T2)), arg: T1) =>
+export const Band: t.Type<Band> = t.recursion('Band', () =>
+  t.type({
+    url: t.string,
+    name: t.string,
+    bio: t.union([t.null, t.string]),
+    relatedBands: t.array(Band),
+    albums: t.array(Album),
+    imageUrl: t.union([t.null, t.string]),
+  }),
+);
+
+export const callIfFunc = <T1, T2>(f: T2 | ((_: T1) => T2), arg: T1) =>
   f instanceof Function ? f(arg) : f;
 
-const bound = (min: number, max: number, val: number) =>
+export const bound = (min: number, max: number, val: number) =>
   Math.max(Math.min(val, max), min);
 
-const assertArray = <T>(a: unknown, fn: (z: unknown) => z is T): a is T[] => {
-  if (!(a instanceof Array)) { return false; }
-  return a.every(fn);
-};
+type CanUnpack<T> = T extends (...args: unknown[]) => unknown
+  ? 1
+  : T extends Promise<unknown>
+  ? 1
+  : 0;
 
-export {
-  IBand,
-  isBand,
-  IAlbum,
-  isAlbum,
-  assertArray,
-  bound,
-  callIfFunc,
-};
+type _U<T> = T extends (...args: unknown[]) => infer U
+  ? U
+  : T extends Promise<infer U>
+  ? U
+  : T;
+
+export type Unpack<T> = { 1: Unpack<_U<T>>; 0: T }[CanUnpack<T>];

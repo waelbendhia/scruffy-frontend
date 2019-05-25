@@ -4,4 +4,4 @@ export {
   initialState as bandsInitialState,
   reducer as bandsReducer,
 } from './state';
-export { IState as BandsState } from './types';
+export { State as BandsState } from './types';

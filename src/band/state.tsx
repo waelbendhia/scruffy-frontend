@@ -8,19 +8,31 @@ import {
   makeGetBandAction,
 } from './types';
 import { call, put, takeEvery, all } from 'redux-saga/effects';
-import { LocationChangeAction, LOCATION_CHANGE } from 'react-router-redux';
-import { Loading } from '../shared/types';
+import { LocationChangeAction, LOCATION_CHANGE } from 'connected-react-router';
+import { Loading, NotRequested } from '../shared/types';
 import { getBand } from './api';
 import { takeLatest } from 'redux-saga/effects';
 import { history } from '../store';
 import { nextState } from '../shared/types/actions';
+import { Unpack } from 'shared/types/Other';
 
-const initialState: State = Loading();
+const initialState: State = new NotRequested();
 
 function* fetchBand(action: GetBandAction) {
   try {
-    const res = (yield call(() => getBand(action.payload)));
-    yield put(makeGetBandSuccess(res));
+    const res: Unpack<typeof getBand> = yield call(getBand, action.payload);
+    yield put(
+      makeGetBandSuccess(
+        res.getOrElse({
+          name: '',
+          url: '',
+          bio: '',
+          imageUrl: '',
+          relatedBands: [],
+          albums: [],
+        }),
+      ),
+    );
   } catch (e) {
     yield put(makeGetBandFailed(e));
   }
@@ -36,8 +48,8 @@ function* effects() {
     takeEvery(
       (action: LocationChangeAction) =>
         action.type === LOCATION_CHANGE &&
-        action.payload.pathname.indexOf('/bands') !== -1 &&
-        action.payload.pathname.split('/').length === 4,
+        action.payload.location.pathname.indexOf('/bands') !== -1 &&
+        action.payload.location.pathname.split('/').length === 4,
       dispatchGetBand,
     ),
   ]);
@@ -45,7 +57,7 @@ function* effects() {
 
 const reducer = nextState<Action, State>(initialState, {
   '[Band] Get band done': (a, _) => a.payload,
-  '[Band] Get band': (_a, _s) => Loading(),
+  '[Band] Get band': (_a, _s) => new Loading(),
 });
 
 export { reducer, initialState, effects };

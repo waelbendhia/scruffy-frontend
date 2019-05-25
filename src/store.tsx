@@ -1,40 +1,16 @@
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import {
-  RouterState, routerMiddleware, routerReducer,
-} from 'react-router-redux';
+  RouterState,
+  routerMiddleware,
+  connectRouter,
+} from 'connected-react-router';
 import createHistory from 'history/createBrowserHistory';
 import createSagaMiddleware from 'redux-saga';
-
+import { HomeState, homeReducer, homeEffects } from './home';
+import { BandsState, bandsReducer, bandsEffects } from './bands';
+import { albumsReducer, albumsEffects, AlbumsState } from './albums';
+import { bandReducer, bandEffects, BandState } from './band';
 import {
-  homeInitialState,
-  HomeState,
-  homeReducer,
-  homeEffects,
-} from './home';
-
-import {
-  BandsState,
-  bandsInitialState,
-  bandsReducer,
-  bandsEffects,
-} from './bands';
-
-import {
-  albumsInitialState,
-  albumsReducer,
-  albumsEffects,
-  AlbumsState,
-} from './albums';
-
-import {
-  bandInitialState,
-  bandReducer,
-  bandEffects,
-  BandState,
-} from './band';
-
-import {
-  initialState as headerInitialState,
   reducer as headerReducer,
   effects as headerEffects,
 } from './header/state';
@@ -52,34 +28,21 @@ interface IState {
   header: HeaderState;
 }
 
-const initialState: IState = {
-  router: { location: null },
-  home: homeInitialState,
-  bands: bandsInitialState,
-  albums: albumsInitialState,
-  band: bandInitialState,
-  header: headerInitialState,
-};
-
 const composeEnhancers =
   // @ts-ignore
-  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-  || compose;
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore<IState>(
+const store = createStore(
   combineReducers({
     bands: bandsReducer,
-    router: routerReducer,
+    router: connectRouter(history),
     home: homeReducer,
     albums: albumsReducer,
     band: bandReducer,
     header: headerReducer,
   }),
-  initialState,
-  composeEnhancers(applyMiddleware(
-    routerMiddleware(history),
-    sagaMiddleware,
-  )),
+  undefined,
+  composeEnhancers(applyMiddleware(routerMiddleware(history), sagaMiddleware)),
 );
 
 sagaMiddleware.run(homeEffects);
@@ -89,4 +52,4 @@ sagaMiddleware.run(bandEffects);
 sagaMiddleware.run(headerEffects);
 
 export default store;
-export { IState, history, initialState };
+export { IState, history };

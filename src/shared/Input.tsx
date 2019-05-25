@@ -51,10 +51,10 @@ const styles = StyleSheet.create({
   },
 });
 
-interface InputPropsBase {
+type InputPropsBase = {
   className?: string;
   placeHolder?: string;
-}
+};
 
 interface ITextInputProps extends InputPropsBase {
   type: 'text';
@@ -72,12 +72,11 @@ interface INumberInputProps extends InputPropsBase {
 
 type InputProps = ITextInputProps | INumberInputProps;
 
-const Input = (props: InputProps & { whiteText?: boolean, icon?: string }) => (
+const Input = (props: InputProps & { whiteText?: boolean; icon?: string }) => (
   <div className={css(styles.container) + ' ' + props.className}>
-    {!!props.icon
-      ? <i className={'material-icons ' + css(styles.icon)}>{props.icon}</i>
-      : null
-    }
+    {!!props.icon ? (
+      <i className={'material-icons ' + css(styles.icon)}>{props.icon}</i>
+    ) : null}
     <div className={css(styles.inputContainer)}>
       <input
         className={css(
@@ -87,11 +86,13 @@ const Input = (props: InputProps & { whiteText?: boolean, icon?: string }) => (
         type={props.type}
         onChange={e =>
           props.type === 'number'
-            ? props.onChange(bound(
-              props.minValue,
-              props.maxValue,
-              parseFloat(e.target.value) || 0,
-            ))
+            ? props.onChange(
+                bound(
+                  props.minValue,
+                  props.maxValue,
+                  parseFloat(e.target.value) || 0,
+                ),
+              )
             : props.onChange(e.target.value)
         }
         value={props.value}

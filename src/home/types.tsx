@@ -1,53 +1,42 @@
 import {
-  IBand,
+  Band,
   failableActionCreator,
-  ILoadable,
+  Loadable,
   IActionNoPayload,
   noPayloadActionCreator,
   IActionFailable,
 } from '../shared';
-import { isBand } from '../shared/types/Other';
+import * as t from 'io-ts';
 
 interface IHomeData {
   ratings: { [rating: string]: number };
-  influential: IBandWithInfluence[];
+  influential: BandWithInfluence[];
   bandCount: number;
   albumCount: number;
 }
-interface IBandWithInfluence extends IBand {
-  influence: number;
-}
 
-const isBandWithInfluence = (x: unknown): x is IBandWithInfluence => {
-  if (!isBand(x)) { return false; }
-  const y = x as IBandWithInfluence;
-  return !!y.influence && typeof y.influence === 'number';
-};
+export const BandWithInfluence = t.intersection([
+  Band,
+  t.type({ influence: t.number }),
+]);
 
-type State = ILoadable<IHomeData>;
+export type BandWithInfluence = t.TypeOf<typeof BandWithInfluence>;
 
-const GET_DATA = '[Home] Get data';
-const DON_DATA = '[Home] Get data done';
+export type State = Loadable<IHomeData>;
 
-type GetDataAction = IActionNoPayload<typeof GET_DATA>;
-const makeGetDataAction = noPayloadActionCreator<GetDataAction>(GET_DATA);
+export const GET_DATA = '[Home] Get data';
+export const DON_DATA = '[Home] Get data done';
 
-type GetDataDone = IActionFailable<typeof DON_DATA, IHomeData>;
+export type GetDataAction = IActionNoPayload<typeof GET_DATA>;
 
-const [makeGetDataSuccess, makeGetDataFailed] =
-  failableActionCreator<GetDataDone>(DON_DATA);
+export const makeGetDataAction = noPayloadActionCreator<GetDataAction>(
+  GET_DATA,
+);
 
-type Action = GetDataAction | GetDataDone;
+export type GetDataDone = IActionFailable<typeof DON_DATA, IHomeData>;
 
-export {
-  IBandWithInfluence,
-  isBandWithInfluence,
-  State,
-  GET_DATA, DON_DATA,
-  GetDataAction,
-  GetDataDone,
-  makeGetDataAction,
-  makeGetDataSuccess,
-  makeGetDataFailed,
-  Action,
-};
+export const [makeGetDataSuccess, makeGetDataFailed] = failableActionCreator<
+  GetDataDone
+>(DON_DATA);
+
+export type Action = GetDataAction | GetDataDone;

@@ -1,43 +1,67 @@
-import { callIfFunc } from './Other';
+import { monad as M } from 'fp-ts';
 
-const ResultTypes = {
-  ok: Symbol(':ok'),
-  err: Symbol(':err')
+export const URI = 'Result';
+
+export type URI = typeof URI;
+
+export class Error<A> {
+  readonly tag: 'Error' = 'Error';
+  readonly _URI!: URI;
+  readonly _A!: A;
+  constructor(readonly value: unknown) {}
+  map = <B>(_: (_: A) => B) => new Error<B>(this.value);
+  ap = <B>(fab: Result<(a: A) => B>): Result<B> =>
+    new Error<B>(fab instanceof Error ? fab.value : this.value);
+  chain = <B>(_: (a: A) => Result<B>) => new Error<B>(this.value);
+  caseOf = <B>(cases: CaseMatch<A, B>) => cases.Error(this.value);
+  withDefault = (def: A): A => def;
+}
+
+export class Ok<A> {
+  readonly tag: 'Ok' = 'Ok';
+  readonly _URI!: URI;
+  readonly _A!: A;
+  constructor(readonly value: A) {}
+  map = <B>(f: (a: A) => B): Result<B> => new Ok<B>(f(this.value));
+  ap = <B>(fab: Result<(a: A) => B>): Result<B> =>
+    // @ts-ignore
+    fab instanceof Ok ? this.map(fab.value) : new Error<B>(fab.value);
+  chain = <B>(f: (a: A) => Result<B>) => f(this.value);
+  caseOf = <B>(cases: CaseMatch<A, B>) => cases.Ok(this.value);
+  withDefault = (_: A): A => this.value;
+}
+
+export type Result<A> = Pick<Error<A> | Ok<A>, 'tag' | '_URI' | '_A'> & {
+  map: <B>(_: (_: A) => B) => Result<B>;
+  ap: <B>(fab: Result<(a: A) => B>) => Result<B>;
+  chain: <B>(_: (a: A) => Result<B>) => Result<B>;
+  caseOf: <B>(cases: CaseMatch<A, B>) => B;
+  withDefault: (def: A) => A;
 };
 
-interface IResultMatch<T, TOk, TErr> {
-  ok: TOk | ((_: T) => TOk);
-  err: TErr | ((_: Error) => TErr);
-}
+const ap = <A, B>(fab: Result<(a: A) => B>, fa: Result<A>) =>
+  fa.tag === 'Error' ? fa.ap(fab) : fa.ap(fab);
 
-interface IResult<T> {
-  type: Symbol;
-  bind<T2>(f: (_: T) => IResult<T2>): IResult<T2>;
-  map<T2>(f: (_: T) => T2): IResult<T2>;
-  withDefault<TDef>(_: TDef): (T | TDef);
-  caseOf<TOk, TErr>(fn: IResultMatch<T, TOk, TErr>): (TOk | TErr);
-}
+const map = <A, B>(fa: Result<A>, fab: (a: A) => B) =>
+  fa.tag === 'Error' ? fa.map(fab) : fa.map(fab);
 
-const Ok = <T>(v: T): IResult<T> => ({
-  type: ResultTypes.ok,
-  bind: <T2>(f: (_: T) => IResult<T2>) => f(v),
-  map: <T2>(f: (_: T) => T2) => Ok(f(v)),
-  withDefault: <T2>(_: T2) => v,
-  caseOf: <T2, T3>(fn: IResultMatch<T, T2, T3>) => callIfFunc(fn.ok, v),
-});
+const of = <T>(a: T) => new Ok(a);
 
-const Err = <T>(e: Error): IResult<T> => ({
-  type: ResultTypes.err,
-  bind: <T2>(f: (_: T) => IResult<T2>) => Err<T2>(e),
-  map: <T2>(f: (_: T) => T2) => Err<T2>(e),
-  withDefault: <TDef>(d: TDef) => d,
-  caseOf: <TOk, TErr>(fn: IResultMatch<T, TOk, TErr>) => callIfFunc(fn.err, e),
-});
+const chain = <A, B>(fa: Result<A>, fab: (a: A) => Result<B>): Result<B> =>
+  fa.tag === 'Error' ? fa.chain(fab) : fa.chain(fab);
 
-export {
-  ResultTypes,
-  IResult,
-  Err,
-  Ok,
-  IResultMatch,
+export const caseOf = <A, B>(cases: CaseMatch<A, B>, fa: Result<A>): B =>
+  fa.caseOf(cases);
+
+export type CaseMatch<A, B> = {
+  Ok: (_: A) => B;
+  Error: (_: unknown) => B;
+};
+
+export const result: M.Monad<URI> = {
+  URI,
+  of,
+  ap,
+  map,
+  chain,
 };

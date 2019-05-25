@@ -18,17 +18,19 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = ({ albums }: IState) => ({
   albums: albums.albums,
-  maxPage: Math.ceil(albums.count / albums.request.numberOfResults),
+  maxPage: Math.ceil(albums.count / albums.request.itemsPerPage),
   page: albums.request.page,
 });
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 
 const mapDispatchToProps = (dispatch: Dispatch<Action>) => ({
-  changePage: (maxPage: number, page: number) =>
-    (delta: number) => dispatch(makeGetAlbumsAction({
-      page: bound(0, maxPage - 1, page + delta)
-    }))
+  changePage: (maxPage: number, page: number) => (delta: number) =>
+    dispatch(
+      makeGetAlbumsAction({
+        page: bound(0, maxPage - 1, page + delta),
+      }),
+    ),
 });
 
 type MergedProps = StateProps & { changePage: (delta: number) => void };
@@ -64,5 +66,5 @@ export default connect(
   (stateProps, dispatchProps) => ({
     ...stateProps,
     changePage: dispatchProps.changePage(stateProps.maxPage, stateProps.page),
-  })
+  }),
 )(View);

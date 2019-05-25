@@ -1,24 +1,24 @@
 import {
-  ILoadable,
-  IAlbum,
+  Loadable,
+  Album,
   IAction,
   actionCreator,
   IActionFailable,
   failableActionCreator,
   IActionNoPayload,
-  noPayloadActionCreator
+  noPayloadActionCreator,
 } from '../shared';
 
 enum SortBy {
   RATING = 'rating',
-  DATE = 'date',
+  DATE = 'year',
   ALBUM_NAME = 'albumName',
   BAND_NAME = 'bandName',
 }
 
-interface ISearchRequest {
+export type SearchRequest = {
   ratingLower: number;
-  ratingHigher: number;
+  ratingUpper: number;
   yearLower: number;
   yearHigher: number;
   includeUnknown: boolean;
@@ -26,44 +26,44 @@ interface ISearchRequest {
   sortBy: SortBy;
   sortOrderAsc: boolean;
   page: number;
-  numberOfResults: number;
-}
+  itemsPerPage: number;
+};
 
-interface IState {
-  albums: ILoadable<IAlbum[]>;
+export type State = {
+  albums: Loadable<Album[]>;
   count: number;
-  request: ISearchRequest;
+  request: SearchRequest;
   filtersOpen: boolean;
-}
+};
 
 const GET_ALBMS = '[Albums] Get albums';
 const DON_ALBMS = '[Albums] Get albums done';
 const TOGGLE_FILTERS = '[Albums] Toggle filters';
 
-type GetAlbumsAction = IAction<typeof GET_ALBMS, Partial<ISearchRequest>>;
+type GetAlbumsAction = IAction<typeof GET_ALBMS, Partial<SearchRequest>>;
 
 const makeGetAlbumsAction = actionCreator<GetAlbumsAction>(GET_ALBMS);
 
 interface IGetAlbumsPayload {
-  albums: IAlbum[];
+  albums: Album[];
   count: number;
 }
 
 type GetAlbumsDone = IActionFailable<typeof DON_ALBMS, IGetAlbumsPayload>;
 
-const [makeGetAlbumsSuccess, makeGetAlbumsFailed] =
-  failableActionCreator<GetAlbumsDone>(DON_ALBMS);
+const [makeGetAlbumsSuccess, makeGetAlbumsFailed] = failableActionCreator<
+  GetAlbumsDone
+>(DON_ALBMS);
 
 type ToggleFilters = IActionNoPayload<typeof TOGGLE_FILTERS>;
-const makeToggleFiltersAction =
-  noPayloadActionCreator<ToggleFilters>(TOGGLE_FILTERS);
+const makeToggleFiltersAction = noPayloadActionCreator<ToggleFilters>(
+  TOGGLE_FILTERS,
+);
 
 type Action = GetAlbumsAction | GetAlbumsDone | ToggleFilters;
 
 export {
   SortBy,
-  ISearchRequest,
-  IState,
   Action,
   GET_ALBMS,
   GetAlbumsAction,

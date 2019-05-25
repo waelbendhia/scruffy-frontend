@@ -1,11 +1,5 @@
 import * as React from 'react';
-import {
-  IBand,
-  AlbumView,
-  definitions,
-  IAlbum,
-  SmallCard,
-} from '../shared';
+import { Band, AlbumView, definitions, Album, SmallCard } from '../shared';
 import { StyleSheet, css } from 'aphrodite/no-important';
 
 const defaultBandImage = require('../bands/bandDefault.svg') as string;
@@ -96,7 +90,7 @@ const styles = StyleSheet.create({
       fontSize: '65px',
       borderRight: `1px solid ${definitions.colors.primary}`,
       padding: '0.45em 0.6em 0.45em 0',
-    }
+    },
   },
   body: {
     alignSelf: 'stretch',
@@ -108,58 +102,49 @@ const styles = StyleSheet.create({
   },
 });
 
-const Band =
-  ({ name, bio, albums, relatedBands, fullUrl, imageUrl }: IBand) => {
-    const bg = StyleSheet.create({
-      bg: { backgroundImage: `url(${imageUrl || defaultBandImage})` }
-    }).bg;
-    return (
-      <div className={css(styles.container)}>
-        <div className={css(styles.header)}>
-          <div className={css(styles.bandImage, styles.headerElem, bg)} />
-          <div className={css(styles.headerElem, styles.headerTitle)}>
-            <div className={css(styles.spacer)} />
-            <h1 className={css(styles.headerBandName)}>{name}</h1>
-            <div className={css(styles.spacer)} />
-            <a
-              className={css(styles.bottomLink)}
-              href={fullUrl}
-              target='_blank'
-            >
-              Read on Scaruffi.com
-            </a>
-          </div>
-        </div>
-        <div className={css(styles.body)}>
+const BandView = ({ name, bio, albums, relatedBands, imageUrl }: Band) => {
+  const bg = StyleSheet.create({
+    bg: { backgroundImage: `url(${imageUrl || defaultBandImage})` },
+  }).bg;
+  return (
+    <div className={css(styles.container)}>
+      <div className={css(styles.header)}>
+        <div className={css(styles.bandImage, styles.headerElem, bg)} />
+        <div className={css(styles.headerElem, styles.headerTitle)}>
           <div className={css(styles.spacer)} />
-          <Bio bio={bio} />
-          <Albums albums={albums || []} />
+          <h1 className={css(styles.headerBandName)}>{name}</h1>
           <div className={css(styles.spacer)} />
+          <a className={css(styles.bottomLink)} href={''} target="_blank">
+            Read on Scaruffi.com
+          </a>
         </div>
-        <Related bands={relatedBands || []} />
       </div>
-    );
-  };
+      <div className={css(styles.body)}>
+        <div className={css(styles.spacer)} />
+        <Bio bio={bio || ''} />
+        <Albums albums={albums || []} />
+        <div className={css(styles.spacer)} />
+      </div>
+      <Related bands={relatedBands || []} />
+    </div>
+  );
+};
 
 const Bio = ({ bio }: { bio: string }) => (
   <div className={css(styles.bio)}>
-    {
-      bio
-        .split('\n')
-        .filter(t => t.trim() !== '')
-        .map(
-          (text, i) => (
-            <p key={i} className={css(styles.bioParagraph)}>
-              {text}
-            </p>
-          )
-        )
-    }
+    {bio
+      .split('\n')
+      .filter(t => t.trim() !== '')
+      .map((text, i) => (
+        <p key={i} className={css(styles.bioParagraph)}>
+          {text}
+        </p>
+      ))}
     <div className={css(styles.borderBottom, styles.bioBorder)} />
   </div>
 );
 
-const Albums = ({ albums }: { albums: IAlbum[] }) => {
+const Albums = ({ albums }: { albums: Album[] }) => {
   const albumStyles = StyleSheet.create({
     albums: {
       paddingBottom: '2em',
@@ -176,61 +161,50 @@ const Albums = ({ albums }: { albums: IAlbum[] }) => {
   });
   return (
     <div className={css(albumStyles.albums)}>
-      {
-        albums
-          .sort((a, b) =>
-            b.rating - a.rating === 0
-              ? b.year - a.year === 0
-                ? b.name.localeCompare(a.name)
-                : b.year - a.year
-              : b.rating - a.rating
-          )
-          .map(a =>
-            <AlbumView
-              key={(a.band ? a.band.url : '') + a.name}
-              {...a}
-            />
-          )
-      }
+      {albums
+        .sort((a, b) =>
+          b.rating - a.rating === 0
+            ? (b.year || 0) - (a.year || 0) === 0
+              ? b.name.localeCompare(a.name)
+              : (b.year || 0) - (a.year || 0)
+            : b.rating - a.rating,
+        )
+        .map(a => (
+          <AlbumView key={(a.band ? a.band.url : '') + a.name} {...a} />
+        ))}
       <div className={css(styles.borderBottom, styles.albumBorder)} />
     </div>
   );
 };
 
-const Related = ({ bands }: { bands: IBand[] }) => {
+const Related = ({ bands }: { bands: Band[] }) => {
   const relStyles = StyleSheet.create({
     container: {
       backgroundColor: definitions.colors.white,
       padding: '16px',
       marginTop: '64px',
       width: '100%',
-      maxWidth: 'calc(1140px + 2em)'
+      maxWidth: 'calc(1140px + 2em)',
     },
     bandsContainer: {
       display: 'grid',
       width: '100%',
       gridTemplateColumns: 'repeat(5, 20%)',
-      gridAutoRows: '25vh'
-    }
+      gridAutoRows: '25vh',
+    },
   });
   return (
     <div className={css(relStyles.container)}>
       <h1 style={{ marginLeft: '5%' }}>Similar Artists</h1>
       <div className={css(relStyles.bandsContainer)}>
-        {(bands || [])
-          .map(b =>
-            <SmallCard
-              key={b.url}
-              bgUrl={b.imageUrl || defaultBandImage}
-              {...b}
-            >
-              {b.name}
-            </SmallCard>
-          )
-        }
+        {(bands || []).map(b => (
+          <SmallCard key={b.url} bgUrl={b.imageUrl || defaultBandImage} {...b}>
+            {b.name}
+          </SmallCard>
+        ))}
       </div>
     </div>
   );
 };
 
-export default Band;
+export default BandView;

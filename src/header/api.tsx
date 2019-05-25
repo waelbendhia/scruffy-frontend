@@ -1,49 +1,37 @@
-import { IBand, toParams, IAlbum, get } from '../shared';
+import { Band, Album, get } from '../shared';
 import { SortBy } from '../albums';
-import { assertArray, isBand, isAlbum } from '../shared/types/Other';
+import { either } from 'fp-ts';
+import * as t from 'io-ts';
 
-interface IBandSearchResult {
-  result: IBand[];
-}
-interface IAlbumSearchResult {
-  result: IAlbum[];
-}
+const BandSearchResult = t.type({ data: t.array(Band) });
 
-const searchBandsAndAlbums =
-  async (term: string): Promise<[IBand[], IAlbum[]]> => {
-    term = term.trim();
+export type BandSearchResult = t.TypeOf<typeof BandSearchResult>;
 
-    if (!term) { return [[], []]; }
+const AlbumSearchResult = t.type({ data: t.array(Album) });
 
-    const params = {
-      name: term,
-      sortBy: SortBy.RATING,
-      numberOfResults: 3,
-      includeUnknown: true,
-    };
-    const asserter =
-      function <T>(fn: (x: unknown) => x is T):
-        (y: unknown) => y is { result: T[] } {
-        return (z: unknown): z is { result: T[] } => {
-          if (!(z instanceof Array)) { return false; }
-          const a = z as { result?: unknown[] };
-          return !!a &&
-            !!a.result && assertArray(z, fn);
-        };
-      };
+export type AlbumSearchResult = t.TypeOf<typeof AlbumSearchResult>;
 
-    const [{ result: bands }, { result: albums }] = await Promise.all([
-      get<IBandSearchResult>(
-        '/api/band?' + toParams(params),
-        asserter(isBand),
-      ),
-      get<IAlbumSearchResult>(
-        '/api/album?' + toParams(params),
-        asserter(isAlbum),
-      ),
-    ]);
+const searchBandsAndAlbums = async (
+  term: string,
+): Promise<either.Either<t.Errors, [Band[], Album[]]>> => {
+  term = term.trim();
 
-    return [bands, albums];
+  if (!term) {
+    return new either.Right([[], []]);
+  }
+
+  const params = {
+    name: term,
+    sortBy: SortBy.RATING,
+    itemsPerPage: 3,
+    includeUnknown: true,
   };
+
+  const [bands, albums] = await Promise.all([
+    get('/api/bands', BandSearchResult, params),
+    get('/api/albums', AlbumSearchResult, params),
+  ]);
+  return bands.chain(bs => albums.map(as => [bs.data, as.data]));
+};
 
 export { searchBandsAndAlbums };

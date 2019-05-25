@@ -1,8 +1,5 @@
-import { IBand, get } from '../shared';
-import { IBandRequest } from './types';
-import { isBand } from '../shared/types/Other';
+import { Band, get } from '../shared';
+import { BandRequest } from './types';
 
-const getBand = (req: IBandRequest) =>
-  get<IBand>(`/api/band/${req.vol}/${req.url}`, isBand);
-
-export { getBand };
+export const getBand = (req: BandRequest) =>
+  get<Band>(`/api/bands/${req.vol}/${req.url}`, Band);

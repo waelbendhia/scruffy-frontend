@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = ({ bands: { count, request } }: IState) => {
-  const maxPage = Math.ceil(count / request.numberOfResults);
+  const maxPage = Math.ceil(count / request.itemsPerPage);
 
   return {
     page: Math.min(request.page, maxPage - 1),
@@ -46,20 +46,23 @@ type StateProps = ReturnType<typeof mapStateToProps>;
 
 const mapDispatchToProps = (dispath: Dispatch<Action>) => ({
   changePage: (maxPage: number, page: number) => (delta: number) =>
-    dispath(makeGetBandsAction({
-      page: bound(0, maxPage - 1, page + delta),
-    })),
+    dispath(
+      makeGetBandsAction({
+        page: bound(0, maxPage - 1, page + delta),
+      }),
+    ),
 });
 
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
 
-type MergedProps = StateProps & Omit<DispatchProps, 'changePage'> & {
-  changePage: (delta: number) => void;
-};
+type MergedProps = StateProps &
+  Omit<DispatchProps, 'changePage'> & {
+    changePage: (delta: number) => void;
+  };
 
 const View = (props: MergedProps) => (
-  <DocumentTitle title='Scaruffi2.0: Bands'>
-    <div className={css(styles.layoutGrid)}    >
+  <DocumentTitle title="Scaruffi2.0: Bands">
+    <div className={css(styles.layoutGrid)}>
       <Filters />
       <BandsGrid />
       <Paginator {...props} />
@@ -73,5 +76,5 @@ export default connect(
   (stateProps, dispatchProps) => ({
     ...stateProps,
     changePage: dispatchProps.changePage(stateProps.maxPage, stateProps.page),
-  })
+  }),
 )(View);

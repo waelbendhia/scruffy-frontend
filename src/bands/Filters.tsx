@@ -41,7 +41,7 @@ const View = (props: MergedProps) => {
     icon: {
       fontSize: '30px !important',
       transition: `color ease-in ${definitions.transitions.fast}`,
-      ':hover': { color: definitions.colors.primary }
+      ':hover': { color: definitions.colors.primary },
     },
     toggle: {
       height: '30px',
@@ -59,23 +59,23 @@ const View = (props: MergedProps) => {
 
   return (
     <div className={css(styles.filters)}>
-      <a
-        className={css(styles.toggle)}
-        onClick={props.toggleFilters}
-      >
+      <a className={css(styles.toggle)} onClick={props.toggleFilters}>
         <i className={css(styles.icon) + ' material-icons'}>
           {props.filtersOpen ? 'close' : 'filter_list'}
         </i>
       </a>
       <h1>Search:</h1>
       <Input
-        type='text'
+        type="text"
         onChange={props.getBands}
-        value={name}
-        placeHolder='name'
+        value={props.name}
+        placeHolder="name"
       />
     </div>
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(View);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(View);

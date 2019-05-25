@@ -1,6 +1,6 @@
 import {
-  IAlbum,
-  IBand,
+  Album,
+  Band,
   failableActionCreator,
   IActionNoPayload,
   noPayloadActionCreator,
@@ -15,8 +15,9 @@ const SEARCH = '[Header] Search';
 const SEARCH_RESULT = '[Header] Search result';
 
 type ToggleSearch = IActionNoPayload<typeof TOGGLE_SEARCH>;
-const makeToggleSearchAction =
-  noPayloadActionCreator<ToggleSearch>(TOGGLE_SEARCH);
+const makeToggleSearchAction = noPayloadActionCreator<ToggleSearch>(
+  TOGGLE_SEARCH,
+);
 
 type ToggleMenu = IActionNoPayload<typeof TOGGLE_MENU>;
 const makeToggleMenuAction = noPayloadActionCreator<ToggleMenu>(TOGGLE_MENU);
@@ -26,13 +27,14 @@ type Search = IAction<typeof SEARCH, string>;
 const makeSearchAction = actionCreator<Search>(SEARCH);
 
 interface ISearchResultPayload {
-  bands: IBand[];
-  albums: IAlbum[];
+  bands: Band[];
+  albums: Album[];
 }
 
 type SearchResult = IActionFailable<typeof SEARCH_RESULT, ISearchResultPayload>;
-const [makeSearchResultSuccess, makeSearchResultFailed] =
-  failableActionCreator<SearchResult>(SEARCH_RESULT);
+const [makeSearchResultSuccess, makeSearchResultFailed] = failableActionCreator<
+  SearchResult
+>(SEARCH_RESULT);
 
 type Action = ToggleSearch | ToggleMenu | Search | SearchResult;
 
@@ -40,8 +42,8 @@ interface IState {
   menuOpen: boolean;
   open: boolean;
   search: string;
-  bands: IBand[];
-  albums: IAlbum[];
+  bands: Band[];
+  albums: Album[];
 }
 
 export {

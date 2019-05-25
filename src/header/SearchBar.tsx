@@ -41,13 +41,12 @@ const SearchBar = (props: MergedProps) => {
       top: definitions.headerHeight,
       width: '100%',
       backgroundColor: definitions.colors.blackTransparent,
-      transition:
-        open
-          ? `opacity ease-in-out ${definitions.transitions.fast}`
-          : (`opacity ease-in-out ${definitions.transitions.fast},` +
-            `height 0s linear ${definitions.transitions.fast}`),
+      transition: open
+        ? `opacity ease-in-out ${definitions.transitions.fast}`
+        : `opacity ease-in-out ${definitions.transitions.fast},` +
+          `height 0s linear ${definitions.transitions.fast}`,
       overflow: 'hidden',
-      ':focus': { outline: 'none' }
+      ':focus': { outline: 'none' },
     },
     searchBar: {
       paddingLeft: '32px',
@@ -80,43 +79,43 @@ const SearchBar = (props: MergedProps) => {
 
   return (
     <div className={css(styles.searchView)}>
-      <div className={css(styles.searchBar)} >
+      <div className={css(styles.searchBar)}>
         <Input
           whiteText={true}
           className={css(styles.searchInput, styles.show, !open && styles.hide)}
-          icon='search'
-          type='text'
+          icon="search"
+          type="text"
           value={searchValue}
           onChange={search}
         />
         <div className={css(styles.resultGrid)}>
-          {bands.map(b =>
+          {bands.map(b => (
             <HLabeledImage
               key={b.name}
               url={b.url}
               imageUrl={b.imageUrl || defaultBandImage}
               whiteText={true}
             >
-              <div className={css(styles.text)}>
-                {b.name}
-              </div>
+              <div className={css(styles.text)}>{b.name}</div>
             </HLabeledImage>
-          )}
+          ))}
         </div>
         <div className={css(styles.resultGrid)}>
-          {albums.map(a =>
+          {albums.map(a => (
             <HLabeledImage
               key={a.name}
               url={a.band ? a.band.url : ''}
-              imageUrl={a.imageUrl}
+              imageUrl={a.imageUrl || ''}
               whiteText={true}
             >
               <div className={css(styles.text)}>
                 <div>{!!a.band ? a.band.name : ''}</div>
-                <div><b>{a.name}</b></div>
+                <div>
+                  <b>{a.name}</b>
+                </div>
               </div>
             </HLabeledImage>
-          )}
+          ))}
         </div>
       </div>
       <div className={css(styles.spacer)} onClick={toggleSearch} />
@@ -124,4 +123,7 @@ const SearchBar = (props: MergedProps) => {
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SearchBar);

@@ -1,21 +1,9 @@
-import { IBand, toParams, get } from '../shared';
-import { ISearchRequest } from './types';
-import { assertArray, isBand } from '../shared/types/Other';
+import { Band, get } from '../shared';
+import { SearchRequest } from './types';
+import * as t from 'io-ts';
 
-interface ISearchResult {
-  count: number;
-  result: IBand[];
-}
+const SearchResult = t.type({ count: t.number, data: t.array(Band) });
+export type SearchResult = t.TypeOf<typeof SearchResult>;
 
-const isSearchResult = (x: unknown): x is ISearchResult => {
-  if (!(x instanceof Object)) { return false; }
-  const res = x as Partial<ISearchResult>;
-  return !!res &&
-    !!res.count && typeof res.count === 'number' &&
-    !!res.result && assertArray(res.result, isBand);
-};
-
-const searchBands = async (req: ISearchRequest) =>
-  get<ISearchResult>('/api/band?' + toParams(req).toString(), isSearchResult);
-
-export { searchBands, ISearchResult };
+export const searchBands = async (req: SearchRequest) =>
+  get('/api/bands', SearchResult, req);

@@ -8,8 +8,8 @@ import {
 } from './types';
 import { call, put, all, takeLatest } from 'redux-saga/effects';
 import { searchBandsAndAlbums } from './api';
-import { IBand, IAlbum } from '../shared';
 import { nextState } from '../shared/types/actions';
+import { Unpack } from 'shared/types/Other';
 
 const initialState: IState = {
   menuOpen: false,
@@ -21,8 +21,14 @@ const initialState: IState = {
 
 function* fetchBands(action: Search) {
   try {
-    const [bands, albums]: [IBand[], IAlbum[]] =
-      yield call(searchBandsAndAlbums, action.payload);
+    const res: Unpack<typeof searchBandsAndAlbums> = yield call(
+      searchBandsAndAlbums,
+      action.payload,
+    );
+    if (res.isLeft()) {
+      console.log(res);
+    }
+    const [bands, albums] = res.getOrElse([[], []]);
     yield put(makeSearchResultSuccess({ bands, albums }));
   } catch (e) {
     yield put(makeSearchResultFailed(e));
@@ -30,9 +36,7 @@ function* fetchBands(action: Search) {
 }
 
 function* effects() {
-  yield all([
-    takeLatest(SEARCH, fetchBands),
-  ]);
+  yield all([takeLatest(SEARCH, fetchBands)]);
 }
 
 const reducer = nextState<Action, IState>(initialState, {

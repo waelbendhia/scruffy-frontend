@@ -1,13 +1,13 @@
-export { Err, IResult, Ok } from './Result';
-export { Loading, ILoadable } from './Loadable';
-export { IAlbum, IBand } from './Other';
+export { Error, Result, Ok, result } from './Result';
+export { Loading, NotRequested, Loadable, loadable } from './Loadable';
+export { Album, Band } from './Other';
 export {
-    ActionPayload,
-    ActionType,
-    IAction,
-    IActionFailable,
-    IActionNoPayload,
-    actionCreator,
-    failableActionCreator,
-    noPayloadActionCreator,
+  ActionPayload,
+  ActionType,
+  IAction,
+  IActionFailable,
+  IActionNoPayload,
+  actionCreator,
+  failableActionCreator,
+  noPayloadActionCreator,
 } from './actions';

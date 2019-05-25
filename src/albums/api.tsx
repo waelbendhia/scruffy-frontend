@@ -1,24 +1,12 @@
-import { IAlbum, toParams, get } from '../shared';
-import { ISearchRequest } from './types';
-import { assertArray, isAlbum } from '../shared/types/Other';
+import { Album, get } from '../shared';
+import { SearchRequest } from './types';
+import * as t from 'io-ts';
 
-interface ISearchResult {
-  count: number;
-  result: IAlbum[];
-}
+export const SearchResult = t.type({ count: t.number, data: t.array(Album) });
+export type SearchResult = t.TypeOf<typeof SearchResult>;
 
-const isSearchResult = (x: unknown): x is ISearchResult => {
-  if (!(x instanceof Object)) { return false; }
-  const s = x as undefined | null | Partial<ISearchResult>;
-  return !!s &&
-    !!s.count && typeof s.count === 'number' &&
-    !!s.result && assertArray(s.result, isAlbum);
-};
-
-const searchAlbums = (req: ISearchRequest) =>
-  get<ISearchResult>(
-    '/api/album?' + toParams(req).toString(),
-    isSearchResult,
-  );
-
-export { searchAlbums, ISearchResult };
+export const searchAlbums = (req: Partial<SearchRequest>) =>
+  get('/api/albums', SearchResult, {
+    ...req,
+    sortBy: `${req.sortBy},${req.sortOrderAsc ? 'asc' : 'desc'}`,
+  });

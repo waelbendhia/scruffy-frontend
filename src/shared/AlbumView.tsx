@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { definitions, IAlbum } from '../shared';
+import { definitions, Album } from '../shared';
 import { StyleSheet, css } from 'aphrodite/no-important';
 import LabeledImage from './LabeledImage';
 
@@ -48,27 +48,21 @@ const styles = StyleSheet.create({
   },
   noHover: {
     pointerEvents: 'none',
-  }
+  },
 });
 
-interface IProps extends IAlbum {
+interface IProps extends Album {
   url?: string;
 }
 
-const AlbumView =
-  ({ url, imageUrl, name, year, rating }: IProps) => (
-    <LabeledImage
-      imageUrl={imageUrl || defaultImage}
-      url={url}
-    >
-      <div className={css(styles.labelText)}>
-        <div className={css(styles.albumName)}>{name}</div>
-        <div className={css(styles.ellipsis, styles.date)} >
-          ({year || 'NA'})
-           </div>
-        <div className={css(styles.ellipsis)} >{rating}/10</div>
-      </div>
-    </LabeledImage>
-  );
+const AlbumView = ({ url, imageUrl, name, year, rating }: IProps) => (
+  <LabeledImage imageUrl={imageUrl || defaultImage} url={url}>
+    <div className={css(styles.labelText)}>
+      <div className={css(styles.albumName)}>{name}</div>
+      <div className={css(styles.ellipsis, styles.date)}>({year || 'NA'})</div>
+      <div className={css(styles.ellipsis)}>{rating}/10</div>
+    </div>
+  </LabeledImage>
+);
 
 export default AlbumView;

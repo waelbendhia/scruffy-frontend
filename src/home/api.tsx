@@ -1,21 +1,15 @@
-import { IBandWithInfluence, isBandWithInfluence } from './types';
+import { BandWithInfluence } from './types';
 import { get } from '../shared';
-import { assertArray } from '../shared/types/Other';
-import { isNumber } from 'util';
+import * as t from 'io-ts';
 
-const getInfluential = () => get<IBandWithInfluence>(
-    '/api/band/influential',
-    isBandWithInfluence,
-);
+export const getInfluential = () =>
+  get<BandWithInfluence>('/api/band/influential', BandWithInfluence);
 
-const getDistribution = () =>
-    get<number[]>(
-        '/api/album/distribution',
-        (x: unknown): x is number[] => assertArray(x, isNumber),
-    );
+const Distribution = t.array(t.number);
 
-const getBandCount = () => get<number>('/api/band/total', isNumber);
+export const getDistribution = () =>
+  get<number[]>('/api/album/distribution', Distribution);
 
-const getAlbumCount = () => get<number>('/api/album/total', isNumber);
+export const getBandCount = () => get('/api/band/total', t.number);
 
-export { getInfluential, getDistribution, getBandCount, getAlbumCount };
+export const getAlbumCount = () => get('/api/album/total', t.number);

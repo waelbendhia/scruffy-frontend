@@ -3,10 +3,10 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import Loading from './Loading';
 import { definitions } from './style';
 import { StyleSheet, css } from 'aphrodite/no-important';
-import { ILoadable } from './types';
+import { Loadable } from './types';
 
 interface IGridProps<T> {
-  data: ILoadable<T[]>;
+  data: Loadable<T[]>;
   changePage: (_: number) => void;
   className?: string;
   cell: (x: T) => React.ReactNode;
@@ -17,8 +17,7 @@ function Grid<T>(props: IGridProps<T>) {
   const { data, changePage, className, cell, minRows } = props;
   const styles = StyleSheet.create({
     grid: {
-      height: 'calc(100% - 32px)',
-      width: 'calc(100% - 32px)',
+      gridArea: 'grid',
       padding: '16px',
       gridGap: '1vw',
       display: 'grid',
@@ -27,9 +26,9 @@ function Grid<T>(props: IGridProps<T>) {
       ':focus': { outline: 'none' },
       '@media (max-width: 860px)': {
         gridTemplateColumns: 'repeat(3, minmax(1px, 1fr))',
-      }
+      },
     },
-    loading: { height: '100%', width: '100%' },
+    loading: { gridArea: 'grid' },
     out: {
       opacity: 0,
       transitionDuration: definitions.transitions.fast,
@@ -40,7 +39,6 @@ function Grid<T>(props: IGridProps<T>) {
       transitionDuration: definitions.transitions.fast,
       transitionProperty: 'transform opacity',
     },
-    position: { position: 'absolute', top: 0, left: 0 },
   });
 
   return (
@@ -58,7 +56,12 @@ function Grid<T>(props: IGridProps<T>) {
     >
       {
         <CSSTransition
-          key={data.caseOf({ err: 'error', loading: 'loading', ok: 'bands' })}
+          key={data.caseOf({
+            Error: () => 'error',
+            Loading: () => 'loading',
+            Ok: () => 'bands',
+            NotRequested: () => 'not requested',
+          })}
           timeout={150}
           classNames={{
             appear: css(styles.in),
@@ -70,14 +73,10 @@ function Grid<T>(props: IGridProps<T>) {
           }}
         >
           {data.caseOf({
-            ok: xs => (
-              <div className={css(styles.grid, styles.position)}>
-                {xs.map(cell)}
-              </div>
-            ),
-            err: <h1>Damn...</h1>,
-            loading:
-              <Loading className={css(styles.loading, styles.position)} />,
+            Ok: xs => <div className={css(styles.grid)}>{xs.map(cell)}</div>,
+            Error: _ => <h1>Damn...</h1>,
+            NotRequested: () => <h1>Nothing</h1>,
+            Loading: () => <Loading className={css(styles.loading)} />,
           })}
         </CSSTransition>
       }
